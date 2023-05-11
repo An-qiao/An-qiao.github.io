@@ -1,0 +1,2099 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="An-qiao">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="技术javaJava的体系结构 Java代码执行流程!只是能生成被Java虚拟机所能解释的字节码文件，那么理论上就可以自己设计一套代码了 双亲委派的意思是：如果一个类加载器需要加载类，那么首先它会把这个类加载请求委派给父类加载器去完成，如果父类还有父类则接着委托，每一层都是如此。 一直递归到顶层，当父加载器无法完成这个请求时，子类才会尝试去加载。 这里的双亲其实就指的是父类，没有 mother。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术">
+<meta property="og:url" content="http://example.com/2023/05/10/jishu/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="技术javaJava的体系结构 Java代码执行流程!只是能生成被Java虚拟机所能解释的字节码文件，那么理论上就可以自己设计一套代码了 双亲委派的意思是：如果一个类加载器需要加载类，那么首先它会把这个类加载请求委派给父类加载器去完成，如果父类还有父类则接着委托，每一层都是如此。 一直递归到顶层，当父加载器无法完成这个请求时，子类才会尝试去加载。 这里的双亲其实就指的是父类，没有 mother。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/jishu/java%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="http://example.com/jishu/java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/jishu/cb0161a7-96ca-443d-aac1-498ce2403988.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230424134841973.png">
+<meta property="og:image" content="http://example.com/jishu/database-split-horizon.png">
+<meta property="og:image" content="http://example.com/jishu/database-split-vertically.png">
+<meta property="og:image" content="http://example.com/jishu/wps82.jpg">
+<meta property="og:image" content="http://example.com/jishu/redis-junior-inconsistent.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230420085116482.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230420085142051.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230420085159672.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230420085430647.png">
+<meta property="og:image" content="http://example.com/jishu/oauth2%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B.jpg">
+<meta property="og:image" content="http://example.com/jishu/95eef01f3a292df539a4e954b3bc636935a873a6.jpeg@f_auto">
+<meta property="og:image" content="http://example.com/desktop/%E8%87%AA%E7%94%A8/%E7%AE%80%E5%8E%86%E4%B8%AD%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3podWNoZW5nMTk5NA==,size_16,color_FFFFFF,t_70#pic_center.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230421091146672.png">
+<meta property="og:image" content="http://example.com/jishu/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-16825747883091.png">
+<meta property="og:image" content="http://example.com/jishu/19112515_IV47.jpeg">
+<meta property="og:image" content="http://example.com/jishu/image-20230420080657067.png">
+<meta property="og:image" content="http://example.com/jishu/mq-8.png">
+<meta property="og:image" content="http://example.com/jishu/rabbitmq-order-02.png">
+<meta property="og:image" content="http://example.com/jishu/wps85.jpg">
+<meta property="og:image" content="http://example.com/jishu/image-20230511143007201.png">
+<meta property="og:image" content="http://example.com/jishu/Image.png">
+<meta property="og:image" content="http://example.com/jishu/QQ%E5%9B%BE%E7%89%8720230420075922.jpg">
+<meta property="og:image" content="http://example.com/jishu/image-20230424091140104.png">
+<meta property="og:image" content="http://example.com/jishu/image-20230424091300985.png">
+<meta property="og:image" content="http://example.com/jishu/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86.png">
+<meta property="og:image" content="http://example.com/jishu/2.png">
+<meta property="og:image" content="http://example.com/jishu/20200411193924521.jpg">
+<meta property="og:image" content="http://example.com/jishu/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzEyMjA5MA==,size_16,color_FFFFFF,t_70.png">
+<meta property="article:published_time" content="2023-05-10T01:57:21.000Z">
+<meta property="article:modified_time" content="2023-05-11T06:41:39.036Z">
+<meta property="article:author" content="An-qiao">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/jishu/java%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>技术 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>类别</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="技术"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        An-qiao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-10 09:57" pubdate>
+          May 10, 2023 am
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          68k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          682 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> views
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">技术</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    Last updated on 10 minutes ago
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h1><h2 id="java"><a href="#java" class="headerlink" title="java"></a>java</h2><p><strong>Java的体系结构</strong><br><img src="/jishu/java%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png" srcset="/img/loading.gif" lazyload alt="java体系结构"></p>
+<h3 id="Java代码执行流程"><a href="#Java代码执行流程" class="headerlink" title="Java代码执行流程"></a>Java代码执行流程</h3><p>!<img src="/jishu/java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="java代码执行流程"><br>只是能生成被Java虚拟机所能解释的字节码文件，那么<strong>理论上</strong>就可以自己设计一套代码了</p>
+<h3 id="双亲委派的意思是："><a href="#双亲委派的意思是：" class="headerlink" title="双亲委派的意思是："></a>双亲委派的意思是：</h3><p>如果一个类加载器需要加载类，那么首先它会把这个类加载请求委派给父类加载器去完成，如果父类还有父类则接着委托，每一层都是如此。</p>
+<p>一直递归到顶层，当父加载器无法完成这个请求时，子类才会尝试去加载。</p>
+<p>这里的双亲其实就指的是父类，没有 mother。</p>
+<p>父类也不是我们平日所说的那种继承关系，只是调用逻辑是这样。</p>
+<p>Java 自身提供了 <strong>3 种类加载器</strong>：</p>
+<p><strong>启动类加载器</strong>(Bootstrap ClassLoader)，它是属于虚拟机自身的一部分，用 C++ 实现的，主要负责加载\lib目录中或被-Xbootclasspath 指定的路径中的并且文件名是被虚拟机识别的文件。它是所有类加载器的爸爸。</p>
+<p><strong>扩展类加载器</strong>(Extension ClassLoader),它是 Java 实现的，独立于虚拟机，主要负责加载\lib\ext目录中或被 java.ext.dirs 系统变量所指定的路径的类库。</p>
+<p><strong>应用程序类加载器</strong>(Application ClassLoader),它是 Java 实现的，独立于虚拟机。主要负责加载用户类路径(classPath)上的类库，如果我们没有实现自定义的类加载器那这玩意就是我们程序中的默认加载器。</p>
+<p>所以一般情况类加载会从应用程序类加载器委托给扩展类再委托给启动类，启动类找不到然后扩展类找，扩展类加载器找不到再应用程序类加载器找。</p>
+<p>双亲委派模型不是一种强制性约束，也就是你不这么做也不会报错怎样的，它是一种 JAVA 设计者推荐使用类加载器的方式。</p>
+<p><strong>为什么要双亲委派？</strong></p>
+<p>它使得类有了层次的划分。就拿 java.lang.Object 来说，加载它经过一层层委托最终是由 Bootstrap ClassLoader 来加载的，也就是最终都是由 Bootstrap ClassLoader 去找\lib 中 rt.jar 里面的 java.lang.Object 加载到 JVM 中。</p>
+<p>这样如果有不法分子自己造了个 java.lang.Object,里面嵌了不好的代码，如果我们是按照双亲委派模型来实现的话，最终加载到 JVM 中的只会是我们 rt.jar 里面的东西，也就是这些核心的基础类代码得到了保护。</p>
+<p>因为这个机制使得系统中只会出现一个 java.lang.Object。不会乱套了。你想想如果我们 JVM 里面有两个 Object，那岂不是天下大乱了。</p>
+<p><strong>违反双亲委派的例子：</strong></p>
+<p>典型的例子就是：<strong>JDBC</strong>。</p>
+<p>JDBC 的接口是类库定义的，但实现是在各大数据库厂商提供的 jar 包中，那通过启动类加载器是找不到这个实现类的，所以就需要应用程序加载器去完成这个任务，这就违反了自下而上的委托机制了。</p>
+<p>具体做法是搞了个线程上下文类加载器，通过 setContextClassLoader() 默认设置了应用程序类加载器，然后通过 Thread.current.currentThread().getContextClassLoader() 获得类加载器来加载。</p>
+<h3 id="JDK1-8有哪些新特性？"><a href="#JDK1-8有哪些新特性？" class="headerlink" title="JDK1.8有哪些新特性？"></a>JDK1.8有哪些新特性？</h3><p>（1）接口中的默认方法<br>（2）函数式接口<br>（3）Lambda表达式<br>（4）Stream API</p>
+<h4 id="单例模式有哪些实现方式？"><a href="#单例模式有哪些实现方式？" class="headerlink" title="单例模式有哪些实现方式？"></a>单例模式有哪些实现方式？</h4><ul>
+<li>饿汉式<br>（1）在程序启动时创建对象<br>（2）优点：线程安全的<br>（3）缺点：影响启动速度。如果这个对象从来被使用过，会导致占用多一点内存</li>
+<li>懒汉式<br>（1）在使用对象的时候才创建对象<br>（2）优点：不会占用更多内存<br>（3）缺点：不是线程安全的，因此一般会在创建对象时加锁</li>
+</ul>
+<h4 id="nio-bio-aio的区别"><a href="#nio-bio-aio的区别" class="headerlink" title="nio bio aio的区别"></a>nio bio aio的区别</h4><p>“NIO”, “BIO”和”AIO”是Java编程语言中用于网络编程的不同的I&#x2F;O模型。</p>
+<ul>
+<li>NIO（New I&#x2F;O）是一种非阻塞I&#x2F;O模型，它使用单个线程来处理多个连接，每个连接都可以注册到选择器中。当一个连接有数据可读或可写时，选择器会通知线程进行相应的操作。NIO通常用于需要高并发处理的网络应用程序，例如聊天服务器等。</li>
+<li>BIO（Blocking I&#x2F;O）是一种阻塞I&#x2F;O模型，它的实现方式是一个线程处理一个连接。当一个连接有数据可读或可写时，该线程将被阻塞直到相应的I&#x2F;O操作完成。BIO通常用于低并发应用程序，例如单用户图形用户界面（GUI）应用程序。</li>
+<li>AIO（Asynchronous I&#x2F;O）是一种异步I&#x2F;O模型，它使用回调函数的方式来处理I&#x2F;O操作。当一个连接有数据可读或可写时，操作系统会通知应用程序进行相应的操作，应用程序则通过回调函数进行响应。AIO通常用于需要高性能的网络应用程序，例如高性能Web服务器等。</li>
+</ul>
+<p>因此，选择哪种I&#x2F;O模型取决于应用程序的需求和性能要求。</p>
+<h2 id="Java集合-jdk1-8"><a href="#Java集合-jdk1-8" class="headerlink" title="Java集合 jdk1.8"></a>Java集合 jdk1.8</h2><h3 id="ArrayList的扩容机制"><a href="#ArrayList的扩容机制" class="headerlink" title="ArrayList的扩容机制"></a>ArrayList的扩容机制</h3><p>（1）ArrayList的底层结构是一个数组。默认长度是10。<br>（2）当数组被存储占满时触发扩容，新数组长度为原长度的1.5倍。<br>（3）当数组扩容时，会创建一个原数组长度1.5倍的新数组，然后再把数据从原数组中拷贝到新数组中。</p>
+<p>10-&gt;15-&gt;22</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="HashMap的工作原理"><a href="#HashMap的工作原理" class="headerlink" title="HashMap的工作原理"></a>HashMap的工作原理</h4><p>HashMap底层是hash数组和单向链表实现，数组中的每个元素都是链表，由Node内部类(实现Map.Entry&lt;K,V&gt;接口)实现，HashMap:通过put&amp;get方法存储和获取<br>数组是hashmap的主体，链表主要是为了解决哈希冲突而存在的，hashmap是通过key的hashcode来计算得到的hash值，然后通过位运算判断当前元素存放的位置，如果位置存放元素，就判断元素与要存入的hash值和key是否相同，如果相同的话，直接覆盖，不同就通过拉链法解决冲突。map总数超过数组的0.75,角触发扩容，为了减少链表长度，元素分配更均匀<br>(JDK1.7之前使用头插法、JDK1.8使用尾插法)</p>
+<h4 id="为什么会哈希冲突？"><a href="#为什么会哈希冲突？" class="headerlink" title="为什么会哈希冲突？"></a>为什么会哈希冲突？</h4><p>hashmap主要是通过key的hashcode来计算的，只要hashcode相同，计算出来的hash值就一样。如果存储对象多了，就有可能不同的对象算出来的hash值是相同的，这就是hash冲突。</p>
+<h4 id="哈希冲突及解决办法？"><a href="#哈希冲突及解决办法？" class="headerlink" title="哈希冲突及解决办法？"></a>哈希冲突及解决办法？</h4><p>1开放定址法：当发生冲突时，按照顺序向前找个空闲位置，来存储中突的ky<br>2.链式存址法：简单点理解就是把hash冲突的key,以单向链表存储，比如hashmap<br>3.再hash法：当发生冲突时，通过另外一个hash对他进行运算，知道不冲突为止，这种方式会增加计算时间，性能会有影响<br>4,建立公共溢出区：把hash表分为基本表和益处表，凡是存在冲突的，都放到溢出表</p>
+<h4 id="hashmap在jdk1-8的优化？"><a href="#hashmap在jdk1-8的优化？" class="headerlink" title="hashmap在jdk1.8的优化？"></a>hashmap在jdk1.8的优化？</h4><p><strong>扩容机制</strong></p>
+<p>（1）底层数据存储结构是数组+链表+红黑树<br>（2）数组的默认长度为16<br>（3）负载因子为0.75，也就是说当使用容量达到总长度的四分之三时，触发扩容，新的数组长度为原数组长度的2倍。<br>（4）当key发生hash碰撞时，产生链表。当链表的长度大于8并且数组长度大于64时，产生红黑树。<br>（5）容量小于64，链表长度大于等于8也会触发一次扩容。</p>
+<p><img src="/jishu/cb0161a7-96ca-443d-aac1-498ce2403988.png" srcset="/img/loading.gif" lazyload alt="cb0161a7-96ca-443d-aac1-498ce2403988"></p>
+<p>HashMap在JDK1.8版本中是通过链式寻址法以及红黑树来解决Hash冲突的问题，其中红黑树是为了优化Hash表的链表过长导致时间复杂度增加的问题，当链表长度大于等于8并且Hash表的容量大于64的时候，再向链表添加元素，就会触发链表向红黑树的一个转化</p>
+<h4 id="HashMap如何减少碰撞？"><a href="#HashMap如何减少碰撞？" class="headerlink" title="HashMap如何减少碰撞？"></a>HashMap如何减少碰撞？</h4><p>1扰动函数：使元素位置分布均匀，减少碰撞几率<br>2.使用fnal对象，采用合适的equals()和hashcode0方法</p>
+<h4 id="HashMap线程同步吗？"><a href="#HashMap线程同步吗？" class="headerlink" title="HashMap线程同步吗？"></a>HashMap线程同步吗？</h4><p>Collections.synchronizeMap(hashmap)</p>
+<h4 id="HashMap中的初始容量和加载因子"><a href="#HashMap中的初始容量和加载因子" class="headerlink" title="HashMap中的初始容量和加载因子"></a>HashMap中的初始容量和加载因子</h4><p>通过查看HashMap底层源码的初始默认容量16，加载因子0.75.</p>
+<p><strong>容量</strong>：是哈希麦中桶的数量，初始容量只是哈希表在创建时的容量</p>
+<p><strong>加载因子：</strong>是哈希表在其容量自动扩容之前可以达到多满的一种度量</p>
+<p>当哈希值超出了加载因子和当前容量的乘积时，就会进行扩容，refeshi操作，扩容后的哈希表将具有两倍的原容量</p>
+<p>通过上述了解，那么就会在面试中经常被提出的问题：<strong>为什么加载因子初始化是0.75呢？</strong></p>
+<p><strong>·加载因子过高，例如为1</strong>，这样会减少空间开销，提高空间利用率，但同时会增勖加查询时间的成本</p>
+<p><strong>加载因子过低，例如为0.5</strong>，虽然可以减少查询时间，但是空间利用率很低，同时提高了rehashi操作的次数</p>
+<h4 id="hashmap和hashtablel的区别？"><a href="#hashmap和hashtablel的区别？" class="headerlink" title="hashmap和hashtablel的区别？"></a>hashmap和hashtablel的区别？</h4><p><strong>hashmap</strong>和<strong>hashtable</strong>都是实现了map接口，hashmap等价于hashtable，hashmap是线程不安全的，hashtable是线程安全</p>
+<p>synchronized),</p>
+<p>多线程是不能共享nashmap,可共享hashtable..</p>
+<p>hashmap可以存储null键和null值，但hashtable不能</p>
+<p>java5里提供了concurrentHashMap,是hashtable的替代，比它的扩展性好。</p>
+<h4 id="concurrentHashMap"><a href="#concurrentHashMap" class="headerlink" title="concurrentHashMap"></a>concurrentHashMap</h4><p>ConcurrentHashMap是Java中的一个线程安全的哈希表实现，它支持高效的并发访问。相比于<strong>Hashtable</strong>同步容器，ConcurrentHashMap在多线程环境下的性能表现更好。</p>
+<p>ConcurrentHashMap的实现基于分段锁（Segmented Locking）技术，它将整个哈希表分成了多个Segment（段），每个Segment维护着一部分数据，并且拥有自己的锁。当多个线程并发访问时，只有访问同一个Segment时才会发生竞争，其它线程则可以并发执行。这种分段锁的设计使得ConcurrentHashMap在高并发环境下表现良好。</p>
+<p>除了基本的put、get、remove等操作，ConcurrentHashMap还提供了一些其他的特性，比如ConcurrentHashMap支持高效的迭代操作，并且支持批量操作（例如putAll、removeAll等），同时也提供了一些与原子性操作相关的方法，如putIfAbsent、replace等，这些方法可以保证操作的原子性，从而避免了在多线程环境下可能出现的数据竞争问题。</p>
+<p>总的来说，ConcurrentHashMap是一个高效、线程安全的哈希表实现，它可以满足多线程环境下的高并发访问需求，并且提供了丰富的功能特性。</p>
+<h4 id="扩容时为什么要重新Hash"><a href="#扩容时为什么要重新Hash" class="headerlink" title="扩容时为什么要重新Hash"></a>扩容时为什么要重新Hash</h4><p>因为长度扩大以后，hash规则也改变了，比如原来长度为8，位运算是2，长度变16，结果肯定不一样。</p>
+<h4 id="什么是Java集合中的快速失败（fast-fail机制？"><a href="#什么是Java集合中的快速失败（fast-fail机制？" class="headerlink" title="什么是Java集合中的快速失败（fast-fail机制？"></a>什么是Java集合中的快速失败（fast-fail机制？</h4><p>快速失败是java集合的一种错误机制，多个线程对集合进行现呈上的改的操作时，有可能会产生fast-fail.<br>比如：线程1和线程2，线程1通过iterator遍历集合a的元素，在线程2修改集合a的结构，那么程序就会抛出ConcurrentModification:异常，从而产生fast-fail.<br><strong>那么快速失败机制底层是怎么实现的呢</strong>？<br>迭代器遍历是直接访问集合中的内容，遍历过程中使用的modcount的数量，如果集合遍历期间发生变化，就会改变modcount。。当迭代器使用hashNext0和next(遍历下一个元素前，就会检测modcount变量是否exceptedModCount值，是的话就遍历，否则就抛异常，终止遍历。<br>ConcurrentModificationException:当检测到一个并发的修改结构），就可能会抛出异常，一旦迭代器抛出此异常，就可以快速失败。</p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="1-MySQL-使用索引的原因？"><a href="#1-MySQL-使用索引的原因？" class="headerlink" title="1.MySQL 使用索引的原因？"></a>1.MySQL 使用索引的原因？</h3><p>索引的出现，就是为了提高数据查询的效率，就像书的目录一样。</p>
+<p>对于数据库的表而言，索引其实就是它的“目录”。</p>
+<p>1.创建唯一性索引，可以保证数据库表中每一行数据的唯一性。</p>
+<p>2.帮助引擎层避免排序和临时表</p>
+<p>3.将随机 IO 变为顺序 IO，加速表和表之间的连接。</p>
+<p>一般对于查询概率比较高，经常作为where条件的字段设置索引</p>
+<h3 id="2-聚集索引和非聚集索引"><a href="#2-聚集索引和非聚集索引" class="headerlink" title="2.聚集索引和非聚集索引"></a><strong>2.聚集索引和非聚集索引</strong></h3><p><strong>聚集索引（聚簇索引）</strong>是指数据库表行中数据的物理顺序与键值的逻辑（索引）顺序相同。一个表只能有一个聚集索引，因为一个表的物理顺序只有一种情况，所以，对应的聚集索引只能有一个。</p>
+<p>如果某索引不是聚集索引，则表中的行物理顺序与索引顺序不匹配，与非聚集索引相比，聚集索引有着更快的检索速度。</p>
+<p>聚集索引确定表中数据的物理顺序。聚集索引类似于字典，按字母排序，每个字母下有多个字（相当于数据列）。所以对于聚集索引，叶子结点即存储了真实的数据行。所以通过聚集索引可以直接获取到数据库中的数据。</p>
+<p><strong>非聚集索引</strong>，该索引中索引的逻辑顺序与磁盘上行的物理存储顺序不同。</p>
+<p>非聚集索引的叶层不包含数据页， 叶结点包含索引字段值及指向数据页数据行的逻辑指针（每个索引行包含非聚集键值以及一个或多个行定位器，这些行定位器指向有该键值的数据行（如果索引不唯一，则可能是多行））。所以非聚集索引不能直接获取到数据，需要通过定位器来获取数据。</p>
+<p> <strong>Innodb 引擎（聚集索引方式）</strong></p>
+<p>InnoDB 是聚集索引方式，因此数据和索引都存储在同一个文件里。首先 InnoDB 会根据主键 ID 作为 KEY 建立索引 B+树，如左下图所示，而 B+树的叶子节点存储的是主键 ID 对应的数据，比如在执行 select * from user_info where id&#x3D;15 这个语句时，InnoDB 就会查询这颗主键 ID 索引 B+树，找到对应的 user_name&#x3D;‘Bob’。</p>
+<h3 id="mysql索引类型"><a href="#mysql索引类型" class="headerlink" title="mysql索引类型"></a>mysql索引类型</h3><p>MySQL支持多种类型的索引，其中最常用的有以下几种：</p>
+<p>​	1、普通索引：普通索引是MySQL中基本的索引类型，没有什么限制，允许在定义索引的列中插入重复值和空值。<br>​	2、主键索引：主键索引列中的值必须是唯一的，不允许有空值。</p>
+<p>​	3、唯一索引：索引列中的值必须唯一，但是允许为空值。<br>​	4、全文索引：只能在文本类型char、varchar或者text类型的字段上创建全文索引。字段长度比较大时，如果创建普通索引，在进行</p>
+<p>like模糊查询时效率较低，这是可以创建全文索引。<br>    5、空间索引：MySQL在5.7之后的版本支持了空间索引，而且支持openGIS集合数据模型。MySQL在空间索引这方面遵循openGIS集合数据模型的规则。<br>    6、前缀索引：在文本类型如char、varchar或者是text列上创建索引时，可以指定索引列的长度，但是数值类型不能指定。</p>
+<h3 id="mysql执行计划中的类型"><a href="#mysql执行计划中的类型" class="headerlink" title="mysql执行计划中的类型"></a>mysql执行计划中的类型</h3><p>MySQL执行计划中的类型是指MySQL查询优化器选择的执行计划的类型，它反映了查询优化器的执行策略。以下是MySQL执行计划中的几种常见的类型：</p>
+<ol>
+<li>ALL：全表扫描，表示MySQL将扫描整个表来找到匹配条件的行。  <strong>需要优化</strong></li>
+<li>index：索引扫描，表示MySQL将使用非唯一索引或唯一索引来查找匹配条件的行。   <strong>需要优化</strong></li>
+<li>range：范围扫描，表示MySQL将使用索引列的某个范围来查找匹配条件的行。    <strong>需要优化</strong> </li>
+<li>ref：索引查找，表示MySQL将使用索引列来查找匹配条件的行。</li>
+<li>eq_ref：唯一索引查找，表示MySQL将使用唯一索引来查找匹配条件的行。</li>
+<li>const：常量查找，表示MySQL将使用常量来查找匹配条件的行，这通常是在执行基于主键的查询时使用的。</li>
+<li>system：系统查找，表示MySQL将在表中只有一行记录的情况下执行查找。</li>
+<li>NULL：MySQL无法使用索引查找，通常是由于查询中使用了MySQL不支持的特性或操作符导致的。</li>
+</ol>
+<p>了解执行计划中的类型有助于优化查询性能，避免不必要的全表扫描和索引扫描。</p>
+<p><strong>是否需要优化</strong></p>
+<p>我们凭经验对sql进行编写，最终还是由执行计划通过explain去看我们这个sql是否是最优的，通过执行计划我们可以看到sql的执行顺序（id），可以看到查询的类型（select type），用到的表以及他的数据量，有哪些索引可以用，以及具体用到哪些索引以及他的索引长度。还有一个比较关键的就是一个列就是type，他明确地告诉我们这是一个什么级别的查询，最好的情况下就是常量级（system ，const ）或者是用全了索引（index）最坏的情况就是all进行了全表扫表</p>
+<p>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; index_merge &gt; unique_subquery &gt; index_subquery &gt; range &gt; index &gt; ALL</p>
+<p><strong>以上类型那些是需要优化的</strong></p>
+<p>以下是一些优化查询的建议：</p>
+<ol>
+<li>使用合适的索引：优化查询应该从创建正确的索引开始。选择索引应该考虑到查询中涉及的列、查询的类型以及数据分布情况等因素。</li>
+<li>使用覆盖索引：覆盖索引是指索引包含查询所需的所有列，而不需要访问表。这可以减少MySQL从磁盘读取数据的次数，提高查询性能。</li>
+<li>优化查询语句：查询语句中使用不当的操作符、子查询、JOIN等都会导致查询性能下降。应该优化查询语句以减少查询的数据集大小。</li>
+<li>使用分区表：如果表非常大，可以考虑将其拆分成多个分区表。这可以将查询数据集大小降到更小的范围内，提高查询性能。</li>
+</ol>
+<p>总之，优化查询的关键在于减少查询的数据集大小，提高MySQL访问数据的效率。</p>
+<h3 id="B-Tree（B树）"><a href="#B-Tree（B树）" class="headerlink" title="B-Tree（B树）"></a>B-Tree（B树）</h3><p>为什么要使用B-Tree？</p>
+<p>​		因为在B-Tree里面节点的关键字可以是N个，所以我们可以往节点中去填充数据，填充到16Kb的大小，因为我们填充了很多内容，然后根据节点里面的关键字，我们还可以分为多路和多叉，所以我们的B-Tree的树形结构，不单单可以纵向发展，而且还可以随着我们的关键字变多，进行横向发展，本来我们二叉树是纵向发展的，现在我们应该纵向发展的树变成了横向发展，那么这个时候我们树的高度自然就变少了。所以使用查询次数变少，IO次数变少。<br>​		而又因为我们可以往节点中填充数关键到16Kb大小，所以我们IO浪费的问题也解决了。</p>
+<h4 id="B-tree的底层"><a href="#B-tree的底层" class="headerlink" title="B+tree的底层"></a>B+tree的底层</h4><p><strong>B+Tree的优点：</strong><br>    1、基于索引的扫表操作更快。比如我们执行一条语句 select * from user；如果在我们的B-Tree中，由于数据区存放在每一个节点中，所以我们需要去扫整个数据结构，而B+Tree的数据区存放到了叶子节点，所以我们只需要扫叶子节点就行了。<br>    2、基于索引的排序更加优秀。我们执行排序select * from user order by id;如果在我们的B-Tree中，因为节点在磁盘上的顺序可能不同，一些快一些慢，当这些数据加载到内存一定会做一个二次排序的操作，而在B+Tree里叶子节点中的数据区中，一个节点的末尾关键字指向相邻节点的头关键字，并且整个叶子节点数据区中的数据是天然有序的，数据从磁盘拿到内存不用进行二次排序。<br>    3、IO吞吐能力更强。B+Tree中将所有非叶子节点的数据区都存放到叶子节点中，B+Tree中非叶子节点包含 关键字+指针 ，而B-Tree中一个节点包括 关键字+数据区+指针。InnoDB每次去磁盘拿数据的时候，是以页为单位，这样减少了数据区的数据量，有用的数据量变多了，IO吞吐能力更强。<br>    4、B+Tree访问次数更加稳定。 在B-Tree中，由于树的高度不同，所以访问B-Tree的次数是不定的。而在我们的B+Tree中，无论我们要访问哪一个关键字节点，我们一定要走到叶子节点数据区，拿到数据才能返回。所以B+Tree访问次数更加稳定。</p>
+<h5 id="如何选择索引？"><a href="#如何选择索引？" class="headerlink" title="如何选择索引？"></a>如何选择索引？</h5><p>根据以下几个方面，选择合适的索引：</p>
+<ol>
+<li>查询频率：我们应该优先考虑那些被频繁查询的列，因为使用索引可以大大加快查询速度，尤其是在大数据量的情况下。</li>
+<li>重复性：如果某一列的取值范围非常小，比如性别只有男女两种取值，那么使用索引的效果会很差，因为使用索引的主要目的是为了减少查询范围，如果查询范围本来就很小，使用索引的效果就不明显了。</li>
+<li>数据类型：索引的效率也和数据类型有关，比如字符串类型的列就不宜建立索引，因为字符串比较时需要逐个字符比较，比较耗费时间。</li>
+<li>内存大小：如果内存比较小，那么我们应该尽量减少索引的数量，因为索引需要占用内存空间，过多的索引会导致内存不足，影响性能。</li>
+<li>数据量：数据量比较小的表可以不用建立索引，因为全表扫描的效率与使用索引的效率相差不大，而且索引会增加数据修改的成本。</li>
+<li>多列索引：如果查询语句涉及多个列，我们应该尽量将这些列合并成一个复合索引，而不是单独建立多个索引，这样可以减少索引的数量和内存占用。</li>
+</ol>
+<h5 id="什么时候不用索引"><a href="#什么时候不用索引" class="headerlink" title="什么时候不用索引"></a>什么时候不用索引</h5><ul>
+<li>经常增删改的列不要建立索引。</li>
+<li>有大量重复的列不要建立索引。</li>
+<li>表记录太少不要建立索引。</li>
+</ul>
+<h3 id="mysql的事务"><a href="#mysql的事务" class="headerlink" title="mysql的事务"></a>mysql的事务</h3><p>MySQL中的事务是指一系列操作（例如插入、更新和删除）作为一个原子性操作执行的过程。这些操作要么全部成功提交，要么全部失败回滚。MySQL支持ACID事务，即原子性、一致性、隔离性和持久性，确保数据的正确性和一致性。</p>
+<p>以下是MySQL中事务的相关知识点：</p>
+<ol>
+<li>事务的开启和提交：通过使用BEGIN或START TRANSACTION语句可以开启一个事务，通过使用COMMIT语句可以提交一个事务，将更改保存到数据库中。</li>
+<li>事务的回滚：如果在事务执行过程中出现错误或异常，可以通过使用ROLLBACK语句回滚事务，将已经执行的更改撤销并返回到事务开始前的状态。</li>
+<li>事务的隔离级别：MySQL支持不同的事务隔离级别，包括READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ和SERIALIZABLE。每个隔离级别提供不同的数据一致性和并发性能。</li>
+<li>自动提交模式：默认情况下，MySQL处于自动提交模式下，即每个语句都被当做一个单独的事务来处理。可以通过设置SET AUTOCOMMIT&#x3D;0语句来关闭自动提交模式。</li>
+<li>事务的锁机制：MySQL使用锁来实现事务的隔离性。锁机制可以防止并发事务之间的冲突，确保数据的正确性和一致性。</li>
+</ol>
+<p>总之，MySQL的事务机制提供了一种保证数据一致性和正确性的方法。了解事务机制可以帮助开发者更好地处理并发操作和异常情况，提高数据的可靠性和稳定性。</p>
+<h3 id="大表优化"><a href="#大表优化" class="headerlink" title="大表优化"></a><strong>大表优化</strong></h3><p>项目中还遇到了一个问题：mysql的分页越大查询越慢，这种情况我们可以通过表的自关联查询先对id进行分页，然后再查询数据，也可以通过子查询的方式实现；</p>
+<p><strong>select</strong> ***** <strong>from</strong> t5 <strong>where</strong> id**&gt;&#x3D;**(<strong>select</strong> id <strong>from</strong> t5 <strong>order</strong> <strong>by</strong> text <strong>limit</strong> 1000000, 1) <strong>limit</strong> 10;</p>
+<p><strong>select</strong> a.***** <strong>from</strong> t5 a <strong>inner</strong> <strong>join</strong> (<strong>select</strong> id <strong>from</strong> t5 <strong>order</strong> <strong>by</strong> text <strong>limit</strong> 1000000, 10) b <strong>on</strong> a.id**&#x3D;**b.id;</p>
+<p>比如说我们项目中id一般是有序的，他也代表了时间顺序，按照时间顺序做的分页，比如：订单，评论。这种分页的时候可以通过where id &gt; 100000再limit 10这样的查询性能也不受影响，这样的话每次前端都要传来一个最后查询的id；</p>
+<p>还有就是一次查询的数据量比较大，比如在导出excel的时候可能需要几万条或者十万条之上的数据，这样一次从数据库查出来是比较慢的，我们可以先按照id进行分页，分页查询id然后在根据id去查询每个分页的数据，这样的话性能能提高很多，然后在结合多线程，性能能得到极大的提升。     </p>
+<p><img src="/jishu/image-20230424134841973.png" srcset="/img/loading.gif" lazyload alt="image-20230424134841973"></p>
+<h3 id="in和exits的区别"><a href="#in和exits的区别" class="headerlink" title="in和exits的区别"></a>in和exits的区别</h3><p>在SQL语句中，”IN”和”EXISTS”都是用于查询满足一定条件的数据的关键字，但它们的具体用法和作用略有不同。</p>
+<ol>
+<li>“IN”关键字</li>
+</ol>
+<p>“IN”关键字用于查询一个字段是否匹配给定的一组值。可以使用逗号分隔的多个值来指定一组值，也可以使用子查询语句来指定一组值。</p>
+<p>例如，以下SQL语句可以查询销售表中的所有订单，其客户编号（CustomerID）在给定的客户列表（’ALFKI’、’Davolio’、’Easton’）中：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs oxygene">sqlCopy codeSELECT * <span class="hljs-keyword">FROM</span> Sales<br><span class="hljs-keyword">WHERE</span> CustomerID <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;ALFKI&#x27;</span>, <span class="hljs-string">&#x27;Davolio&#x27;</span>, <span class="hljs-string">&#x27;Easton&#x27;</span>)<span class="hljs-punctuation">;</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>“EXISTS”关键字</li>
+</ol>
+<p>“EXISTS”关键字用于查询是否存在满足某个条件的数据。在子查询中使用”EXISTS”关键字，返回值为true或false。</p>
+<p>例如，以下SQL语句可以查询是否存在销售表中的订单，其客户编号（CustomerID）在客户表中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">sqlCopy codeSELECT <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> Sales S<br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">EXISTS</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> Customers C <span class="hljs-keyword">WHERE</span> S.CustomerID <span class="hljs-operator">=</span> C.CustomerID);<br></code></pre></td></tr></table></figure>
+
+<p>这个查询将在Sales表中查找每个记录，并检查是否存在一个与之匹配的CustomerID，如果存在则返回true，否则返回false。</p>
+<p>总之，”IN”和”EXISTS”都可以用于查询数据，但它们的具体用法和作用有所不同。”IN”用于查询一个字段是否匹配给定的一组值，”EXISTS”用于查询是否存在满足某个条件的数据。在实际使用时，应根据具体的查询需求选择适当的关键字。</p>
+<h3 id="Mysql的四种隔离级别"><a href="#Mysql的四种隔离级别" class="headerlink" title="Mysql的四种隔离级别"></a>Mysql的四种隔离级别</h3><p><strong>Read Uncommitted（读取未提交内容）</strong></p>
+<p>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
+<p><strong>Read Committed（读取提交内容）</strong></p>
+<p>这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
+<p><strong>Repeatable Read（可重读）</strong></p>
+<p>这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+<p><strong>Serializable（可串行化）</strong></p>
+<p>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+<h3 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h3><p>乐观锁和悲观锁是在并发编程中常用的两种锁机制，它们的实现方式和效果有所不同。</p>
+<ol>
+<li><strong>乐观锁</strong>： 乐观锁是一种乐观的思想，它认为在大多数情况下，数据不会发生冲突。因此，在读取数据时不加锁，在写入数据时检查数据是否被其他线程修改过。如果没有被修改，就直接写入，否则就放弃并重新尝试。乐观锁一般使用版本号或时间戳等方式来实现。</li>
+<li><strong>悲观锁</strong>： 悲观锁是一种悲观的思想，它认为在大多数情况下，数据会发生冲突。因此，在读取数据时加锁，保证在这个时刻只有一个线程可以访问数据，其他线程需要等待锁的释放才能访问数据。悲观锁一般使用 synchronized 关键字或者数据库中的行锁、表锁等方式来实现。</li>
+</ol>
+<p>乐观锁和悲观锁各有优缺点。乐观锁适用于读多写少的场景，减少了锁的竞争，提高了系统的并发性能。但是，在写多的场景下，乐观锁需要不断重试，导致系统的性能降低。悲观锁适用于写多的场景，可以保证数据的一致性和完整性，但是加锁会降低系统的并发性能。</p>
+<h3 id="分库分表中间件？"><a href="#分库分表中间件？" class="headerlink" title="分库分表中间件？"></a>分库分表中间件？</h3><p>这个其实就是看看你了解哪些分库分表的中间件，各个中间件的优缺点是啥？然后你用过哪些分库分表的中间件。</p>
+<p>比较常见的包括：</p>
+<p><strong>Cobar（阿里 b2b 团队开发和开源的    最近几年都没更新了，被抛弃的状态）</strong></p>
+<p><strong>TDDL（ 淘宝团队开发的   不支持 join、多表查询等语法。目前使用的也不多）</strong></p>
+<p><strong>Atlas（360 开源的   社区没维护，基本没人用）</strong></p>
+<p><strong>Sharding-jdbc</strong></p>
+<p>当当开源的，属于 client 层方案，是ShardingSphere的 client 层方案，ShardingSphere 还提供 proxy 层的方案 Sharding-Proxy。确实之前用的还比较多一些，因为 SQL 语法支持也比较多，没有太多限制，而且截至 2019.4，已经推出到了 <code>4.0.0-RC1</code> 版本，支持分库分表、读写分离、分布式 id 生成、柔性事务（最大努力送达型事务、TCC 事务）。而且确实之前使用的公司会比较多一些（这个在官网有登记使用的公司，可以看到从 2017 年一直到现在，是有不少公司在用的），目前社区也还一直在开发和维护，还算是比较活跃，个人认为算是一个现在也<strong>可以选择的方案</strong>。</p>
+<p><strong>Mycat</strong></p>
+<p>基于 Cobar 改造的，属于 proxy 层方案，支持的功能非常完善，而且目前应该是非常火的而且不断流行的数据库中间件，社区很活跃，也有一些公司开始在用了。但是确实相比于 Sharding jdbc 来说，年轻一些，经历的锤炼少一些。</p>
+<p><strong>总结</strong></p>
+<p>现在其实建议考量的，就是 Sharding-jdbc 和 Mycat，这两个都可以去考虑使用。</p>
+<p>Sharding-jdbc 这种 client 层方案的<strong>优点在于不用部署，运维成本低，不需要代理层的二次转发请求，性能很高</strong>，但是如果遇到升级啥的需要各个系统都重新升级版本再发布，各个系统都需要<strong>耦合</strong> Sharding-jdbc 的依赖；</p>
+<p>Mycat 这种 proxy 层方案的<strong>缺点在于需要部署</strong>，自己运维一套中间件，运维成本高，但是<strong>好处在于对于各个项目是透明的</strong>，如果遇到升级之类的都是自己中间件那里搞就行了。</p>
+<p>通常来说，这两个方案其实都可以选用，但是我个人建议中小型公司选用 Sharding-jdbc，client 层方案轻便，而且维护成本低，不需要额外增派人手，而且中小型公司系统复杂度会低一些，项目也没那么多；但是中大型公司最好还是选用 Mycat 这类 proxy 层方案，因为可能大公司系统和项目非常多，团队很大，人员充足，那么最好是专门弄个人来研究和维护 Mycat，然后大量项目直接透明使用即可。</p>
+<h3 id="如何对数据库如何进行垂直拆分或水平拆分的？"><a href="#如何对数据库如何进行垂直拆分或水平拆分的？" class="headerlink" title="如何对数据库如何进行垂直拆分或水平拆分的？"></a>如何对数据库如何进行垂直拆分或水平拆分的？</h3><p><strong>水平拆分</strong>的意思，就是把一个表的数据给弄到多个库的多个表里去，但是每个库的表结构都一样，只不过每个库表放的数据是不同的，所有库表的数据加起来就是全部数据。水平拆分的意义，就是将数据均匀放更多的库里，然后用多个库来扛更高的并发，还有就是用多个库的存储容量来进行扩容</p>
+<p><img src="/jishu/database-split-horizon.png" srcset="/img/loading.gif" lazyload alt="database-split-horizon"></p>
+<p><strong>垂直拆分</strong>的意思，就是<strong>把一个有很多字段的表给拆分成多个表</strong>，<strong>或者是多个库上去</strong>。每个库表的结构都不一样，每个库表都包含部分字段。一般来说，会<strong>将较少的访问频率很高的字段放到一个表里去</strong>，然后<strong>将较多的访问频率很低的字段放到另外一个表里去</strong>。因为数据库是有缓存的，你访问频率高的行字段越少，就可以在缓存里缓存更多的行，性能就越好。这个一般在表层面做的较多一些。</p>
+<p><img src="/jishu/database-split-vertically.png" srcset="/img/loading.gif" lazyload alt="database-split-vertically"></p>
+<p>而且这儿还有两种<strong>分库分表的方式</strong>：</p>
+<ul>
+<li>一种是按照 range 来分，就是每个库一段连续的数据，这个一般是按比如<strong>时间范围</strong>来的，但是这种一般较少用，因为很容易产生热点问题，大量的流量都打在最新的数据上了。</li>
+<li>或者是按照某个字段 hash 一下均匀分散，这个较为常用。</li>
+</ul>
+<p>range 来分，好处在于说，扩容的时候很简单，因为你只要预备好，给每个月都准备一个库就可以了，到了一个新的月份的时候，自然而然，就会写新的库了；缺点，但是大部分的请求，都是访问最新的数据。实际生产用 range，要看场景。</p>
+<p>hash 分发，好处在于说，可以平均分配每个库的数据量和请求压力；坏处在于说扩容起来比较麻烦，会有一个数据迁移的过程，之前的数据需要重新计算 hash 值重新分配到不同的库或表。</p>
+<h2 id="mysql和oracle的区别"><a href="#mysql和oracle的区别" class="headerlink" title="mysql和oracle的区别"></a>mysql和oracle的区别</h2><p><strong>MySQL的特点</strong></p>
+<p>1、性能卓越，服务稳定，很少出现异常宕机；</p>
+<p>2、开放源代码无版本制约，自主性及使用成本低；</p>
+<p>3、历史悠久，社区和用户非常活跃，遇到问题及时寻求帮助；</p>
+<p>4、软件体积小，安装使用简单且易于维护，维护成本低；品牌口碑效应；</p>
+<p>5、支持多种OS，提供多种API接口，支持多种开发语言，对流行的PHP，Java很好的支持</p>
+<p><strong>MySQL的缺点</strong></p>
+<p>1、MySQL最大的缺点是其安全系统，主要是复杂而非标准，另外只有到调用mysqladmin来重读用户权限才会发生改变；</p>
+<p>2、MySQL的另一个主要的途径之一是缺乏标准的RI（Referential Integrity-RI）机制，RI限制的缺乏（在给定字段域上的一种固定的范围限制）可以通过大量的数据类型来补偿；</p>
+<p>3、MySQL不支持热备份；</p>
+<p><strong>Oracle的特点</strong></p>
+<p>1、兼容性：Oracle产品采用标准SQL，并经过美国u构架标准技术所（NIST）测试，与IBM SQL&#x2F;DS、DB2、INGRES、IDMS&#x2F;R等兼容。</p>
+<p>2、可移植性：Oracle的产品可运行于很宽范围的硬件与操作系统平台上。可以安装在多种 大、中、小型机上，可在多种操作系统下工作。</p>
+<p>3、可联结性：Oracle能与多种通讯网络相连，支持各种协议。</p>
+<p>4、高生产率：Oracle产品提供了多种开发工具，能极大地方使用户进行进一步的开发。</p>
+<p>5、开放性：Oracle良好的兼容性、可移植性、可连接性和高生产率使Oracle RDBMS具有良好的开放性。</p>
+<p><strong>Oracle的缺点</strong></p>
+<p>1、对硬件要求很高；</p>
+<p>2、价格比较昂贵；</p>
+<p>3、管理维护麻烦一些；</p>
+<p>4、操作比较复杂，需要技术含量高；</p>
+<blockquote>
+<p>mysql和oracle的区别有：</p>
+<p>1、Oracle数据库是一个对象关系数据库管理系统，要收费；MySQL是一个开源的关系数据库管理系统，是免费的；</p>
+<p>2、数据库安全性的区别；</p>
+<p>3、对象名称的区别；</p>
+<p>4、临时表处理方式上的区别等等。</p>
+</blockquote>
+<h3 id="二、数据库安全性"><a href="#二、数据库安全性" class="headerlink" title="二、数据库安全性"></a>二、数据库安全性</h3><ul>
+<li>MySQL使用三个参数来验证用户，即用户名，密码和位置</li>
+<li>Oracle使用了许多安全功能，如用户名，密码，配置文件，本地身份验证，外部身份验证，高级安全增强功能等</li>
+</ul>
+<h3 id="四、对事务的提交"><a href="#四、对事务的提交" class="headerlink" title="四、对事务的提交"></a>四、对事务的提交</h3><ul>
+<li>MySQL默认是自动提交，</li>
+<li>Oracle默认不自动提交，需要用户手动提交，需要在写commit;指令或者点击commit按钮</li>
+</ul>
+<h3 id="六、分页查询"><a href="#六、分页查询" class="headerlink" title="六、分页查询"></a>六、分页查询</h3><ul>
+<li>MySQL是直接在SQL语句中写”select… from …where…limit x, y”,有limit就可以实现分页</li>
+<li>Oracle则是需要用到伪列ROWNUM和嵌套查询</li>
+</ul>
+<h3 id="MySQL和Oracle的字符数据类型比较"><a href="#MySQL和Oracle的字符数据类型比较" class="headerlink" title="MySQL和Oracle的字符数据类型比较"></a>MySQL和Oracle的字符数据类型比较</h3><ul>
+<li>两个数据库中支持的字符类型存在一些差异。对于字符类型，MySQL具有CHAR和VARCHAR，最大长度允许为65,535字节（CHAR最多可以为255字节，VARCHAR为65.535字节）</li>
+<li>Oracle支持四种字符类型，即CHAR，NCHAR，VARCHAR2和NVARCHAR2; 所有四种字符类型都需要至少1个字节长; CHAR和NCHAR最大可以是2000个字节，NVARCHAR2和VARCHAR2的最大限制是4000个字节。可能会在最新版本中进行扩展</li>
+</ul>
+<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><ul>
+<li>MySQL是repeatable read（可重复读）的隔离级别</li>
+<li>Oracle是read commited（读已提交）的隔离级别，同时二者都支持serializable串行化事务隔离级别，可以实现最高级别的读一致性。每个session提交后其他session才能看到提交的更改。Oracle通过在undo表空间中构造多版本数据块来实现读一致性，每个session查询时，如果对应的数据块发生变化，Oracle会在undo表空间中为这个session构造它查询时的旧的数据块MySQL没有类似Oracle的构造多版本数据块的机制，只支持repeatable read的隔离级别。一个session读取数据时，其他session不能更改数据，但可以在表最后插入数据。session更新数据时，要加上排它锁，其他session无法访问数据</li>
+</ul>
+<h3 id="字符串的模糊比较"><a href="#字符串的模糊比较" class="headerlink" title="字符串的模糊比较"></a>字符串的模糊比较</h3><ul>
+<li>MySQL里用 字段名 like ‘%字符串%’</li>
+<li>Oracle里也可以用 字段名 like ‘%字符串%’ 但这种方法不能使用索引, 速度不快，用字符串比较函数 instr(字段名,‘字符串’)&gt;0 会得到更精确的查找结果</li>
+</ul>
+<h3 id="性能诊断"><a href="#性能诊断" class="headerlink" title="性能诊断"></a>性能诊断</h3><ul>
+<li>MySQL的诊断调优方法较少，主要有慢查询日志。</li>
+<li>Oracle有各种成熟的性能诊断调优工具，能实现很多自动分析、诊断功能。比如awr、addm、sqltrace、tkproof等</li>
+</ul>
+<h3 id="日期字段的处理转换"><a href="#日期字段的处理转换" class="headerlink" title="日期字段的处理转换"></a>日期字段的处理转换</h3><ul>
+<li>MySQL中有2种日期格式DATE和TIME</li>
+<li>Oracle只有一种日期格式DATE。</li>
+</ul>
+<h3 id="空字符的处理"><a href="#空字符的处理" class="headerlink" title="空字符的处理"></a>空字符的处理</h3><ul>
+<li>MySQL的非空字段也有空的内容</li>
+<li>Oracle里定义了非空字段就不容许有空的内容。按MySQL的NOT NULL来定义Oracle表结构, 导数据的时候会产生错误。因此导数据时要对空字符进行判断，如果为NULL或空字符，需要把它改成一个空格的字符串</li>
+</ul>
+<h2 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h2><h3 id="kafka的isr如何做到数据不重复不丢失"><a href="#kafka的isr如何做到数据不重复不丢失" class="headerlink" title="kafka的isr如何做到数据不重复不丢失"></a>kafka的isr如何做到数据不重复不丢失</h3><p>在 Kafka 中，ISR（In-Sync Replica）是指和 Leader 副本保持同步的一组副本。当生产者向 Leader 副本写入消息时，只有 ISR 中的副本才会被同步。只有当 ISR 中的所有副本都成功写入消息后，生产者才会收到写入成功的响应。</p>
+<p>在 Kafka 中，为了确保数据的不重复和不丢失，采用了以下机制：</p>
+<ol>
+<li>消息生产者采用写入确认机制。在消息成功写入 ISR 中的所有副本后，才会向生产者发送写入成功的响应。</li>
+<li>Kafka Broker 中的每个 Topic 都可以配置复制因子（replication factor），它表示一个 Topic 的每个 Partition 应该有多少个副本。通过配置复制因子，可以确保在某个副本失效时，其他副本能够接替它的工作。</li>
+<li>Kafka 中的副本同步采用的是“多数派”机制，即 ISR 中的大多数副本都成功同步消息后，才会认为该消息已经成功写入，否则会重试。</li>
+</ol>
+<h2 id="Mybatis和MybatisPlus"><a href="#Mybatis和MybatisPlus" class="headerlink" title="Mybatis和MybatisPlus"></a>Mybatis和MybatisPlus</h2><h4 id="MyBatis和MyBatis-Plus的区别"><a href="#MyBatis和MyBatis-Plus的区别" class="headerlink" title="MyBatis和MyBatis-Plus的区别"></a>MyBatis和MyBatis-Plus的区别</h4><p>都是Java语言中使用广泛的持久层框架。</p>
+<p>MyBatis是一款支持定制化SQL、存储过程和高级映射的优秀持久层框架。它将SQL语句和Java对象之间的映射关系配置在XML文件中，使得Java程序员可以通过简单的配置文件快速地编写出复杂的SQL查询语句。</p>
+<p>MyBatis-Plus是基于MyBatis的增强工具包，它简化了MyBatis的开发流程，提供了更加强大、灵活、易用的CRUD操作、分页插件、性能分析插件、全局拦截器等常用功能。</p>
+<p>具体来说，MyBatis-Plus在MyBatis的基础上提供了以下增强功能：</p>
+<ul>
+<li>代码生成器：根据数据表生成Java代码，简化开发流程；</li>
+<li>全局配置：对全局配置进行统一管理，例如数据库类型、表名前缀、是否开启缓存等；</li>
+<li>条件构造器：用于构建动态SQL查询语句，可以实现复杂的查询条件；</li>
+<li>分页插件：实现分页查询，支持MySQL、Oracle、PostgreSQL等多种数据库；</li>
+<li>性能分析插件：对SQL语句的执行时间进行监控和分析，方便优化SQL语句；</li>
+<li>全局拦截器：可以在SQL语句执行前后进行拦截，实现自定义的业务逻辑。</li>
+</ul>
+<p>总之，MyBatis和MyBatis-Plus都是优秀的Java持久层框架，MyBatis-Plus在MyBatis的基础上提供了更加强大、灵活、易用的功能，可以使Java开发者更加高效地进行持久层开发。</p>
+<h4 id="Mybatis的一级缓存和二级缓存有什么区别，怎么开启？"><a href="#Mybatis的一级缓存和二级缓存有什么区别，怎么开启？" class="headerlink" title="Mybatis的一级缓存和二级缓存有什么区别，怎么开启？"></a>Mybatis的一级缓存和二级缓存有什么区别，怎么开启？</h4><p>（1）区别</p>
+<ul>
+<li>一级缓存是SqlSession级别的缓存。在操作数据库时需要构造SqlSession对象，在对象中有一个数据结构（HashMap）用于存储缓存数据。不同的SqlSession之间的缓存数据区域（HashMap）是互不影响的。</li>
+<li>MyBatis的二级缓存是Application级别的缓存，它可以提高对数据库查询的效率，以提高应用的性能。</li>
+<li>Mybatis中，一级缓存默认是开启的。而二级缓存需要手动开启。</li>
+</ul>
+<p>（2）开启</p>
+<ul>
+<li>开启一级缓存</li>
+</ul>
+<p>默认开启，无需特殊处理</p>
+<ul>
+<li>开启二级缓存</li>
+</ul>
+<p>在yml中添加以下代码：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">mybatis:</span><br>  <span class="hljs-attr">configuration:</span><br>    <span class="hljs-attr">cache-enabled:</span> <span class="hljs-literal">true</span><br><span class="hljs-number">123</span><br></code></pre></td></tr></table></figure>
+
+<p>在需要开启的mapper.xml中，添加以下代码（在下方）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 开启本mapper所在namespace的二级缓存 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">cache</span> <span class="hljs-attr">eviction</span>=<span class="hljs-string">&quot;FIFO&quot;</span> <span class="hljs-attr">flushInterval</span>=<span class="hljs-string">&quot;60000&quot;</span> <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;512&quot;</span> <span class="hljs-attr">readOnly</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p><strong>Redis 为什么使用单进程、单线程也很快?</strong><br>主要有以下几点：</p>
+<p>1、基于内存的操作</p>
+<p>2、使用了 I&#x2F;O 多路复用模型（非阻塞IO。多路：多个网络连接 复用：复用同一个线程），select、epoll 等，基于 reactor 模式开发了自己的网络事件处理器</p>
+<p>3、单线程可以避免不必要的上下文切换和竞争条件，不用去考虑各种锁问题，减少了这方面的性能消耗。</p>
+<p>以上这三点是 redis 性能高的主要原因，其他的还有一些小优化，例如：对数据结构进行了优化，简单动态字符串、压缩列表等。</p>
+<h4 id="Redis-删除过期键的策略（缓存失效策略、数据过期策略）"><a href="#Redis-删除过期键的策略（缓存失效策略、数据过期策略）" class="headerlink" title="Redis 删除过期键的策略（缓存失效策略、数据过期策略）"></a>Redis 删除过期键的策略（缓存失效策略、数据过期策略）</h4><p><strong>惰性删除</strong>：放任键过期不管，但是每次获取键时，都检査键是否过期，如果过期的话，就删除该键；如果没有过期，就返回该键。对 CPU 时间最优化，对内存最不友好。</p>
+<p><strong>定期删除</strong>：每隔一段时间，默认100ms，程序就对数据库进行一次检査，删除里面的过期键。至 于要删除多少过期键，以及要检査多少个数据库，则由算法决定。前两种策略的折中，对 CPU 时间和内存的友好程度较平衡。</p>
+<h4 id="Redis-的持久化机制有哪几种，各自的实现原理和优缺点？"><a href="#Redis-的持久化机制有哪几种，各自的实现原理和优缺点？" class="headerlink" title="Redis 的持久化机制有哪几种，各自的实现原理和优缺点？"></a>Redis 的持久化机制有哪几种，各自的实现原理和优缺点？</h4><p>Redis 的持久化机制有：RDB、AOF、混合持久化（RDB+AOF，Redis 4.0引入）。</p>
+<p><strong>1）RDB</strong></p>
+<p>描述：类似于快照。是将某一个时刻的内存数据，以二进制的方式写入磁盘。</p>
+<p>RDB 的优点</p>
+<p>RDB 默认的保存文件为 dump.rdb，优点是以二进制存储的，因此占用的空间更小、数据存储更紧凑，并且与 AOF 相比，RDB 具备更快的重启恢复能力。</p>
+<p>RDB 的缺点</p>
+<p>RDB 在服务器故障时容易造成数据的丢失。RDB 允许我们通过修改 save point 配置来控制持久化的频率。但是，因为 RDB 文件需要保存整个数据集的状态， 所以它是一个比较重的操作，如果频率太频繁，可能会对 Redis 性能产生影响。所以通常可能设置至少5分钟才保存一次快照，这时如果 Redis 出现宕机等情况，则意味着最多可能丢失5分钟数据。</p>
+<p><strong>2）AOF</strong></p>
+<p>描述：AOF（Append Only File，文件追加方式）是指将所有的操作命令，以文本的形式追加到文件中。</p>
+<p>AOF 默认的保存文件为 appendonly.aof，它的优点是存储频率更高，因此丢失数据的风险就越低，并且 AOF 并不是以二进制存储的，所以它的存储信息更易懂。缺点是占用空间大，重启之后的数据恢复速度比较慢。</p>
+<p>RDB 具备更快速的数据重启恢复能力，并且占用更小的磁盘空间，但有数据丢失的风险；而 AOF 文件的可读性更高，但却占用了更大的空间，且重启之后的恢复速度更慢，于是在 Redis 4.0 就推出了混合持久化的功能。</p>
+<p><strong>3）混合持久化</strong></p>
+<p>描述：混合持久化并不是一种全新的持久化方式，而是对已有方式的优化。混合持久化只发生于 AOF 重写过程。使用了混合持久化，重写后的新 AOF 文件前半段是 RDB 格式的全量数据，后半段是 AOF 格式的增量数据。</p>
+<p>开启：混合持久化的配置参数为 aof-use-rdb-preamble，配置为 yes 时开启混合持久化，在 redis 4 刚引入时，默认是关闭混合持久化的，但是在 redis 5 中默认已经打开了。</p>
+<p>关闭：使用 aof-use-rdb-preamble no 配置即可关闭混合持久化。</p>
+<h4 id="缓存击穿、穿透、雪崩："><a href="#缓存击穿、穿透、雪崩：" class="headerlink" title="缓存击穿、穿透、雪崩："></a>缓存击穿、穿透、雪崩：</h4><p>击穿和穿透都属于缓存雪崩，雪崩其实就是缓存失效，程序一直在查缓存，但是缓存命中不了。</p>
+<p><strong>穿透</strong>：redis缓存和数据库中都没有的数据，可用户还是源源不断的发起请求，导致每次请求都会到数据库，从而压垮数据库（用户攻击）。</p>
+<p>解决方式：1.缓存一个较短的时间 2 <strong>. 常用的  布隆过滤器</strong> 3.非法请求直接返回</p>
+<p><img src="/jishu/wps82.jpg" srcset="/img/loading.gif" lazyload alt="wps82"></p>
+<p>布隆过滤器优缺点</p>
+<p><strong>优点</strong>：优点很明显，二进制组成的数组，占用内存极少，并且插入和查询速度都足够快。</p>
+<p><strong>缺点</strong>：随着数据的增加，误判率会增加；还有无法判断数据一定存在；另外还有一个重要缺点，无法删除数据。</p>
+<p>对我们存储的key进行多次hash存入二进制数组中，默认是0如果占用的话变成1，当我们查询数据时候如果多次hash的值都是1就认为有数据，否则就认为没有数据，因为hash有冲突，他有误判的可能，减少误判可以进行多次hash，但是他会浪费数组空间（redis配置布隆过滤器）</p>
+<p>我自己学习的时候安装配置过布隆过滤器，项目中生产环境不太清楚，开发环境是没有。</p>
+<p><strong>使用双删：</strong></p>
+<p>可以使用<strong>布隆过滤器</strong>等技术，但是这些方法<strong>无法完全避免</strong>缓存穿透的发生。当缓存穿透发生时，为了防止攻击者通过恶意攻击导致数据库压力过大，我们需要对该key进行删除操作。</p>
+<p><strong>双删方案的思路</strong>是，在从缓存中查询一个key的值时，如果该key不存在，则马上在缓存中删除该key对应的值。这样可以保证下一次查询该key时，能够从缓存中获取到结果，从而避免了对数据库的查询。但是，如果缓存中删除操作失败，可能会导致数据库中存在该key的数据，因此需要在删除失败后立即对该key进行二次删除操作，以确保数据库中不存在该key的数据。</p>
+<p><strong>击穿</strong>：Redis中一个热点key在失效的同时，大量的请求过来，从而会全部到达数据库，压垮数据库（<strong>缓存集中失效</strong>，热点数据缓存的过期时间要随机）。</p>
+<p>解决方式：数据缓存时候用随机时间，避免集中失效</p>
+<p>缓存一致性问题：</p>
+<p>无论是事务还是分布式系统的一致性问题，都分为：强一致性，弱一致性，最终一致性，其实要做到强一致性非常难，好多场景使用的都是最终一致性。</p>
+<p><strong>雪崩</strong> 就是大量key同时失效  导致redis 当机   </p>
+<p>解决办法 ：  尽量设置随机过期时间 避免同时过期</p>
+<h4 id="如何保证缓存与数据库的双写一致性？"><a href="#如何保证缓存与数据库的双写一致性？" class="headerlink" title="如何保证缓存与数据库的双写一致性？"></a>如何保证缓存与数据库的双写一致性？</h4><p>一般来说，如果允许缓存可以稍微的跟数据库偶尔有不一致的情况，也就是说如果你的系统<strong>不是严格要求</strong> “缓存+数据库” 必须保持一致性的话，最好不要做这个方案，即：<strong>读请求和写请求串行化</strong>，串到一个<strong>内存队列</strong>里去。</p>
+<p>串行化可以保证一定不会出现不一致的情况，但是它也会导致系统的吞吐量大幅度降低，用比正常情况下多几倍的机器去支撑线上的一个请求。</p>
+<p>Cache Aside Pattern</p>
+<p>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。</p>
+<ul>
+<li>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。</li>
+<li>更新的时候，<strong>先更新数据库，然后再删除缓存</strong>。</li>
+</ul>
+<h4 id="为什么是删除缓存，而不是更新缓存？"><a href="#为什么是删除缓存，而不是更新缓存？" class="headerlink" title="为什么是删除缓存，而不是更新缓存？"></a><strong>为什么是删除缓存，而不是更新缓存？</strong></h4><p>原因很简单，很多时候，在复杂点的缓存场景，缓存不单单是数据库中直接取出来的值。</p>
+<p>比如可能更新了某个表的一个字段，然后其对应的缓存，是需要查询另外两个表的数据并进行运算，才能计算出缓存最新的值的。</p>
+<p>另外更新缓存的代价有时候是很高的。是不是说，每次修改数据库的时候，都一定要将其对应的缓存更新一份？也许有的场景是这样，但是对于<strong>比较复杂的缓存数据计算的场景</strong>，就不是这样了。如果你频繁修改一个缓存涉及的多个表，缓存也频繁更新。但是问题在于，<strong>这个缓存到底会不会被频繁访问到？</strong></p>
+<p>举个栗子，一个缓存涉及的表的字段，在 1 分钟内就修改了 20 次，或者是 100 次，那么缓存更新 20 次、100 次；但是这个缓存在 1 分钟内只被读取了 1 次，有<strong>大量的冷数据</strong>。实际上，如果你只是删除缓存的话，那么在 1 分钟内，这个缓存不过就重新计算一次而已，开销大幅度降低。<strong>用到缓存才去算缓存。</strong></p>
+<p>其实删除缓存，而不是更新缓存，就是一个 lazy 计算的思想，不要每次都重新做复杂的计算，不管它会不会用到，而是让它到需要被使用的时候再重新计算。像 mybatis，hibernate，都有懒加载思想。查询一个部门，部门带了一个员工的 list，没有必要说每次查询部门，都把里面的 1000 个员工的数据也同时查出来啊。80% 的情况，查这个部门，就只是要访问这个部门的信息就可以了。先查部门，同时要访问里面的员工，那么这个时候只有在你要访问里面的员工的时候，才会去数据库里面查询 1000 个员工。</p>
+<h4 id="最初级的缓存不一致问题及解决方案"><a href="#最初级的缓存不一致问题及解决方案" class="headerlink" title="最初级的缓存不一致问题及解决方案"></a>最初级的缓存不一致问题及解决方案</h4><p>问题：先更新数据库，再删除缓存。如果删除缓存失败了，那么会导致数据库中是新数据，缓存中是旧数据，数据就出现了不一致。</p>
+<p><img src="/jishu/redis-junior-inconsistent.png" srcset="/img/loading.gif" lazyload alt="redis-junior-inconsistent"></p>
+<p>解决思路 1：先删除缓存，再更新数据库。如果数据库更新失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致。因为读的时候缓存没有，所以去读了数据库中的旧数据，然后更新到缓存中。</p>
+<p>解决思路 2：延时双删。依旧是先更新数据库，再删除缓存，唯一不同的是，我们把这个删除的动作，在不久之后再执行一次，比如 5s 之后。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">set</span><span class="hljs-params">(key, value)</span> &#123;<br>    putToDb(key, value);<br>    deleteFromRedis(key);<br><br>    <span class="hljs-comment">// ... a few seconds later</span><br>    deleteFromRedis(key);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>删除的动作，可以有多种选择，比如：1. 使用 <code>DelayQueue</code>，会随着 JVM 进程的死亡，丢失更新的风险；2. 放在 <code>MQ</code>，但编码复杂度为增加。总之，我们需要综合各种因素去做设计，选择一个最合理的解决方案。</p>
+<h4 id="Redis-怎么保证高可用"><a href="#Redis-怎么保证高可用" class="headerlink" title="Redis 怎么保证高可用"></a>Redis 怎么保证高可用</h4><p>●主从数据同步（主从复制）<br>●Redis 哨兵模式（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Sentinel&spm=1001.2101.3001.7020">Sentinel</a>）<br>●Redis 集群（Cluster）</p>
+<h5 id="主从同步（主从复制）"><a href="#主从同步（主从复制）" class="headerlink" title="主从同步（主从复制）"></a><strong>主从同步</strong>（主从复制）</h5><p>是 Redis 多机运行中最基础的功能，它是把多个 Redis 节点组成一个 Redis 集群，在这个集群当中<strong>有一个主节点用来进行数据的操作</strong>，其他<strong>从节点用于同步主节点的内容</strong>，并且提供给客户端进行数据查询。</p>
+<p>Redis 主从同步分为：主从模式和从从模式。</p>
+<p><strong>主从模式</strong>就是一个主节点和多个一级从节点</p>
+<p><img src="/jishu/image-20230420085116482.png" srcset="/img/loading.gif" lazyload alt="image-20230420085116482"></p>
+<p>从从模式是指一级从节点下面还可以拥有更多的从节点</p>
+<p><img src="/jishu/image-20230420085142051.png" srcset="/img/loading.gif" lazyload alt="image-20230420085142051"></p>
+<p>主从模可以提高 Redis 的整体运行速度，因为使用主从模式就可以实现数据的<strong>读写分离</strong>，把写操作的请求分发到主节点上，把其他的读操作请求分发到从节点上，这样就减轻了 Redis 主节点的运行压力，并且提高了 Redis 的整体运行速度。</p>
+<p>主从模式还实现了 Redis 的高可用，当主服务器宕机之后，可以很迅速的把从节点提升为主节点，为 Redis 服务器的宕机恢复节省了宝贵的时间。</p>
+<p>并且主从复制还降低了数据丢失的风险，因为数据是完整拷贝在多台服务器上的，当一个服务器磁盘坏掉之后，可以从其他服务器拿到完整的备份数据。</p>
+<p><strong>三种方式：</strong></p>
+<p><strong>主从复制</strong><br>① 支持主从复制，主机会自动将数据同步到从机，可以进行读写分离</p>
+<p><strong>缺点：</strong></p>
+<p>Redis不具备自动容错和恢复功能，主机从机的宕机都会导致前端部分读写请求失 败，需要等待机器重启或者手动切换前端的IP才能恢复。<br>主机宕机，宕机前有部分数据未能及时同步到从机，切换IP后还会引入数据不一致的问题，降低了系统的可用性<br>Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。<br><strong>哨兵模式：</strong><br>① 监控主服务器和从服务器是否正常运行。</p>
+<p>② 主服务器出现故障时自动将从服务器转换为主服务器。</p>
+<p>③ 主从可以自动切换，系统更健壮，可用性更高。</p>
+<p><strong>缺点：</strong></p>
+<p>1.Redis较难支持在线扩容，在集群容量达到上限时在线扩容会变得很复杂。</p>
+<h5 id="3-Redis-哨兵模式"><a href="#3-Redis-哨兵模式" class="headerlink" title="3.Redis 哨兵模式"></a><strong>3.Redis 哨兵模式</strong></h5><p>Redis 哨兵模式就是用来监视 Redis 主从服务器的，当 Redis 的主从服务器发生故障之后，Redis 哨兵提供了自动容灾修复的功能。（<strong>监视</strong>，Redis 的主节点宕机之后，自动切换服务器）</p>
+<p><img src="/jishu/image-20230420085159672.png" srcset="/img/loading.gif" lazyload alt="image-20230420085159672"></p>
+<p>哨兵的工作原理是每个哨兵会以每秒钟 1 次的频率，向已知的主服务器和从服务器，发送一个 PING 命令。如果最后一次有效回复 PING 命令的时间，超过了配置的最大下线时间（Down-After-Milliseconds）时，默认是 30s，那么这个实例会被哨兵标记为主观下线。</p>
+<p>如果一个主服务器被标记为主观下线，那么正在监视这个主服务器的所有哨兵节点，要以每秒 1 次的频率确认主服务器是否进入了主观下线的状态。如果有足够数量（quorum 配置值）的哨兵证实该主服务器为主观下线，那么这个主服务器被标记为客观下线。此时所有的哨兵会按照规则（协商）自动选出新的主节点服务器，并自动完成主服务器的自动切换功能，而整个过程都是无须人工干预的。</p>
+<h5 id="4-Redis-集群"><a href="#4-Redis-集群" class="headerlink" title="4.Redis 集群"></a><strong>4.Redis 集群</strong></h5><p>将数据分布在不同的主服务器上，以此来降低系统对单主节点的依赖，并且可以大大提高 Redis 服务的读写性能。Redis 集群除了拥有主从模式 + 哨兵模式的所有功能之外，还提供了多个主从节点的集群功能，实现了真正意义上的分布式集群服务</p>
+<p><img src="/jishu/image-20230420085430647.png" srcset="/img/loading.gif" lazyload alt="image-20230420085430647"></p>
+<p>Redis 集群可以实现数据分片服务，也就是说在 Redis 集群中有 16384 个槽位用来存储所有的数据，当我们有 N 个主节点时，可以把 16384 个槽位平均分配到 N 台主服务器上。当有键值存储时，Redis 会使用 crc16 算法进行 hash 得到一个整数值，然后用这个整数值对 16384 进行取模来得到具体槽位，再把此键值存储在对应的服务器上，读取操作也是同样的道理，这样我们就实现了数据分片的功能。</p>
+<h2 id="系统管理（认证、授权、鉴权）"><a href="#系统管理（认证、授权、鉴权）" class="headerlink" title="系统管理（认证、授权、鉴权）"></a><strong>系统管理（认证、授权、鉴权）</strong></h2><p>我们系统的权限管理是这样设计的，有用户表、角色表、权限表（菜单表）、角色权限关系表、用户角色关系表、用户权限关系表。我们可以通过角色给用户授权，也可以直接授权给用户。权限我们是保存在菜单里边，菜单分三级，一个是目录，一个是具体的菜单，还有一个功能按钮，他们对应这不同的权限编码，我们有系统管理专门负责增删改查。（部门、岗位，跟用户关联）</p>
+<p>认证（也就是登录功能）：我们有一个认证服务，我们的项目支持这种用户名、密码、验证码登录（手机号验证码登录，用户端登录）我们项目是前后端分离的，采用token的方式来做的，当用户登录成功会给前端返回一个token，其他接口在调用的时候都会携带token，通过前端axios的拦截器放入head中，我们在网关（通过全局过滤器）对token做的校验，如果校验通过，路由到后端的服务；否则的话给前端返回错误编码401（未授权）；登录的时候我们是把请求的参数传到后台，做一些非空校验，判断用户密码或验证码是否正确，如果认证通过，我们会生成token缓存redis，redis存储了用户的token和用户的基本信息，以及权限。</p>
+<p><strong>Token的生成</strong>：一种是jwt，jwt包含了用户的id，登录名称，唯一标识。另一种是我们可以自己生成token，用户的id + 用户的登录名 + 时间戳然后进行md5。</p>
+<p><strong>授权</strong>：认证服务调用系统服务，根据登录名称查询用户的权限信息，缓存redis，当用户访问接口的时候，通过aop + 自定义注解做的权限校验。</p>
+<p><strong>鉴权</strong>：aop + 自定义注解；我们有很多微服务都需要鉴权，我们封装了通用模块，写了自定义auth注解和aop的切面类，使用aop的环绕通知获取拦截方法的auth注解，然后读取权限编码；然后通过request工具类拿到token，然后从redis取出权限信息，然后校验当前接口的前权限编码与redis缓存的是否匹配，如果匹配失败直接返回一个校验失败的自定义异常（AuthExecption）。</p>
+<p><strong>Token刷新</strong></p>
+<p>Token 的过期时间是24小时（或一周）每天用户在第一次登录时候会拿旧的token去换一个新的</p>
+<h4 id="单点登录："><a href="#单点登录：" class="headerlink" title="单点登录："></a>单点登录：</h4><p><strong>单点登录（Single Sign-On，简称 SSO）</strong></p>
+<p>是一种用户只需要登录一次，就可以访问多个相互信任的应用系统的身份认证技术。通俗地说，就是一个用户只需要登录一次，就可以在多个应用系统中使用，而不需要在每个应用系统中都单独进行登录操作。</p>
+<p>单点登录的实现方式有多种，其中比较常用的方式是通过令牌的方式来实现。具体流程如下：</p>
+<ol>
+<li>用户访问需要认证的应用系统 A，但是发现自己还没有登录。</li>
+<li>应用系统 A 将用户重定向到认证中心，要求用户进行登录操作。</li>
+<li>用户在认证中心进行登录，并提供用户名和密码等信息。</li>
+<li>认证中心验证用户的身份，如果验证通过，则颁发一个令牌（token）给用户，并将这个令牌存储在自己的系统中。</li>
+<li>认证中心将用户重定向回应用系统 A，并将令牌一起传递回去。</li>
+<li>应用系统 A 接收到令牌后，会将其发送给认证中心进行验证。如果验证通过，则说明用户已经登录过了，可以让用户访问应用系统 A。</li>
+<li>用户访问其他应用系统 B、C 等，应用系统 B、C 等也会按照类似的方式进行验证，并且可以通过令牌来确定用户的身份。</li>
+</ol>
+<p>通过单点登录，用户只需要进行一次登录操作就可以访问多个应用系统，可以提高用户体验和安全性，避免了重复登录和多次输入密码的问题。同时，也方便了应用系统的管理和维护，降低了系统集成的复杂度。</p>
+<p><strong>注销：</strong></p>
+<p>用户向系统1发起注销请求</p>
+<p>系统1根据用户与系统1建立的会话id拿到令牌，向sso认证中心发起注销请求</p>
+<p>sso认证中心校验令牌有效，销毁全局会话，同时取出所有用此令牌注册的系统地址</p>
+<p>sso认证中心向所有注册系统发起注销请求</p>
+<p>各注册系统接收sso认证中心的注销请求，销毁局部会话</p>
+<p>sso认证中心引导用户至登录页面</p>
+<h5 id="1-什么是单点登录（SSO）？它有什么好处？"><a href="#1-什么是单点登录（SSO）？它有什么好处？" class="headerlink" title="1.什么是单点登录（SSO）？它有什么好处？"></a>1.什么是单点登录（SSO）？它有什么好处？</h5><ol>
+<li>单点登录（SSO）是一种身份认证技术，它允许用户使用一组凭据（例如用户名和密码）登录到一个系统，然后在不需要重新认证的情况下，访问其他相互信任的系统或应用程序。SSO 的好处包括减少用户需要记住的登录凭据数量、提高用户体验和便利性、降低安全风险和操作成本等。</li>
+</ol>
+<h5 id="2-单点登录的实现原理是什么？请谈谈您对单点登录实现的理解。"><a href="#2-单点登录的实现原理是什么？请谈谈您对单点登录实现的理解。" class="headerlink" title="2.单点登录的实现原理是什么？请谈谈您对单点登录实现的理解。"></a>2.单点登录的实现原理是什么？请谈谈您对单点登录实现的理解。</h5><ol>
+<li>单点登录的实现原理通常涉及以下步骤：用户尝试登录到应用程序，应用程序将用户重定向到身份提供商（IdP）进行身份验证，IdP 确认用户身份并向应用程序颁发一个安全令牌（Token），然后用户被重定向回应用程序并带着 Token，应用程序可以使用 Token 验证用户身份并授权访问。简单来说，SSO 通过一个中心化的认证系统来管理用户身份信息，并通过安全令牌在不同系统之间共享用户身份认证状态。</li>
+</ol>
+<h5 id="3-请列举一些常用的单点登录实现方案，并且对它们进行比较。"><a href="#3-请列举一些常用的单点登录实现方案，并且对它们进行比较。" class="headerlink" title="3.请列举一些常用的单点登录实现方案，并且对它们进行比较。"></a>3.请列举一些常用的单点登录实现方案，并且对它们进行比较。</h5><ol>
+<li>常用的单点登录实现方案包括基于 SAML（Security Assertion Markup Language）、OAuth2 和 OpenID Connect 等标准协议的实现，以及基于 JWT（JSON Web Token）和 CAS（Central Authentication Service）等开源框架的实现。SAML 是一个用于跨域身份验证和授权的 XML 框架，OAuth2 是一种用于授权的开放标准，OpenID Connect 是一个基于 OAuth2 的身份认证和授权协议。JWT 是一种轻量级的安全令牌，CAS 是一个企业级的单点登录框架。不同的方案有不同的优缺点，需要根据具体需求进行选择。</li>
+</ol>
+<h5 id="4-SSO-中的-Token-是什么？有哪些常见的-Token-类型？"><a href="#4-SSO-中的-Token-是什么？有哪些常见的-Token-类型？" class="headerlink" title="4.SSO 中的 Token 是什么？有哪些常见的 Token 类型？"></a>4.SSO 中的 Token 是什么？有哪些常见的 Token 类型？</h5><ol>
+<li>在 SSO 中，Token 是一个安全令牌，用于在不同系统之间共享用户身份认证状态。常见的 Token 类型包括基于 SAML 的 Assertion、基于 OAuth2 的 Access Token 和 Refresh Token、基于 OpenID Connect 的 ID Token 和 JWT。</li>
+</ol>
+<h5 id="5-单点登录中如何处理跨域请求问题？"><a href="#5-单点登录中如何处理跨域请求问题？" class="headerlink" title="5.单点登录中如何处理跨域请求问题？"></a>5.单点登录中如何处理跨域请求问题？</h5><ol>
+<li>跨域请求问题可以通过使用 CORS（跨域资源共享）机制来解决。SSO 系统中的 IdP 可以允许来自特定域的请求，在响应中添加允许的域信息，然后在应用程序中使用相应的跨域请求方法（如 JSONP、CORS 等）进行处理。</li>
+</ol>
+<h5 id="6-如果您需要在多个服务之间实现单点登录，您会选择哪种方案来实现，为什么？"><a href="#6-如果您需要在多个服务之间实现单点登录，您会选择哪种方案来实现，为什么？" class="headerlink" title="6.如果您需要在多个服务之间实现单点登录，您会选择哪种方案来实现，为什么？"></a>6.如果您需要在多个服务之间实现单点登录，您会选择哪种方案来实现，为什么？</h5><ol>
+<li>如果需要在多个服务之间实现单点登录，可以选择基于 SAML 或 OAuth2 的实现方案。基于 SAML 的方案具有广泛的兼容性和可扩展性，适用于企业级应用场景；基于 OAuth2 的方案则具有更简单的实现方式和更广泛的应用范围，适用于 Web 应用程序和移动应用程序等场景</li>
+</ol>
+<h5 id="7-SSO-在多层架构中的应用场景是什么？它在哪些方面可以带来便利？"><a href="#7-SSO-在多层架构中的应用场景是什么？它在哪些方面可以带来便利？" class="headerlink" title="7.SSO 在多层架构中的应用场景是什么？它在哪些方面可以带来便利？"></a>7.SSO 在多层架构中的应用场景是什么？它在哪些方面可以带来便利？</h5><ul>
+<li>Web 应用程序和移动应用程序的统一身份认证和授权</li>
+<li>企业内部系统和外部系统的身份认证和授权</li>
+<li>多租户应用程序中的租户身份管理和授权控制</li>
+</ul>
+<p>SSO 在这些场景中可以带来便利，例如：</p>
+<ul>
+<li>简化用户登录过程，提高用户体验和便利性</li>
+<li>提高安全性，降低操作成本和管理负担</li>
+<li>支持单一的登录凭据，减少用户需要记住的密码数量</li>
+</ul>
+<h5 id="8-SSO-的安全性如何保证？请谈谈您对-SSO-安全性的看法。"><a href="#8-SSO-的安全性如何保证？请谈谈您对-SSO-安全性的看法。" class="headerlink" title="8.SSO 的安全性如何保证？请谈谈您对 SSO 安全性的看法。"></a>8.SSO 的安全性如何保证？请谈谈您对 SSO 安全性的看法。</h5><ul>
+<li>建立安全的身份提供商（IdP）和服务提供商（SP）之间的信任关系，确保身份认证信息和安全令牌的安全传输和处理</li>
+<li>采用强密码策略、多因素身份认证等措施加强用户身份认证和授权控制</li>
+<li>定期进行安全审计、漏洞扫描和风险评估，及时发现和解决安全漏洞和风险问题</li>
+<li>合理设置安全令牌的过期时间和有效范围，避免安全令牌被不法分子利用</li>
+<li>限制敏感数据和资源的访问权限，避免用户泄露和滥用机密信息。</li>
+</ul>
+<h4 id="oauth2"><a href="#oauth2" class="headerlink" title="oauth2"></a>oauth2</h4><h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><p><img src="/../jishu/oauth2%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>OAuth2是一种授权机制，它允许用户授权第三方应用访问自己的资源，同时保护用户的账号信息。它的核心思想是代表用户向资源服务器请求访问资源，而不是向资源服务器提供用户的账号和密码。这样可以避免用户的账号和密码被泄露，提高了安全性。</p>
+<p>OAuth2主要包含四种角色：</p>
+<ol>
+<li>资源所有者（Resource Owner）：拥有被保护的资源，可以授权第三方应用访问自己的资源。</li>
+<li>客户端（Client）：代表第三方应用，请求授权服务器颁发令牌，访问资源服务器。</li>
+<li>授权服务器（Authorization Server）：验证资源所有者的身份，接收并处理客户端的授权请求，颁发访问令牌。</li>
+<li>资源服务器（Resource Server）：接收并处理客户端的访问请求，验证访问令牌的有效性，决定是否允许访问资源。</li>
+</ol>
+<p>OAuth2的授权流程通常包含以下步骤：</p>
+<ol>
+<li>客户端向授权服务器发送授权请求，包含客户端的身份和请求的授权范围。</li>
+<li>授权服务器验证客户端的身份，并向资源所有者请求授权，包含请求的授权范围和重定向URI。</li>
+<li>资源所有者同意授权，并将授权结果发送给授权服务器。</li>
+<li>授权服务器生成访问令牌，并将其发送给客户端，包含访问令牌的类型、有效期、范围和刷新令牌等信息。</li>
+<li>客户端使用访问令牌请求资源服务器访问资源。</li>
+<li>资源服务器验证访问令牌的有效性，如果有效则返回资源，否则返回错误信息。</li>
+<li>如果访问令牌已过期，则客户端可以使用刷新令牌来获取新的访问令牌。</li>
+</ol>
+<p>通过OAuth2，用户可以授权第三方应用访问自己的资源，同时保护自己的账号信息不被泄露，提高了安全性。OAuth2已经成为现代Web应用程序的标准授权机制，广泛应用于各种场景，如社交网络、云存储、API开放平台等。</p>
+<h5 id="oauth2有几种模式"><a href="#oauth2有几种模式" class="headerlink" title="oauth2有几种模式"></a>oauth2有几种模式</h5><p>OAuth 2.0协议定义了多种授权模式，用于在客户端应用程序和资源所有者之间授权访问资源。以下是OAuth 2.0中常见的授权模式：</p>
+<ol>
+<li>授权码模式（Authorization Code Grant）：该模式是OAuth 2.0最常用的授权模式。在该模式下，客户端将用户重定向到授权服务器，在授权服务器上进行用户身份验证，并请求授权码。授权服务器返回授权码，然后客户端使用该授权码获取访问令牌。</li>
+<li>简化模式（Implicit Grant）：在简化模式下，客户端在不获取授权码的情况下直接从授权服务器获取访问令牌。这种模式适用于那些没有后端服务器的客户端，如JavaScript应用程序。</li>
+<li>密码模式（Resource Owner Password Credentials Grant）：在密码模式下，用户向客户端提供用户名和密码，客户端使用这些凭据直接向授权服务器请求访问令牌。该模式通常用于受信任的客户端，例如移动应用程序或自己的网站。</li>
+<li>客户端凭证模式（Client Credentials Grant）：在客户端凭证模式下，客户端使用自己的凭证（客户端ID和客户端密钥）向授权服务器请求访问令牌。该模式适用于客户端需要访问自己的资源而不需要用户身份验证的情况。</li>
+<li>设备授权模式（Device Authorization Grant）：该模式适用于不支持浏览器或有限输入能力的设备，如智能电视或IoT设备。在该模式下，客户端会向授权服务器请求设备授权码，用户使用另一设备进行身份验证，并将设备授权码输入到授权服务器，然后授权服务器返回访问令牌。</li>
+</ol>
+<p>以上是OAuth 2.0中常见的授权模式。每种授权模式都适用于不同的场景，并具有各自的优缺点和安全风险。</p>
+<h2 id="接口设计"><a href="#接口设计" class="headerlink" title="接口设计"></a><strong>接口设计</strong></h2><p>我和前端或者项目经理去沟通需求，我先根据某个需求的原型或者需求描述（需求文档），看看大致需要几个接口，然后再逐步确认每个接口的细节，先制定初版的接口文档包含：接口地址，出参、入参（apifox），这样前后端就可以同步开发，有问题再进一步沟通对接口进行调整。剩下的就是逐个的实现接口，会涉及到一些表结构的梳理或设计，为了让接口的性能高，有更快的响应时间，我们应该对接口有一些设计或者是业务逻辑的优化</p>
+<p>\1. 接口实现过程中有服务之间调用，可能还有多个</p>
+<p> 其他接口的性能决定了你的性能，在必要的查询接口可以考虑是否加入缓存，对于更新接口是否做接口幂等性来应对超时（springcloud服务间调用间查询请求是做了重试的，更新请求一般不允许重试，如果重试需要幂等性解决）</p>
+<p>\2. 接口实现过程中有大数据量</p>
+<p> 多线程或者redis缓存，或分批次查询数据</p>
+<p>\3. 接口实现过程中涉及到安全</p>
+<p> Feign：我们项目中服务之间调用有的时候权限的，我们有张表管理了appId和appKey当服务间调用的时候，调用方会读到配置，然后生成token，通过feign的RequestInterceptor拦截器将token放入head中，服务调用方去校验token</p>
+<p> 树结构的封装（一次性从数据库查出，然后进行递归）</p>
+<p> 我们项目中比如说菜单，省市区，分类，这种树结构的接口我们一般是通过一次性查库，然后通过递归去实现，这样就避免了循环查库，相当于是用空间换时间来提高查询速度；为了进一步提高接口的响应时间，我们还可以加缓存；其实我们可以把数据查出来直接给前端，让前端完成树的递归处理，这样极大的减轻了服务端的压力；其实我们开发接口时候还遇到了一个问题就是：树的层级不固定，遍历层级过多，会造成栈溢出，为了避免这种栈溢出，规定只能加载固定层级的树，或调整栈空间的大小</p>
+<h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a><strong>分布式事务</strong></h2><p>CAP理论base理论，两阶段提交，三阶段提交。</p>
+<p>强一致性，弱一致性，最终一致性，这些都是分布式的一些理论，比如：java的uuid，mysql的雪花算法（强调数据库id的有序性，uuid如果作为主键的话是无序的，没办法进行主键索引），这种都是分布式系统唯一性的解决方法。</p>
+<p>C（一致性）A（可用性）P（分区容错性），base理论说的是cap只能同时满足其中两个，像eureka是ap，dubbo的zookeeper强调的是cp；</p>
+<p>一致性：数据的一致性，比如说，eureka各个节点之间存储的结点信息的一致性。</p>
+<p><strong>可用性</strong>：集群避免单点故障，实现高可用。</p>
+<p>分区容错性：大的项目为了高可用跨机房部署，防止断电、网络不通。</p>
+<p><strong>强一致性</strong>：其实强一致性在系统中是很难做到的，像关系型数据库，我们是通过分布式事务来解决，非关系型数据库没有办法实现事务的要么成功，要么失败的，所以强一致性很难做到，而且代价可能也比较大。</p>
+<p><strong>弱一致性</strong>：其实是允许分布式系统的数据可以在短时间内不一致，比如说一个房源发布了，mysql同步es是有延迟的，就属于弱一致性。</p>
+<p><strong>最终一致性</strong>：意思是系统在某个时间点，或者很长时间内能达到一致性就可以了。比如：用户购买商品给会员加积分，由于这个操作是异步的通过mq完成，其实最终是否完成不能确定，我们可以通过mq的可靠性、重复消费来解决，只要最终给用户加上积分就可以了。</p>
+<h2 id="大文件上传"><a href="#大文件上传" class="headerlink" title="大文件上传"></a><strong>大文件上传</strong></h2><p>大文件上传、断点续传（包括文件的上传和下载）、分片、token（文件签名或者md5签名）</p>
+<p>大文件上传：为了应对网络不好，或者意外的故障造成文件不能一次上传文成，而且需要的时间由比较长，会造成重新上传一直失败的这种情况，其核心的话就是文件分片上传，分片也是实现断点续传的一个基础，上传一个文件的时候一般会对文件进行md5签名，为了防止生成的token可能是一样的我们一般会加一个时间戳进行md5，token的话就是文件的唯一标识，当分片上传的时候都会携带token的，用于区分上传的文件是属于哪个文件的，合并文件的时候也要根据token进行合并。</p>
+<p>前端的话我们可以使用第三方的vue插件或者是云存储的插件或者是自己写js来完成分片，js有slice方法这个可以完成分片，为了实现更加快速高效的上传，前端的话可以同时上传几个分片，当时是最后一个分片的时候，他会调用后台的接口来执行文件的合并操作。</p>
+<p>后端的话和普通的文件上传是一样的，只是他是分片上传的，从命名规范来说，每个分片是有序的，所以后缀都是 -1 -2 -3这样的名字当前台上传到最后一个分片的时候，会有一个所有分片都上传完的参数来告诉后端需要合并文件，合并文件它需要根据文件存储的目录读到该目录下的所有文件，对文件进行排序，逐一将所有分片文件写入一个文件中，如果有需要的话，给前端返回一个可访问的地址。</p>
+<p>如果我们使用云存储的话，云存储其实已经提供了前端vue的插件以及demo，以及后端sdk的demo代码，读一下文档就可以完成。</p>
+<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a><strong>Maven</strong></h2><p>Maven是构建、编译、打包、部署项目的一个工具，他管理了maven仓库以及项目的依赖；</p>
+<p>Maven虽然有很多功能，我们使用它管理依赖和版本，用到他的父子项目，父项目管理依赖和版本，在子项目使用的时候就不用指定版本号了</p>
+<p>我们在项目中可能需要安装一些本地jar包到maven仓库，也可以把我们的jar包发布到公司的私服上，我们公司现在其实就有个maven私服（跟阿里云的、默认的仓库都是一样的，就是我们有了修改权限，公司没有外网，我们需要自己发布jar包，有些私服没有的jar包，我们需要自己去下载然后发布到私服），我们可以发布jar包到上边去。</p>
+<p>Maven解决冲突时候有个mavenHelper插件，通过这个插件可以方便的去查看依赖的不同版本，可以直接跳转到maven的pom文件中进行排除exclusions。</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a><strong>Linux</strong></h2><p>使用的是Centos7版本，生产环境也是，我们开发环境内网是使用的公司内部的服务器，服务器中安装了各种软件，也就是开发环境。生产环境一般使用的是云服务器，一些比较重要的数据我们会使用机房管理；</p>
+<p>常用命令：目录操作相关的命令：cd、mv、pwd、mkdir、cp -r（递归）</p>
+<p>还有就是vim编辑修改一些配置文件，</p>
+<p>常用的还有ping命令 ping服务器之间是否通，</p>
+<p>还有telnet ping服务器的端口是否通；</p>
+<p>还有的话就是ps 查看进程号，java的进程可以使用jps，杀死进程使用kill，kill -9 pid 立即杀死，kill -15 pid 建议杀死，一般的话我们会在kill -15后 停 2-3秒再去执行 kill -9 主要是因为这个进程的好多线程还在运行状态，直接使用kill -9 会使线程中断，业务没有执行完成。</p>
+<p>还有的话就是权限相关的命令，主要就是可以通过命令修改这个文件的所属组，还有读写执行权限，chown、chmod ；421–&gt; 读、写、执行 rwx ；</p>
+<p>还有一些系统命令，比如top命令可以查看系统的负载，可以看5、10、15分钟的平均负载，各个进程对内存及cpu的使用情况，还有free -m 可以查看系统的空闲内存，df -h查看磁盘的使用情况（百分比），如果磁盘空间满了，那么项目运行是有问题的可能会死掉。</p>
+<p>软件安装：yum、rmi；防火墙：service firewalld star\stop\status</p>
+<h3 id="linux常用命令"><a href="#linux常用命令" class="headerlink" title="linux常用命令"></a>linux常用命令</h3><p>Vim是一种文本编辑器，是Linux和Unix系统中最常用的编辑器之一。</p>
+<h4 id="Vim命令："><a href="#Vim命令：" class="headerlink" title="Vim命令："></a>Vim命令：</h4><ol>
+<li>i: 进入插入模式，允许你输入文本。</li>
+<li>esc: 退出插入模式，回到命令模式。</li>
+<li>:w: 保存当前文件。</li>
+<li>:q: 退出Vim编辑器。</li>
+<li>:wq: 保存并退出Vim编辑器。</li>
+<li>:q!: 强制退出Vim编辑器，不保存修改。</li>
+<li>:set number: 显示行号。</li>
+<li>:set nonumber: 隐藏行号。</li>
+<li>:&#x2F;pattern: 在文本中查找匹配模式。</li>
+<li>:%s&#x2F;old&#x2F;new&#x2F;g: 全局替换所有匹配的字符串。</li>
+<li>:u: 撤销上一个操作。</li>
+<li>:redo: 重做上一个被撤销的操作。</li>
+<li>yy: 复制当前行。</li>
+<li>p: 粘贴之前复制的文本。</li>
+<li>dd: 删除当前行。</li>
+<li>x: 删除当前光标所在位置的字符。</li>
+<li>:w filename: 将当前文件另存为filename。</li>
+</ol>
+<h4 id="linux的基础命令"><a href="#linux的基础命令" class="headerlink" title="linux的基础命令"></a>linux的基础命令</h4><ol>
+<li>ls: 显示当前目录下的文件和子目录。</li>
+<li>cd: 改变当前工作目录。</li>
+<li>pwd: 显示当前工作目录的完整路径。</li>
+<li>mkdir: 创建新目录。</li>
+<li>rm: 删除文件或目录。</li>
+<li>cp: 复制文件或目录。</li>
+<li>mv: 移动或重命名文件或目录。</li>
+<li>cat: 显示文件的内容。</li>
+<li>less: 分页显示文件内容。</li>
+<li>grep: 查找文件中的匹配模式。</li>
+<li>find: 搜索文件系统中符合条件的文件。</li>
+<li>top: 显示系统当前进程状态。</li>
+<li>ps: 显示当前用户的进程信息。</li>
+<li>kill: 终止进程。</li>
+<li>su: 切换用户身份。</li>
+<li>sudo: 使用超级用户权限执行命令。</li>
+<li>ssh: 远程登录到另一台Linux服务器。</li>
+<li>scp: 在Linux服务器之间复制文件。</li>
+<li>tar: 打包或解压文件。</li>
+<li>ping: 测试网络连接</li>
+<li>ifconfig: 显示网络接口配置信息。</li>
+<li>netstat: 显示网络连接、路由表、接口状态等信息。</li>
+<li>iptables: 配置Linux防火墙。</li>
+<li>service: 管理系统服务。</li>
+<li>systemctl: 管理systemd服务。</li>
+<li>crontab: 定时执行任务。</li>
+<li>ssh-keygen: 生成SSH密钥。</li>
+<li>useradd: 添加新用户。</li>
+<li>userdel: 删除用户。</li>
+<li>passwd: 更改用户密码。</li>
+<li>chmod: 更改文件或目录的权限。</li>
+<li>chown: 更改文件或目录的所有者。</li>
+<li>df: 显示磁盘使用情况。</li>
+<li>du: 显示文件或目录的磁盘使用情况。</li>
+<li>mount: 挂载文件系统。</li>
+<li>umount: 卸载文件系统。</li>
+<li>curl: 通过URL获取数据。</li>
+<li>wget: 下载文件。</li>
+<li>scp: 在Linux服务器之间复制文件。</li>
+<li>hostname: 显示或设置系统主机名。</li>
+</ol>
+<h3 id="CPU过高情况："><a href="#CPU过高情况：" class="headerlink" title="CPU过高情况："></a>CPU过高情况：</h3><p>1、使用top命令查看cpu的进程占用情况：</p>
+<p>​									%Cpu(s): 0.3 us, 0.1 sy, 0.0 ni, 99.6 id, 0.0 wa, 0.0 hi, 0.0 si, 0.0 st</p>
+<p><img src="/jishu/95eef01f3a292df539a4e954b3bc636935a873a6.jpeg@f_auto" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>**us(user)**：表示 CPU 在用户运行的时间百分比，通常用户 CPU 高表示有应用程序比较繁忙。典型的用户程序有：数据库、Web 服务器等。<br>**sy(sys)**：表示 CPU 在内核态运行的时间百分比（不包括中断），通常内核态 CPU 越低越好，否则表示系统存在某些瓶颈。<br>**ni(nice)**：表示用 nice 修正进程优先级的用户进程执行的 CPU 时间。nice 是一个进程优先级的修正值，如果进程通过它修改了优先级，则会单独统计 CPU 开销。<br>**id(idle)**：表示 CPU 处于空闲态的时间占比，此时，CPU 会执行一个特定的虚拟进程，名为 System Idle Process。<br>**wa(iowait)**：表示 CPU 在等待 I&#x2F;O 操作完成所花费的时间，通常该指标越低越好，否则表示 I&#x2F;O 存在瓶颈，可以用 iostat 等命令做进一步分析。<br>**hi(hardirq)**：表示 CPU 处理硬中断所花费的时间。硬中断是由外设硬件（如键盘控制器、硬件传感器等）发出的，需要有中断控制器参与，特点是快速执行。<br>**si(softirq)**：表示 CPU 处理软中断所花费的时间。软中断是由软件程序（如网络收发、定时调度等）发出的中断信号，特点是延迟执行。<br>**st(steal)**：表示 CPU 被其他虚拟机占用的时间，仅出现在多虚拟机场景。如果该指标过高，可以检查下宿主机或其他虚拟机是否异常。</p>
+<p>2、根据PID找到进程，通过top -Hp PID 查看线程的占用情况，</p>
+<p>3、根据pid查看他的进程看看是什么服务占用这么高</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ps -ef    |    grep -v grep      |     grep   PID<br></code></pre></td></tr></table></figure>
+
+<p>4、查看到是一个java进程占用这么高，然后看看有没有用，没有用的话就杀掉它</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">kill</span> -9 41673<br></code></pre></td></tr></table></figure>
+
+<p>4、再次top查看cpu整体就降下来了。<br>总结： 遇到CPU过高，首先定位哪个进程导致的，之后可以通过top -H -p pid命令定位到具体的线程。其次还要通<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=jstack&spm=1001.2101.3001.7020">jstack</a>查看线程的状态，看看线程的个数或者线程的状态，如果线程数过多，可以怀疑是线程上下文切换的开销，我们可以通过vmstat和pidstat这两个工具进行确认。</p>
+<p>CPU使用率过高的原因，大概有以下几种情况：<br>1、Java 内存不够或溢出导致GC overhead问题，GC overhead 导致的CPU 100%问题；<br>2、死循环问题，如常见的HashMap被多个线程并发使用导致的死循环 或者 死循环代码；<br>3、某些操作一直占用CPU<br>大多数都是因为线程无法终止或出现死循环等原因，但是仍然需要根据实际情况，具体问题具体分析</p>
+<h2 id="项目部署"><a href="#项目部署" class="headerlink" title="项目部署"></a><strong>项目部署</strong></h2><p>我们根据不同的项目，如果是单体项目因为比较简单，所以我们可能会手动部署或者通过shell脚本部署；如果项目比较大我们必须使用<strong>DevOps（自动化部署）</strong>比如jenkins、jpom、k8s之类，我们项目中使用的是Jenkins、jpom，k8s还没有使用过。k8s我了解到的是：他是一个很大的架构，他是用来部署，动态扩容服务的；jenkins其实也很简单，就是集成了git、maven、jdk的插件，通过界面的方式可以实现项目的自动发布，以前的话只有运维和开发可以部署，现在有了他，任何人都可以直接部署。他其实和我们手动部署或者使用脚本部署都是一样的，通过git去拉取指定的分支的最新代码，通过maven去打包，然后执行ps kill 命令执行服务重启这些。</p>
+<h2 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h2><ol>
+<li>Spring：它是一个功能强大且广泛使用的开源框架，用于在Java中构建企业级应用程序。它为基于 Java 的现代企业应用程序提供了全面的编程和配置模型。</li>
+<li>SpringMVC：它是一个建立在Spring框架之上的Web框架，它提供了一个模型-视图-控制器（MVC）架构来构建Web应用程序。它通过在表示层（视图）、应用程序逻辑（控制器）和数据（模型）之间提供明确的关注点分离来简化 Web 应用程序的开发。</li>
+<li>MyBatis：它是一个开源的持久性框架，可以更轻松地在Java应用程序中使用数据库。MyBatis 通过使用纯 SQL 简化了数据库编程，它提供了 Java 对象和数据库表之间的映射。</li>
+<li>Spring Cloud：它是一套建立在Spring框架之上的工具和框架，可帮助开发人员构建和部署基于微服务的应用程序。它提供了服务发现、负载均衡、断路器和分布式跟踪等功能，这些功能对于构建可缩放且可复原的微服务至关重要。</li>
+</ol>
+<p>总之，Spring 为现代基于 Java 的企业应用程序提供了全面的编程和配置模型，SpringMVC 通过提供明确的关注点分离简化了 Web 应用程序的开发，MyBatis 简化了数据库编程，Spring Cloud 帮助开发人员构建和部署基于微服务的应用程序。</p>
+<h3 id="jvm"><a href="#jvm" class="headerlink" title="jvm"></a>jvm</h3><h4 id="1-JVM的位置"><a href="#1-JVM的位置" class="headerlink" title="1.JVM的位置"></a>1.JVM的位置</h4><p>JVM是运行在操作系统之上的，它与硬件没有直接的交互<br><img src="/../../../../../desktop/%E8%87%AA%E7%94%A8/%E7%AE%80%E5%8E%86%E4%B8%AD%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3podWNoZW5nMTk5NA==,size_16,color_FFFFFF,t_70#pic_center.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="2-JVM的架构模型"><a href="#2-JVM的架构模型" class="headerlink" title="2.JVM的架构模型"></a>2.JVM的架构模型</h4><p>Java编译器输入的指令流基本上是一种基于栈的指令集架构，另外一种指令集架构则是基于寄存器的指令集架构。具体来说：这两种架构之间的区别：</p>
+<p>基于栈式架构的特点</p>
+<ul>
+<li>设计和实现更简单，适用于资源受限的系统；</li>
+<li>避开了寄存器的分配难题：使用零地址指令方式分配。</li>
+<li>指令流中的指令大部分是零地址指令，其执行过程依赖于操作栈。指令集更小，编译器容易实现。</li>
+<li>不需要硬件支持，可移植性更好，更好实现跨平台</li>
+</ul>
+<p>基于寄存器架构的特点</p>
+<ul>
+<li>典型的应用是x86的二进制指令集：比如传统的PC以及Android的Davlik虚拟机。</li>
+<li>指令集架构则完全依赖硬件，可移植性差</li>
+<li>性能优秀和执行更高效</li>
+<li>花费更少的指令去完成一项操作。</li>
+<li>在大部分情况下，基于寄存器架构的指令集往往都以一地址指令、二地址指令和三地址指令为主，而基于栈式架构的指令集却是以零地址指令为主方水洋</li>
+</ul>
+<p><strong>举例</strong></p>
+<p>同样执行2+3这种逻辑操作，其指令分别如下：</p>
+<p>基于栈的计算流程（以Java虚拟机为例）：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk">iconst_2 <span class="hljs-regexp">//</span>常量<span class="hljs-number">2</span>入栈<br>istore_1<br>iconst_3 <span class="hljs-regexp">//</span> 常量<span class="hljs-number">3</span>入栈<br>istore_2<br>iload_1<br>iload_2<br>iadd <span class="hljs-regexp">//</span>常量<span class="hljs-number">2</span>/<span class="hljs-number">3</span>出栈，执行相加<br>istore_0 <span class="hljs-regexp">//</span> 结果<span class="hljs-number">5</span>入栈<br><span class="hljs-number">12345678</span><br></code></pre></td></tr></table></figure>
+
+<p>而基于寄存器的计算流程</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-keyword">mov</span> <span class="hljs-built_in">eax</span>,<span class="hljs-number">2</span> //将<span class="hljs-built_in">eax</span>寄存器的值设为<span class="hljs-number">1</span><br><span class="hljs-keyword">add</span> <span class="hljs-built_in">eax</span>,<span class="hljs-number">3</span> //使<span class="hljs-built_in">eax</span>寄存器的值加<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="3-内存模型"><a href="#3-内存模型" class="headerlink" title="3.内存模型"></a>3.内存模型</h4><p>JVM 内存模型定义了 Java 程序在运行时的内存结构，包括了程序计数器、虚拟机栈、本地方法栈、堆和方法区等五个区域。这些区域的作用和特点如下：</p>
+<ol>
+<li>程序计数器（Program Counter Register）：用于存储当前线程执行的字节码指令地址。每个线程都有一个独立的程序计数器，线程执行的方法属于该线程的线程栈中的方法。</li>
+<li>虚拟机栈（JVM Stack）：存储 Java 方法执行时的局部变量表、操作数栈、动态链接、方法出口等信息。每个线程都有一个独立的虚拟机栈，随着方法的进入和退出而动态地创建和销毁。</li>
+<li>本地方法栈（Native Method Stack）：与虚拟机栈类似，用于存储 Native 方法的信息。Native 方法是指使用 C&#x2F;C++ 等本地语言编写的方法，需要使用 JNI 接口调用。</li>
+<li>堆（Heap）：存储 Java 对象和数组等动态分配的内存区域。堆是 Java 程序中最大的一块内存区域，所有线程都共享堆。在堆中，Java 对象的内存是动态分配的，可以通过垃圾回收机制进行自动回收。</li>
+<li>方法区（Method Area）：存储类的结构信息、常量池、静态变量、即时编译器编译后的代码等数据。方法区是线程共享的内存区域，用于存储已经被加载的类信息。</li>
+</ol>
+<p>除了上述五个区域，还有一个运行时常量池（Runtime Constant Pool），用于存储类文件中的常量池信息。在方法区中，每个类都有一个运行时常量池。</p>
+<p>在 JVM 运行时，内存区域的分配和管理由垃圾回收机制进行控制。垃圾回收机制可以自动回收无用的对象和数组等内存资源，释放空间供其他对象和数组使用。</p>
+<h4 id="4-JVM生命周期"><a href="#4-JVM生命周期" class="headerlink" title="4.JVM生命周期"></a>4.JVM生命周期</h4><p><strong>虚拟机的启动</strong></p>
+<p>Java虚拟机的启动是通过引导类加载器（bootstrap class loader）创建一个初始类（initial class）来完成的，这个类是由虚拟机的具体实现指定的。</p>
+<p><strong>虚拟机的执行</strong></p>
+<ul>
+<li>一个运行中的Java虚拟机有着一个清晰的任务：执行Java程序。</li>
+<li>程序开始执行时他才运行，程序结束时他就停止。</li>
+<li>执行一个所谓的Java程序的时候，真真正正在执行的是一个叫做Java虚拟机的进程</li>
+</ul>
+<p><strong>虚拟机的退出</strong></p>
+<p>有如下的几种情况：</p>
+<ul>
+<li>程序正常执行结束</li>
+<li>程序在执行过程中遇到了异常或错误而异常终止</li>
+<li>由于操作系统用现错误而导致Java虚拟机进程终止</li>
+<li>某线程调用Runtime类或system类的exit方法，或Runtime类的halt方法，并且Java安全管理器也允许这次exit或halt操作。</li>
+<li>除此之外，JNI（Java Native Interface）规范描述了用JNI Invocation API来加载或卸载 Java虚拟机时，Java虚拟机的退出情况</li>
+</ul>
+<h4 id="2-JVM的组成部分"><a href="#2-JVM的组成部分" class="headerlink" title="2.JVM的组成部分"></a><strong>2.JVM的组成部分</strong></h4><p>​	JVM的组成部分包括类加载器、运行时数据区、执行引擎和本地方法接口等。其中，运行时数据区包括方法区、堆、栈和程序计数器等。</p>
+<h4 id="4-类加载器？"><a href="#4-类加载器？" class="headerlink" title="4.类加载器？"></a><strong>4.类加载器？</strong></h4><p>​	类加载器是负责将类的字节码文件加载到JVM中的组件。JVM中主要有三种类加载器，分别是启动类加载器（Bootstrap ClassLoader）、扩展类加载器（Extension ClassLoader）和应用程序类加载器（Application ClassLoader）。</p>
+<p>[^参考java中的双亲委派]: </p>
+<h4 id="5-Java中的垃圾收集器"><a href="#5-Java中的垃圾收集器" class="headerlink" title="5.Java中的垃圾收集器"></a><strong>5.Java中的垃圾收集器</strong></h4><p>​	垃圾收集器是JVM中负责回收内存中不再使用的对象的组件。Java中的垃圾收集器有Serial、Parallel、CMS、G1等多种类型。</p>
+<ol>
+<li><strong>Serial垃圾收集器</strong>：Serial垃圾收集器是最古老的Java垃圾收集器之一，它是一种单线程的垃圾收集器，只会使用一个线程进行垃圾回收。因此，它的回收效率比较低，适合于小型的应用程序。Serial垃圾收集器主要用于Client模式下的JVM，适用于单核CPU的环境。</li>
+<li><strong>Parallel垃圾收集器</strong>：Parallel垃圾收集器是Serial垃圾收集器的升级版，它是一种多线程的垃圾收集器，可以使用多个线程同时进行垃圾回收。因此，它的回收效率比Serial要高一些，适合于中型的应用程序。Parallel垃圾收集器主要用于Server模式下的JVM，适用于多核CPU的环境。</li>
+<li><strong>CMS垃圾收集器</strong>：CMS（Concurrent Mark-Sweep）垃圾收集器是一种并发的垃圾收集器，它能够在应用程序运行的同时进行垃圾回收，不会对应用程序的性能产生太大影响，因此适合于大型的应用程序。CMS垃圾收集器的主要特点是：回收时间短、停顿时间短、垃圾回收与应用程序并发执行。但是CMS垃圾收集器也有一些问题，例如会产生内存碎片、会影响应用程序的吞吐量等。</li>
+<li><strong>G1垃圾收集器：</strong>G1（Garbage-First）垃圾收集器是Java 7中引入的一种全新的垃圾收集器，它也是一种并发的垃圾收集器，能够在应用程序运行的同时进行垃圾回收，不会对应用程序的性能产生太大影响。与CMS相比，G1垃圾收集器的主要优势在于：能够充分利用多核CPU、回收时间可控、停顿时间可控、能够有效解决内存碎片等问题。</li>
+</ol>
+<h4 id="6-JIT编译器？如何工作的？"><a href="#6-JIT编译器？如何工作的？" class="headerlink" title="6.JIT编译器？如何工作的？"></a><strong>6.JIT编译器？如何工作的？</strong></h4><p>​	JIT（Just-In-Time）编译器是JVM中的即时编译器，它能够将Java字节码文件动态地编译成机器码，并缓存编译结果以提高程序的执行效率。</p>
+<h4 id="9-内存泄漏？避免？"><a href="#9-内存泄漏？避免？" class="headerlink" title="9.内存泄漏？避免？"></a><strong>9.内存泄漏？避免？</strong></h4><p>​	内存泄漏指程序中的某个对象持有了无用的引用，导致该对象无法被回收，从而造成内存资源的浪费。避免内存泄漏的方法包括正确地释放资源、避免循环引用等。</p>
+<h4 id="10-JVM参数调优"><a href="#10-JVM参数调优" class="headerlink" title="10.JVM参数调优"></a><strong>10.JVM参数调优</strong></h4><p>​	JVM参数调优的技巧包括根据应用程序的性能需求选择不同的垃圾收集器、调整堆大小、设置内存溢出日志等。在实践中，可以通过调整JVM参数来优化应用程序的性能和稳定性。</p>
+<h3 id="Spring中存在循环依赖注入问题"><a href="#Spring中存在循环依赖注入问题" class="headerlink" title="Spring中存在循环依赖注入问题"></a><strong>Spring中存在循环依赖注入问题</strong></h3><p>，即两个或多个Bean之间相互依赖，互相注入，导致无法正常实例化和注入Bean。</p>
+<p>Spring解决循环依赖注入的方法有以下两种：</p>
+<ol>
+<li><em>构造函数注入</em>：在Bean中使用构造函数注入，通过构造函数参数传递依赖对象，从而避免Setter方法注入时循环依赖的问题。</li>
+<li><em>提前暴露对象</em>：在实例化Bean时，先创建一个尚未注入依赖的Bean实例，然后在注入其它依赖时，再将尚未注入依赖的Bean实例注入到已经实例化的Bean中，从而解决循环依赖注入的问题。</li>
+</ol>
+<p>对于构造函数注入，它可以避免Setter方法注入时的循环依赖问题，但是对于复杂的依赖关系，可能会导致构造函数的参数过多，从而造成代码冗余和难以维护。因此，在实际应用中，一般采用提前暴露对象的方式解决循环依赖注入问题。</p>
+<p>需要注意的是，Spring解决循环依赖注入的方式是一种权衡和妥协的方式，如果应用程序中存在循环依赖，需要仔细考虑是否真的需要这样的依赖关系，是否可以通过重构代码来避免循环依赖的出现。</p>
+<h3 id="控制反转（IOC）"><a href="#控制反转（IOC）" class="headerlink" title="控制反转（IOC）"></a>控制反转（IOC）</h3><h3 id="aop切面"><a href="#aop切面" class="headerlink" title="aop切面"></a>aop切面</h3><p>AOP（面向切面编程）是一种编程范式，它可以将一个应用程序的横切关注点（如事务、日志、安全等）从业务逻辑中分离出来，提高代码的重用性和模块化程度。在Spring框架中，AOP是一个核心模块，提供了切面编程的支持。</p>
+<p>AOP的实现原理主要是通过动态代理实现的。在Spring框架中，切面（Aspect）就是一个特殊的Bean，它包含了一组切点（Pointcut）和一组通知（Advice），用于定义在特定的连接点（Joinpoint）上执行的一组动作。当一个方法被调用时，如果这个方法匹配了切点的表达式，切面就会被激活，执行相应的通知。</p>
+<p>动态代理分为两种：JDK动态代理和CGLIB动态代理。Spring框架中默认使用JDK动态代理，</p>
+<p>JDK动态代理是通过实现被代理类的接口，然后通过Proxy类生成代理类。</p>
+<p>CGLIB动态代理是通过继承被代理类，然后通过Enhancer类生成代理类。</p>
+<p><strong>切面中前置通知、后置通知与环绕通知的区别</strong></p>
+<p><img src="/jishu/image-20230421091146672.png" srcset="/img/loading.gif" lazyload alt="image-20230421091146672"></p>
+<ul>
+<li>前置通知：主要用于在目标方法执行前执行一些额外的操作，例如日志记录、权限检查、参数校验等。如果在前置通知中抛出异常，将会阻止目标方法的执行。</li>
+<li>后置通知：主要用于在目标方法执行后执行一些额外的操作，例如日志记录、缓存清除等。在后置通知中可以获取到目标方法的返回值，但不能修改它。</li>
+<li>环绕通知：是最为强大的通知类型，可以在目标方法执行前后都执行一些额外的操作，例如事务管理、性能监控等。在环绕通知中可以获取目标方法的参数和返回值，并且可以控制是否执行目标方法，以及修改方法执行的结果。</li>
+</ul>
+<p>注意只有在环绕通知时</p>
+<h3 id="spring中的事务有哪些"><a href="#spring中的事务有哪些" class="headerlink" title="spring中的事务有哪些"></a>spring中的事务有哪些</h3><p>在Spring中，事务有以下几种类型：</p>
+<ol>
+<li>声明式事务（Declarative Transaction Management）：通过在方法或类上添加@Transactional注解来声明事务。Spring会根据注解的属性自动配置事务管理器、事务传播行为、隔离级别等参数。声明式事务是Spring事务管理机制的核心，可以大大简化应用程序中事务的管理。</li>
+<li>编程式事务（Programmatic Transaction Management）：通过手动调用Spring提供的TransactionTemplate或PlatformTransactionManager等API来管理事务。相对于声明式事务，编程式事务更加灵活，可以满足更复杂的事务处理需求。</li>
+<li>注解驱动的事务（Annotation-driven Transaction Management）：在Spring 2.5及以后版本中引入，它是声明式事务的一种变种，通过在Spring的配置文件中添加tx:annotation-driven元素来启用。使用注解驱动的事务，可以更加简化声明式事务的配置，提高代码的可读性和可维护性。</li>
+<li>集成式事务（Integration Transaction Management）：将事务管理交给外部的JTA事务管理器。当应用程序需要访问多个资源（如数据库、消息队列、Web服务等）时，可以使用JTA事务管理器来协调各个资源之间的事务，保证数据的一致性和可靠性。</li>
+</ol>
+<h3 id="Spring中事务传播行为"><a href="#Spring中事务传播行为" class="headerlink" title="Spring中事务传播行为"></a>Spring中事务传播行为</h3><ol>
+<li>REQUIRED: 默认选项，如果当前已经存在事务，则方法在该事务中运行；否则，创建一个新的事务并在该新事务中运行方法。</li>
+<li>REQUIRES_NEW: 总是创建一个新的事务，并在该新事务中运行方法。如果当前已经存在事务，则该事务被挂起。</li>
+<li>SUPPORTS: 如果当前存在事务，则方法在该事务中运行；否则，方法以非事务方式运行。</li>
+<li>NOT_SUPPORTED: 方法以非事务方式运行，如果当前存在事务，则该事务被挂起。</li>
+<li>MANDATORY: 方法必须在一个已经存在的事务中运行，否则抛出异常。</li>
+<li>NEVER: 方法必须在一个没有事务的环境下运行，否则抛出异常。</li>
+<li>NESTED: 如果当前已经存在事务，则在当前事务的上下文中嵌套一个新事务，并在该新事务中运行方法。如果当前没有事务，则行为与REQUIRED相同。</li>
+</ol>
+<h3 id="Autowired和-Resource的区别"><a href="#Autowired和-Resource的区别" class="headerlink" title="@Autowired和@Resource的区别"></a>@Autowired和@Resource的区别</h3><p>@Autowired和@Resource都是Spring中常用的依赖注入注解，但它们有一些区别。</p>
+<ol>
+<li><strong>注入类型不同</strong>：@Autowired默认按照<strong>类型</strong>的方式注入Bean，而@Resource默认按照<strong>名称</strong>的方式注入Bean。</li>
+<li><strong>使用的框架不同</strong>：@Autowired是Spring框架提供的注解，而@Resource是Java EE标准提供的注解，Spring也对其进行了支持。</li>
+<li><strong>注入的对象不同</strong>：@Autowired注入的是一个Bean对象，而@Resource可以注入一个任意的Java对象，包括原生类型和字符串等。</li>
+<li><strong>属性名称不同</strong>：@Autowired注解的属性名称可以任意起名，而@Resource注解的属性名称必须和注入的Bean的名称相同。</li>
+</ol>
+<p>总的来说，@Autowired更加灵活和方便，而@Resource更加严格和规范。对于Spring应用程序来说，推荐使用@Autowired注解。</p>
+<h3 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a>SpringMVC</h3><h4 id="springmvc的工作流程"><a href="#springmvc的工作流程" class="headerlink" title="springmvc的工作流程"></a>springmvc的工作流程</h4><p>SpringMVC的工作流程可以简单概括为以下几个步骤：</p>
+<ol>
+<li>用户发送请求：当用户发送请求时，请求首先到达前端控制器（DispatcherServlet）。</li>
+<li>前端控制器处理请求：前端控制器是整个SpringMVC框架的核心，它负责拦截所有的请求，并将请求分派给相应的处理器（Controller）进行处理。前端控制器首先需要对请求进行解析和处理，包括处理请求参数、请求头和请求体等信息，然后将请求分发给对应的处理器。</li>
+<li>处理器处理请求：处理器（Controller）是实际处理请求的组件，它负责处理前端控制器分发的请求，并根据请求参数和业务逻辑生成响应结果。处理器通常使用注解或配置文件来映射请求，根据请求路径或请求参数等信息来确定具体的处理器。</li>
+<li>视图解析器解析视图：处理器生成响应结果后，需要将结果返回给前端控制器。前端控制器需要将响应结果渲染成适当的视图并返回给用户。在SpringMVC中，通常使用视图解析器（ViewResolver）来将处理器返回的模型数据映射到具体的视图上。</li>
+<li>返回响应结果：前端控制器将解析后的视图返回给用户，完成一次请求处理。</li>
+</ol>
+<p>需要注意的是，SpringMVC的工作流程是可配置的，可以通过配置文件或注解来自定义各个组件的行为，从而满足不同应用场景的需求。同时，SpringMVC还提供了一系列扩展点，如拦截器、异常处理器、数据绑定器等，可以方便地实现各种高级特性。</p>
+<h3 id="Spring-MVC常用的注解有哪些？"><a href="#Spring-MVC常用的注解有哪些？" class="headerlink" title="Spring MVC常用的注解有哪些？"></a>Spring MVC常用的注解有哪些？</h3><ol>
+<li>@Controller: 用于标记控制器类，通常配合@RequestMapping使用。</li>
+<li>@RequestMapping: 用于映射请求URL到控制器方法，包括GET、POST、PUT、DELETE等请求方法。</li>
+<li>@RequestParam: 用于从请求参数中获取参数值，常用于接收GET请求参数。</li>
+<li>@PathVariable: 用于从URL路径中获取参数值，常用于RESTful风格的URL。</li>
+<li>@ResponseBody: 用于将返回值直接作为响应体返回给客户端，通常配合@RestController使用。</li>
+<li>@RequestBody: 用于将请求体中的数据绑定到方法的参数上。</li>
+<li>@ModelAttribute: 用于将请求参数绑定到模型对象上，并将模型对象添加到ModelAndView中。</li>
+<li>@SessionAttribute: 用于将模型对象存储到会话中，以便多个请求之间共享数据。</li>
+<li>@InitBinder: 用于定制数据绑定器，例如格式化日期、转换数据类型等。</li>
+<li>@ExceptionHandler: 用于处理控制器中抛出的异常，并将异常信息返回给客户端。</li>
+<li>@ResponseStatus: 用于指定响应状态码和原因短语。</li>
+<li>@CrossOrigin: 用于配置跨域资源共享（CORS）。</li>
+<li>@RequestMapping注解还可以用于类级别，表示控制器处理的根路径。例如，可以使用@RequestMapping(“&#x2F;users”)将控制器映射到”&#x2F;users”路径，然后在方法级别使用@RequestMapping来定义子路径。</li>
+</ol>
+<h2 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h2><h3 id="springboot的自动装配"><a href="#springboot的自动装配" class="headerlink" title="springboot的自动装配"></a>springboot的自动装配</h3><p><strong>Spring Boot的自动装配</strong>是通过@EnableAutoConfiguration注解实现的。它利用Spring框架的约定大于配置的思想，在保持简洁性的同时实现快速开发和部署。</p>
+<p>自动装配的核心是Spring Boot的启动器（starter），启动器是一组相关的依赖库，它们一起提供了一组常见的功能或者库的集合，例如Web应用启动器（spring-boot-starter-web）包含了常见的Web库和Tomcat嵌入式Web服务器，使开发者可以快速启动和开发Web应用程序。</p>
+<p>当一个启动器被引入到项目中时，它会触发自动配置过程，Spring Boot会根据约定自动装配相关的组件和配置，自动加载必要的依赖库，并配置必要的Bean，让开发者可以通过简单的配置和少量的代码快速搭建出一个功能齐全、运行稳定的Web应用程序。</p>
+<p>自动装配的实现依赖于Spring框架的依赖注入机制和BeanFactory，它们可以通过自动扫描和注入Bean实现应用程序的配置和装配。自动装配还可以通过条件注解、属性配置和自定义注解等方式进行更精细的控制和配置，以满足不同的需求和场景。</p>
+<h3 id="springboot的注解"><a href="#springboot的注解" class="headerlink" title="springboot的注解"></a>springboot的注解</h3><p>Spring Boot中常用的注解包括：</p>
+<ol>
+<li>@SpringBootApplication：Spring Boot应用程序的主注解，包含了@SpringBootConfiguration、@EnableAutoConfiguration和@ComponentScan三个注解。</li>
+<li>@RestController：用于标记一个类为控制器，同时其方法中的返回结果都是直接作为HTTP响应体的内容返回给客户端。</li>
+<li>@RequestMapping：用于映射HTTP请求的URL路径，可以在类级别和方法级别使用。</li>
+<li>@Autowired：自动装配，用于自动注入Bean。</li>
+<li>@Component：用于标记一个类为Spring的组件，通常与自动装配注解一起使用。</li>
+<li>@Value：用于注入配置文件中的属性值。</li>
+<li>@ConfigurationProperties：用于绑定配置文件中的属性值到Java对象的属性中。</li>
+<li>@EnableAutoConfiguration：启用Spring Boot的自动配置机制。</li>
+<li>@EnableConfigurationProperties：启用@ConfigurationProperties注解的属性配置功能。</li>
+<li>@ConditionalOnProperty：根据配置文件中的属性值来决定是否启用某个组件。</li>
+</ol>
+<h3 id="SpringBoot核心注解"><a href="#SpringBoot核心注解" class="headerlink" title="SpringBoot核心注解"></a><strong>SpringBoot核心注解</strong></h3><p>是哪个？它主要由哪几个注解组成的？<br>    1.启动类上面的注解是@SpringBootApplication，它也是 Spring Boot 的核心注解，主要组合包含 了以下 3 个注解： 							</p>
+<p>   1.@SpringBootConfiguration：组合了 @Configuration 注解，实现配置文件的功能。</p>
+<ol start="2">
+<li>@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项</li>
+<li>@ComponentScan：Spring组件扫描。</li>
+</ol>
+<h2 id="springCloud"><a href="#springCloud" class="headerlink" title="springCloud"></a>springCloud</h2><h3 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h3><p><img src="/jishu/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86-16825747883091.png" srcset="/img/loading.gif" lazyload alt="zookeeper实现分布式锁原理-16825747883091"></p>
+<h3 id="SpringBoot和SpringCloud的区别？"><a href="#SpringBoot和SpringCloud的区别？" class="headerlink" title="SpringBoot和SpringCloud的区别？"></a>SpringBoot和SpringCloud的区别？</h3><p>spring 跟 spring boot 都是 IOC 类型的框架，用于管理项目涉及到的所有的 bean  他俩的区别就是，boot 就是简化版本的 spring。</p>
+<p>具体简化体现在，例如：依赖简化：提供了各种 的 starter，配置文件的简化，体现在统一在 aplication.yml 进行配置，且会有一些默认配置。 提 供了自动装配的功能 SpringBoot 专注于快速、方便的开发单个微服务  spring cloud：是一个微服务框架，使用各种组件来完成服务间的统一的治理的技术 它跟 boot 的关系是依赖的关系，因为每个服务由 boot 开发，cloud 进行统一的管理，cloud 离不 开 boot 其前身是阿里巴巴公司开源的一个高性能、轻量级的开源 Java RPC 框架，可以和 Spring 框架无 缝集成</p>
+<p>SpringBoot专注于快速方便的开发单个个体微服务。<br>SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，<br>为各个微服务之间提供，配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等集成服务<br>SpringBoot可以离开SpringCloud独立使用开发项目， 但是SpringCloud离不开SpringBoot ，属于依赖的关系<br>SpringBoot专注于快速、方便的开发单个微服务个体，SpringCloud关注全局的服务治理框架。</p>
+<p><img src="/jishu/19112515_IV47.jpeg" srcset="/img/loading.gif" lazyload alt="19112515_IV47"></p>
+<h3 id="什么是微服务架构"><a href="#什么是微服务架构" class="headerlink" title="什么是微服务架构"></a>什么是微服务架构</h3><p>微服务架构就是将单体的应用程序分成多个应用程序，这多个应用程序就成为微服务，每个微服务运行在自己的进程中，并使用轻量级的机制通信。这些服务围绕业务能力来划分，并通过自动化部署机制来独立部署。这些服务可以使用不同的编程语言，不同数据库，以保证最低限度的集中式管理。</p>
+<h5 id="springCloud的优点"><a href="#springCloud的优点" class="headerlink" title="springCloud的优点"></a>springCloud的优点</h5><ol>
+<li>提高开发效率：Spring Cloud 提供了丰富的组件和工具，能够快速搭建分布式系统所需的各个服务，避免重复造轮子，从而提高开发效率。</li>
+<li>微服务架构：Spring Cloud 面向微服务架构设计，使得代码耦合度更低、逻辑更清晰，有利于服务的维护和升级。</li>
+<li>服务注册和发现：Spring Cloud 提供了 Eureka、Consul 等组件，可以方便地实现服务注册和发现，避免手动维护服务列表的麻烦。</li>
+<li>负载均衡：Spring Cloud 提供了 Ribbon 和 Zuul 等组件，可以实现自动化的负载均衡，提高系统的可用性和稳定性。</li>
+<li>配置管理：Spring Cloud Config 可以将应用程序的配置集中存储在远程仓库中，并根据需要自动刷新配置，减少配置管理的复杂性。</li>
+<li>断路器：Spring Cloud 提供了 Hystrix 等断路器组件，能够有效地控制故障对系统的影响，提高系统的可靠性。</li>
+<li>消息总线：Spring Cloud Bus 可以将分布式系统中的各个节点连接起来，通过消息总线实现统一的配置更新和通知。</li>
+</ol>
+<h3 id="OpenFeign的原理"><a href="#OpenFeign的原理" class="headerlink" title="OpenFeign的原理"></a>OpenFeign的原理</h3><p><strong>OpenFeign</strong>的原理是基于Java动态代理实现的。</p>
+<p>在使用OpenFeign时，您创建了一个接口，并使用Feign注解来描述该接口中的方法如何与远程服务交互。然后，<strong>OpenFeign</strong>使用Java动态代理来生成该接口的实现类。</p>
+<p>生成的实现类在运行时会将接口方法调用转换为HTTP请求并发送到远程服务，然后将响应转换回相应的Java对象并返回。这种动态代理的机制使得使用OpenFeign时的开发过程变得更加简单和易于维护，因为开发者只需要关注接口的定义和注解的使用，而不需要手动编写远程服务调用的代码。</p>
+<p>在底层，OpenFeign使用了其他一些库和技术来实现其远程调用的功能。例如，它使用了Netflix Ribbon来进行负载均衡，使用了Jackson或Gson来进行对象的序列化和反序列化等。但是，OpenFeign的核心思想是使用动态代理来简化远程服务的调用，并提供了一些注解和工具类来方便地管理和配置客户端的行为。</p>
+<h3 id="SpringCloud由什么组成"><a href="#SpringCloud由什么组成" class="headerlink" title="SpringCloud由什么组成"></a>SpringCloud由什么组成</h3><p>这就有很多了，我讲几个开发中最重要的<br>Spring Cloud Eureka：服务注册与发现<br>Spring Cloud Zuul：服务网关<br>Spring Cloud Ribbon：客户端负载均衡<br>Spring Cloud Feign：声明性的Web服务客户端<br>Spring Cloud Hystrix：断路器<br>Spring Cloud Confifig：分布式统一配置管理<br>等20几个框架，开源一直在更新</p>
+<h3 id="eureka和nacos和zookeeper都是基于那种理论实现的"><a href="#eureka和nacos和zookeeper都是基于那种理论实现的" class="headerlink" title="eureka和nacos和zookeeper都是基于那种理论实现的"></a>eureka和nacos和zookeeper都是基于那种理论实现的</h3><p>Eureka、Nacos和Zookeeper都是用于服务发现和注册的开源框架，它们可以用于构建分布式系统。下面是它们的作用及区别：</p>
+<p><strong>1.Eureka</strong></p>
+<p>Eureka是Netflix开源的一个RESTful服务，它主要用于服务的注册和发现。它提供了一个服务器端和一个客户端，客户端通过向服务器注册自己的地址和端口号，以及心跳等信息，让服务器维护服务列表，并实现负载均衡和故障转移。</p>
+<p><strong>2.Nacos</strong></p>
+<p>Nacos是阿里巴巴开源的一个动态服务发现、配置和服务管理平台，它支持多种服务发现协议和服务注册方式。Nacos提供了服务注册、配置管理、服务发现、流量管理、DNS服务等功能，它还支持多数据中心和多环境部署，可以满足企业级微服务架构的需求。</p>
+<p><strong>3.Zookeeper</strong></p>
+<p>Zookeeper是Apache开源的一个分布式协调服务，它提供了一个分布式的、高可用的、有序的节点存储服务。Zookeeper主要用于解决分布式系统中的一致性问题，比如分布式锁、分布式队列等。在服务发现中，Zookeeper可以作为服务注册中心，提供服务注册和发现的功能。</p>
+<p>区别：</p>
+<p><strong>1.功能差异</strong></p>
+<p>Eureka和Nacos都是专门用于服务发现和注册的框架，而Zookeeper主要是用于分布式系统中的一致性问题，虽然Zookeeper也可以作为服务注册中心，但是在服务发现的功能上相比Eureka和Nacos要弱一些。</p>
+<p><strong>2.技术特点</strong></p>
+<p>Eureka使用的是Netflix开源的基于AP模型的CAP定理实现的协议，它强调可用性，即在分布式环境中，系统的一部分节点故障不会影响整个系统的可用性。</p>
+<p>Nacos使用的是阿里巴巴开源的基于CP模型的CAP定理实现的协议，它强调一致性，即在分布式环境中，系统的所有节点的数据是一致的。</p>
+<p>Zookeeper使用的是Apache开源的基于CP模型的ZAB协议实现的一致性协议，它强调一致性和可用性，即在分布式环境中，系统的所有节点的数据是一致的，并且节点之间的通信是高可用的。</p>
+<p>总的来说，不同的分布式系统中的一致性协议选择不同的理论模型，以满足不同的应用需求和性能要求。</p>
+<p><strong>3.生态支持</strong></p>
+<p>由于Eureka和Nacos都是比较新的框架，所以它们的生态系统相对较小，社区支持相对较弱。而Zookeeper则是比较成熟的框架，已经有很多使用经验和成熟的生态系统。</p>
+<h2 id="分布式和集群联系和区别"><a href="#分布式和集群联系和区别" class="headerlink" title="分布式和集群联系和区别"></a><strong>分布式和集群联系和区别</strong></h2><p>区别：集群是相当于一个存储数据的地方  而分布式就是就是一直工作的方式</p>
+<p>相似点 就是集群只要布置在不同的服务器上或者不同的机器上就可以称为集群</p>
+<p>分布式一个程序运行在不同的机器上就可以称为分布式</p>
+<p>联系：集群可能运行在一个或多个分布式系统，也可能根本没有运行分布式系统；分布式系统可能运行在一个集群上，也可能运行在不属于一个集群的多台（2台也算多台）机器上。</p>
+<h2 id="mq消息"><a href="#mq消息" class="headerlink" title="mq消息"></a>mq消息</h2><p>项目中用到mq的场景比较多，比如：短信验证码的发送，邮件通知，服务之间的异步调用，他能极大的提高系统的吞吐量，接口的响应时间，他能起到解耦的作用；我们现在都是微服务的方式去开发的，我们项目中有短信服务，邮件服务，业务的各种微服务，微服务的特点就是：高内聚，低耦合，服务之间通过接口去调用，通过mq起到一个异步、解耦的作用。Mq还可以缓冲请求，把请求压到mq队列，起到流量消峰的作用。</p>
+<h3 id="1、消息队列的优点？"><a href="#1、消息队列的优点？" class="headerlink" title="1、消息队列的优点？"></a>1、消息队列的优点？</h3><p><strong>（1）解耦：</strong>将系统按照不同的业务功能拆分出来，消息生产者只管把消息发布到 MQ 中而不用管谁来取，消息消费者只管从 MQ 中取消息而不管是谁发布的。消息生产者和消费者都不知道对方的存在；</p>
+<p><strong>（2）异步：</strong>主流程只需要完成业务的核心功能；对于业务非核心功能，将消息放入到消息队列之中进行异步处理，减少请求的等待，提高系统的总体性能；</p>
+<p><strong>（3）削峰&#x2F;限流：</strong>将所有请求都写到消息队列中，消费服务器按照自身能够处理的请求数从队列中拿到请求，防止请求并发过高将系统搞崩溃； 缺点就是系统复杂度提高、系统可用性降低（如果mq挂掉会导致整个系统崩溃）、数据一致性问题。</p>
+<p>RabbitMQ 是一个消息代理，这意味着它充当需要相互通信的不同应用程序或服务之间的中介</p>
+<p>在 RabbitMQ 中，消息由生产者发送，由消费者接收。生产者创建消息并将其发布到交易所，这是消息进入代理的入口点。消费者订阅绑定到交易所的队列，并从它们接收消息。</p>
+<p>RabbitMQ 支持各种消息传递协议，包括 AMQP、MQTT 和 STOMP。它还提供消息路由、消息确认和消息持久性等功能。</p>
+<p>总体而言，RabbitMQ 是一个功能强大且流行的消息代理，它使分布式系统能够高效可靠地相互通信。</p>
+<p><img src="/jishu/image-20230420080657067.png" srcset="/img/loading.gif" lazyload alt="循环依赖"></p>
+<h3 id="2、如何设计一个消息队列"><a href="#2、如何设计一个消息队列" class="headerlink" title="2、如何设计一个消息队列"></a>2、如何设计一个消息队列</h3><p>比如说这个消息队列系统，我们从以下几个角度来考虑一下：</p>
+<ul>
+<li>首先这个 mq 得支持可伸缩性吧，就是需要的时候快速扩容，就可以增加吞吐量和容量，设计个分布式的系统，参照一下 kafka 的设计理念，broker -&gt; topic -&gt; partition，每个 partition 放一个机器，就存一部分数据。如果现在资源不够了，可以给 topic 增加 partition，然后做数据迁移，增加机器，这样就可以存放更多的数据，提升他的吞吐量</li>
+<li>其次的话，这个 mq 的数据要落地磁盘，落磁盘才能保证别进程挂了数据就丢了。通过顺序写，这样就没有磁盘随机读写的寻址开销，磁盘顺序读写的性能是很高的，这是通过 kafka 的架构 想的思路。</li>
+<li>其次你考虑一下你的 mq 的可用性，这个事儿，具体参考之前可用性那个环节讲解的 kafka 的高可用保障机制。多副本 -&gt; leader &amp; follower -&gt; broker 挂了重新选举 leader 即可对外服务。</li>
+<li>支持数据 0 丢失，根据那个 kafka 数据零丢失方案。</li>
+</ul>
+<p>mq 肯定是很复杂的，面试官问你这个问题，其实是个开放题，他就是看看你有没有从架构角度整体构思和设计的思维以及能力。</p>
+<h3 id="3、镜像集群模式（高可用性）"><a href="#3、镜像集群模式（高可用性）" class="headerlink" title="3、镜像集群模式（高可用性）"></a>3、镜像集群模式（高可用性）</h3><p>这种模式，才是所谓的 RabbitMQ 的高可用模式。跟普通集群模式不一样的是，在镜像集群模式下，你创建的 queue，无论是元数据还是 queue 里的消息都会<strong>存在于多个实例上</strong>，就是说，每个 RabbitMQ 节点都有这个 queue 的一个<strong>完整镜像</strong>，包含 queue 的全部数据的意思。然后每次你写消息到 queue 的时候，都会自动把<strong>消息同步</strong>到多个实例的 queue 上。</p>
+<p><img src="/jishu/mq-8.png" srcset="/img/loading.gif" lazyload alt="mq-8"></p>
+<p>那么<strong>如何开启这个镜像集群模式</strong>呢？其实很简单，RabbitMQ 有很好的管理控制台，就是在后台新增一个策略，这个策略是<strong>镜像集群模式的策略</strong>，指定的时候是可以要求数据同步到所有节点的，也可以要求同步到指定数量的节点，再次创建 queue 的时候，应用这个策略，就会自动将数据同步到其他的节点上去了。</p>
+<p>这样的话，好处在于，你任何一个机器宕机了，没事儿，其它机器（节点）还包含了这个 queue 的完整数据，别的 consumer 都可以到其它节点上去消费数据。坏处在于，第一，这个性能开销也太大了吧，消息需要同步到所有机器上，导致网络带宽压力和消耗很重！第二，这么玩儿，不是分布式的，就<strong>没有扩展性可言</strong>了，如果某个 queue 负载很重，你加机器，新增的机器也包含了这个 queue 的所有数据，并<strong>没有办法线性扩展</strong>你的 queue。</p>
+<h3 id="4、重复消费"><a href="#4、重复消费" class="headerlink" title="4、重复消费"></a>4、重复消费</h3><p>通俗点说，就一个数据，或者一个请求，给你重复来多次，你得确保对应的数据是不会改变的，<strong>不能出错</strong>。</p>
+<p>就是要保持他的幂等性</p>
+<p>所以第二个问题来了，怎么保证消息队列消费的幂等性？</p>
+<p>其实还是得结合业务来思考，我这里给几个思路：</p>
+<ul>
+<li>比如你拿个数据要写库，你先根据主键查一下，如果这数据都有了，你就别插入了，update 一下好吧。</li>
+<li>比如你是写 Redis，那没问题了，反正每次都是 set，天然幂等性。</li>
+<li>比如你不是上面两个场景，那做的稍微复杂一点，你需要让生产者发送每条数据的时候，里面加一个全局唯一的 id，类似订单 id 之类的东西，然后你这里消费到了之后，先根据这个 id 去比如 Redis 里查一下，之前消费过吗？如果没有消费过，你就处理，然后这个 id 写 Redis。如果消费过了，那你就别处理了，保证别重复处理相同的消息即可。</li>
+<li>比如基于数据库的唯一键来保证重复数据不会重复插入多条。因为有唯一键约束了，重复数据插入只会报错，不会导致数据库中出现脏数据。</li>
+</ul>
+<p>消息进入消息队列之后被消费者消费多次的情况。我们是通过redis 的setnx命令解决的重复消费的问题，我们发送消息的时候有个唯一的消息id，消息消费的时候通过setnx命令来拦截消息，一般设置过期时间是24小时或者更多。</p>
+<p><strong>消息堆积</strong></p>
+<p>消息堆积是指由于消息消费能力不足或消费者处理消息的速度过慢，导致消息在消息队列中积压过多，从而影响系统的稳定性和性能。</p>
+<p>消息堆积<strong>出现的原因</strong>主要有以下几点：</p>
+<ul>
+<li>消费者处理消息的能力不足，无法及时消费消息。</li>
+<li>消息队列本身的容量不足，无法承载大量的消息。</li>
+<li>消息生产者的产生速度过快，超过了消息消费者的处理速度。</li>
+</ul>
+<p>针对消息堆积问题，可以考虑以下几种<strong>解决思路</strong>：</p>
+<ul>
+<li>增加消费者数量：增加消费者数量可以提高消息消费的速度，从而缓解消息堆积的问题。</li>
+<li>提高消费者处理消息的能力：可以通过优化消费者代码或增加消费者处理的资源，提高消费者处理消息的能力，从而缓解消息堆积的问题。</li>
+<li>增加消息队列的容量：可以通过增加消息队列的容量，扩大消息队列的承载能力，从而缓解消息堆积的问题。</li>
+<li>优化消息生产者的产生速度：可以通过限制消息生产者的产生速度，避免消息生产者过快产生消息，从而降低消息堆积的风险。</li>
+</ul>
+<p>需要注意的是，对于消息堆积问题，还需要做好监控和预警工作，及时发现并解决问题，保证系统的稳定性和性能。</p>
+<h3 id="5、Rabbitmq的消息机制（交换机）"><a href="#5、Rabbitmq的消息机制（交换机）" class="headerlink" title="5、Rabbitmq的消息机制（交换机）"></a>5、Rabbitmq的消息机制（交换机）</h3><p>有生产者、消费者还有交换机和队列，当生产者发送消息的时候先发送给交换机，交换机路由到队列，然后由消费者去消费消息；</p>
+<p><strong>直连交换机</strong>：发送的路由key和绑定的路由key严格匹配才会路由到对应的队列。</p>
+<p><strong>扇形交换机</strong>：他和路由key没有关系哪个队列跟它关联，它就会发送到对应的队列，其实就是一个订阅模式。</p>
+<p><strong>主题交换机</strong>：支持 * # ，在交换机和队列绑定的时候路由key支持模糊匹配 * 匹配一个 #匹配零个或多个。</p>
+<p>*（星号）可以替代一个单词。</p>
+<p>＃（hash）可以替换零个或多个单词。</p>
+<p>我们在项目中使用直连的还有扇形的比较多，特别是扇形的交换机可以帮助我们项目解耦，使用特别方便。</p>
+<h3 id="6、RabbitMQ保证顺序性"><a href="#6、RabbitMQ保证顺序性" class="headerlink" title="6、RabbitMQ保证顺序性"></a>6、RabbitMQ保证顺序性</h3><p>拆分多个 queue，每个 queue 一个 consumer，就是多一些 queue 而已，确实是麻烦点，这样也会造成吞吐量下降，可以在消费者内部采用多线程的方式取消费。</p>
+<p><img src="/jishu/rabbitmq-order-02.png" srcset="/img/loading.gif" lazyload alt="rabbitmq-order-02"></p>
+<p>或者就一个 queue 但是对应一个 consumer，然后这个 consumer 内部用内存队列做排队，然后分发给底层不同的 worker 来处理。</p>
+<p>注意，这里消费者不直接消费消息，而是将消息根据关键值（比如：订单 id）进行哈希，哈希值相同的消息保存到相同的内存队列里。也就是说，需要保证顺序的消息存到了相同的内存队列，然后由一个唯一的 worker 去处理。</p>
+<h3 id="7、大量消息在-mq-里积压了几个小时了还没解决"><a href="#7、大量消息在-mq-里积压了几个小时了还没解决" class="headerlink" title="7、大量消息在 mq 里积压了几个小时了还没解决"></a>7、大量消息在 mq 里积压了几个小时了还没解决</h3><p>这个是我们真实遇到过的一个场景，确实是线上故障了，这个时候要不然就是修复 consumer 的问题，让它恢复消费速度，</p>
+<p>一个消费者一秒是 1000 条，一秒 3 个消费者是 3000 条，一分钟就是 18 万条。所以如果你积压了几百万到上千万的数据，即使消费者恢复了，也需要大概 1 小时的时间才能恢复过来。</p>
+<p><strong>一般这个时候，只能临时紧急扩容了，</strong>具体操作步骤和思路如下：</p>
+<ul>
+<li>先修复 consumer 的问题，确保其恢复消费速度，然后将现有 consumer 都停掉。</li>
+<li>新建一个 topic，partition 是原来的 10 倍，临时建立好原先 10 倍的 queue 数量。</li>
+<li>然后写一个临时的分发数据的 consumer 程序，这个程序部署上去消费积压的数据，<strong>消费之后不做耗时的处理</strong>，直接均匀轮询写入临时建立好的 10 倍数量的 queue。</li>
+<li>接着临时征用 10 倍的机器来部署 consumer，每一批 consumer 消费一个临时 queue 的数据。这种做法相当于是临时将 queue 资源和 consumer 资源扩大 10 倍，以正常的 10 倍速度来消费数据。</li>
+<li>等快速消费完积压数据之后，<strong>得恢复原先部署的架构</strong>，<strong>重新</strong>用原先的 consumer 机器来消费消息。</li>
+</ul>
+<h3 id="7-1消息积压？"><a href="#7-1消息积压？" class="headerlink" title="7-1消息积压？"></a>7-1消息积压？</h3><p>消息中间件的消息积压是指在消息队列中，未被消费者及时处理的消息数量。如果消息积压过多，可能会导致系统的延迟和性能下降。为了避免消息积压，需要进行以下优化：</p>
+<ul>
+<li>增加消费者：增加消费者可以提高消息的处理速度和并发能力，减少消息积压。</li>
+<li>增加队列容量：增加队列容量可以缓解消息积压的情况，提高系统的可靠性和性能。</li>
+<li>调整消息消费速度：根据消息队列的负载情况，动态调整消息的消费速度，避免消息积压。</li>
+</ul>
+<h3 id="7-2消息堆积？"><a href="#7-2消息堆积？" class="headerlink" title="7-2消息堆积？"></a>7-2消息堆积？</h3><p>消息中间件的消息堆积是指在消息队列中，未被及时处理的消息积累到一定数量或时间，导致系统的性能下降和可用性降低的情况。消息堆积可能是由于系统资源不足、消费者处理速度不足、消息重试机制不合理等原因引起的。为了避免消息堆积，可以采取以下优化措施：</p>
+<ul>
+<li>设置消息过期时间：设置消息的过期时间，可以避免消息在队列中积压过久，浪费系统资源。</li>
+<li>调整消息处理速度：根据消息队列的负载情况，动态调整消息的处理速度，避免消息堆积。</li>
+<li>定期清理消息队列：定期清理消息队列中过期或已被处理的消息，释放系统资源。</li>
+</ul>
+<h3 id="8、消息中间件的优缺点是什么？"><a href="#8、消息中间件的优缺点是什么？" class="headerlink" title="8、消息中间件的优缺点是什么？"></a>8、消息中间件的优缺点是什么？</h3><p><strong>优点：</strong></p>
+<p>一</p>
+<ul>
+<li>解耦应用程序之间的通信</li>
+<li>提供可靠的消息传递机制</li>
+<li>支持异步消息传递，提高应用程序的性能和吞吐量</li>
+<li>支持水平扩展，以应对大量消息的处理</li>
+</ul>
+<p>二</p>
+<ul>
+<li><strong>松耦合</strong>：消息中间件可以解耦消息的生产和消费方，提高系统的灵活性和可维护性。</li>
+<li><strong>异步通信</strong>：消息中间件可以采用异步通信模式，提高系统的并发性和吞吐量。</li>
+<li><strong>可靠性</strong>：消息中间件可以提供消息的持久化、消息重试等机制，保证消息的可靠传输。</li>
+<li><strong>扩展性</strong>：消息中间件可以水平扩展，提高系统的可扩展性和负载均衡能力。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<p>一</p>
+<ul>
+<li>引入了额外的复杂性</li>
+<li>可能会导致消息丢失或重复</li>
+<li>需要对消息进行序列化和反序列化，影响性能</li>
+<li>需要考虑一些安全和稳定性问题，如消息队列的权限控制和消息堆栈的管理</li>
+</ul>
+<p>二</p>
+<ul>
+<li><strong>复杂性</strong>：消息中间件的实现和部署需要一定的技术和资源投入，增加了系统的复杂性和成本。</li>
+<li><strong>性能损耗</strong>：消息中间件的处理过程涉及网络传输、序列化、反序列化等多个步骤，会带来一定的性能损耗。</li>
+<li><strong>可能存在单点故障</strong>：如果消息中间件的部署不合理或者存在单点故障，可能会导致整个系统的崩溃或者消息的丢失。</li>
+<li><strong>数据一致性问题</strong>：如果消息中间件的设计不合理或者部署不当，可能会导致数据的不一致性和并发冲突等问题。</li>
+</ul>
+<h3 id="9、发布-订阅模式、点对点、异步消息与同步消息的传递"><a href="#9、发布-订阅模式、点对点、异步消息与同步消息的传递" class="headerlink" title="9、发布-订阅模式、点对点、异步消息与同步消息的传递"></a>9、发布-订阅模式、点对点、异步消息与同步消息的传递</h3><p><strong>什么是发布-订阅模式？</strong></p>
+<p>发布-订阅模式是一种消息传递模式，其中生产者将消息发布到主题（Topic）中，而消费者通过订阅主题来接收这些消息。发布-订阅模式可以实现消息的广播和多播，支持一对多和多对多的消息传递。</p>
+<p><strong>什么是点对点模式？</strong></p>
+<p>点对点模式是一种消息传递模式，其中生产者将消息发送到队列中，而消费者从队列中接收这些消息。每条消息只能被一个消费者接收，这种模式适用于需要对消息进行精确控制的应用程序。</p>
+<p><strong>什么是异步消息传递？</strong></p>
+<p>异步消息传递是一种消息传递模式，其中生产者将消息发送到消息队列中，而不需要等待消费者处理完这些消息。这种模式可以提高应用程序的性能和吞吐量，特别是在处理大量消息时。</p>
+<p><strong>什么是同步消息传递？</strong></p>
+<p>同步消息传递是一种消息传递模式，其中生产者需要等待消费者处理完这些消息，然后才能继续进行操作。这种模式适用于需要保证消息处理的顺序和完整性的应用程序。</p>
+<p><strong>什么是消息分区？</strong></p>
+<p>消息分区是一种将消息分发到多个消息队列中的机制，以实现消息的负载均衡和扩展性。消息分区可以基于不同的策略，如哈希函数、轮询和随机选择等。</p>
+<h3 id="10、消息中间件如何保证消息传递的可靠性？"><a href="#10、消息中间件如何保证消息传递的可靠性？" class="headerlink" title="10、消息中间件如何保证消息传递的可靠性？"></a>10、消息中间件如何保证消息传递的可靠性？</h3><p>消息中间件可以采用以下一些机制来保证消息传递的可靠性：</p>
+<ul>
+<li>消息确认机制：生产者发送消息后，需要等待消费者的确认消息，以确保消息已经被成功处理。</li>
+<li>消息重试机制：当消息处理失败时，消息中间件可以自动重试发送消息，直到消息被成功处理或达到最大重试次数。</li>
+<li>消息持久化机制：消息中间件可以将消息存储在磁盘或其他存储设备中，以确保即使在发生故障时也不会丢失消息。</li>
+<li>高可用性机制：消息中间件可以采用主从架构或分布式架构，以确保在故障时仍然能够提供可靠的消息传递服务。</li>
+</ul>
+<h3 id="10-1、如何保证消息中间件的可靠性？"><a href="#10-1、如何保证消息中间件的可靠性？" class="headerlink" title="10-1、如何保证消息中间件的可靠性？"></a>10-1、如何保证消息中间件的可靠性？</h3><p>保证消息中间件的可靠性需要从多个方面入手，包括<strong>消息的生产、传输</strong>和<strong>消费</strong>等环节。以下是保证消息中间件可靠性的一些常见措施：</p>
+<ul>
+<li>消息生产方面：采用消息幂等性、消息重试、消息持久化等技术，确保消息不会重复发送或丢失。</li>
+<li>消息传输方面：采用传输加密、认证等技术，确保消息传输的安全性。同时，采用流量控制、限流等技术，避免过度压缩消息队列，导致性能下降和系统崩溃。</li>
+<li>消息消费方面：采用消息消费确认、消息重试等技术，确保消息被成功消费。同时，为避免消息消费方的延迟或故障导致的消息丢失，应该采用消息的定期检查、消息超时设置等技术。</li>
+</ul>
+<h3 id="11、处理消息中间件中的错误？"><a href="#11、处理消息中间件中的错误？" class="headerlink" title="11、处理消息中间件中的错误？"></a>11、处理消息中间件中的错误？</h3><p>处理消息中间件中的错误通常需要采取以下一些措施：</p>
+<p><strong>监控和日志记录：</strong>消息中间件应该提供监控和日志记录机制，以便管理员可以及时发现和解决错误。</p>
+<p><strong>消息重试机制</strong>：当消息处理失败时，可以自动重试发送消息，直到消息被成功处理或达到最大重试次数。</p>
+<p><strong>消息回滚机制</strong>：当消息处理失败时，可以将消息回</p>
+<p><strong>滚到消息队列中</strong>，并通知管理员进行手动处理。</p>
+<p><strong>消息过期机制</strong>：可以为消息设置过期时间，在超过该时间后自动将消息丢弃。</p>
+<p><strong>队列限流机制</strong>：可以限制每个消费者每秒钟可以处理的消息数量，以防止消费者过载而导致错误。</p>
+<h3 id="12、分布式事务？"><a href="#12、分布式事务？" class="headerlink" title="12、分布式事务？"></a>12、分布式事务？</h3><p>分布式事务是指在分布式系统中，通过协调多个事务参与者的操作，保证一组操作要么全部提交成功，要么全部失败回滚的过程。在消息中间件中，分布式事务可以保证消息的原子性、一致性、隔离性和持久性。常用的分布式事务协议包括XA协议、TCC协议、SAGA协议等。这些协议都是基于消息中间件实现的，可以提供分布式事务的可靠性和可扩展性。</p>
+<h3 id="13、负载均衡？"><a href="#13、负载均衡？" class="headerlink" title="13、负载均衡？"></a>13、负载均衡？</h3><p>消息中间件的负载均衡是指将消息平均地分配到多个节点或服务器上，以提高系统的可扩展性和可靠性。在消息中间件中，负载均衡通常基于以下两种方式：</p>
+<ul>
+<li>消息分区：将消息队列分为多个分区，每个分区由一个节点或服务器负责处理。通过消息分区可以实现消息的水平</li>
+<li>扩展和负载均衡。</li>
+<li>消息路由：将消息路由到多个节点或服务器上，每个节点或服务器负责处理一部分消息。通过消息路由可以实现消息的垂直扩展和负载均衡。</li>
+</ul>
+<p>常用的负载均衡算法包括轮询算法、加权轮询算法、随机算法、最少连接算法等。这些算法可以根据不同的负载情况，自动调整消息的路由和分配策略，以保证系统的高可用性和高性能。</p>
+<h3 id="14、消息中间件的分布式事务？"><a href="#14、消息中间件的分布式事务？" class="headerlink" title="14、消息中间件的分布式事务？"></a>14、消息中间件的分布式事务？</h3><p>分布式事务是指在分布式系统中，跨多个节点或服务器的事务处理过程。消息中间件的分布式事务可以帮助实现数据的一致性和可靠性。常见的分布式事务处理方案包括两阶段提交和补偿性事务。</p>
+<p>两阶段提交是指在分布式系统中，通过协调者节点和参与者节点的协作，实现分布式事务的提交或回滚。在两阶段提交过程中，协调者节点负责协调事务的提交或回滚，参与者节点负责实际执行事务操作。</p>
+<p>补偿性事务是指在分布式系统中，通过在操作前记录操作日志，并在操作失败后进行回滚或者补偿操作，实现数据的一致性和可靠性。</p>
+<h3 id="15、如何选择合适的消息中间件？"><a href="#15、如何选择合适的消息中间件？" class="headerlink" title="15、如何选择合适的消息中间件？"></a>15、如何选择合适的消息中间件？</h3><p>选择合适的消息中间件需要考虑多个因素，包括<strong>性能、可靠性、扩展性、安全性、成本</strong>等。以下是选择消息中间件的一些关键考虑因素：</p>
+<ul>
+<li>性能：消息中间件的性能是影响系统性能和响应时间的重要因素。需要选择具有高吞吐量和低延迟的消息中间件。</li>
+<li>可靠性：消息中间件需要具有高可靠性和高可用性，能够保证消息不会丢失或重复发送。需要选择具有消息重试、消息幂等性、消息持久化等功能的消息中间件。</li>
+<li>扩展性：消息中间件需要支持水平扩展和负载均衡，能够满足系统的快速增长和变化。需要选择具有高扩展性和负载均衡功能的消息中间件。</li>
+<li>安全性：消息中间件需要具有安全认证、加密传输等功能，能够保证数据的机密性和完整性。需要选择具有安全性功能的消息中间件。</li>
+<li>成本：消息中间件需要考虑到系统成本和资源占用。需要选择成本适中、资源占用低的消息中间件</li>
+</ul>
+<h3 id="16、如何优化消息中间件的性能？"><a href="#16、如何优化消息中间件的性能？" class="headerlink" title="16、如何优化消息中间件的性能？"></a>16、如何优化消息中间件的性能？</h3><p>优化消息中间件的性能需要考虑到多个方面，包括消息队列的设计、网络传输的优化、消息处理的并发控制等。以下是一些常见的优化措施：</p>
+<ul>
+<li><strong>设计合理的消息队列结构</strong>：采用消息分区、消息分片等技术，避免消息堆积和传输阻塞。同时，采用消息索引、消息排序等技术，提高消息的处理效率。</li>
+<li><strong>网络传输优化</strong>：采用零拷贝技术、多线程传输等技术，提高网络传输的效率。同时，采用传输压缩、传输加密等技术，提高网络传输的安全性。</li>
+<li><strong>并发控制优化</strong>：采用多线程、多进程、分布式部署等技术，提高消息的并发处理能力。同时，采用消息池、资源池等技术，减少资源的占用，提高系统的处理效率。</li>
+</ul>
+<h3 id="17、消息中间件和数据库有什么区别？"><a href="#17、消息中间件和数据库有什么区别？" class="headerlink" title="17、消息中间件和数据库有什么区别？"></a>17、消息中间件和数据库有什么区别？</h3><p>消息中间件和数据库都是常见的数据存储和处理技术，它们的主要区别包括：</p>
+<ul>
+<li><strong>功能</strong>：消息中间件主要用于消息的生产、传输和消费等功能，可以实现不同系统之间的异步通信。而数据库则主要用于数据的存储、查询和管理等功能。</li>
+<li><strong>应用场景</strong>：消息中间件主要应用于需要异步通信和解耦的场景，如分布式系统、微服务架构等。而数据库则主要应用于数据的存储和查询等场景，如电商、社交网络等。</li>
+<li><strong>性能</strong>：消息中间件一般要求高并发、低延迟和高可靠性等特性，而数据库则更注重数据的一致性、可靠性和安全性等特性。</li>
+<li><strong>数据结构</strong>：消息中间件通常采用队列、主题等数据结构，而数据库则支持更多的数据结构和查询操作。</li>
+</ul>
+<p>综上所述，消息中间件和数据库虽然有一些相似之处，但是它们的功能和应用场景有很大的差异，需要根据实际的业务需求和系统架构来进行选择和使用。</p>
+<h2 id="ES"><a href="#ES" class="headerlink" title="ES"></a>ES</h2><p><strong>介绍：</strong></p>
+<p>Es是一个企业级的搜索服务，大量的应用在项目中，他提供了restful和tcp的接口供客户端使用；他是基于Lucene开发的，lucene其实是一个工具包，由于搜索业务通用性强，所以出现了solr、es这样的通用搜索服务。</p>
+<p><strong>应用场景：</strong></p>
+<p>搜索体验、搜索性能 对标mysql，对mysql大数据量查询的补充，es是支持天然集群的</p>
+<p>财务报表、商品搜索、旅游线路</p>
+<h3 id="Es的分布式架构："><a href="#Es的分布式架构：" class="headerlink" title="Es的分布式架构："></a>Es的分布式架构：</h3><p>ElasticSearch 设计的理念就是分布式搜索引擎，底层其实还是基于 lucene 的。核心思想就是在多台机器上启动多个 ES 进程实例，组成了一个 ES 集群。</p>
+<p>ES 中存储数据的<strong>基本单位是索引</strong>，比如说你现在要在 ES 中存储一些订单数据，你就应该在 ES 中创建一个索引 <code>order_idx</code> ，所有的订单数据就都写到这个索引里面去，一个索引差不多就是相当于是 mysql 里的一张表。</p>
+<p><strong>数据组织结构如下：</strong></p>
+<p>在Elasticsearch中，数据存储的基本单元是文档（document）。每个文档都包含了一个或多个字段（field），用于描述该文档的内容。文档按照类型（type）进行组织，而类型则属于一个索引（index）。</p>
+<p>需要注意的是，从<strong>Elasticsearch 7.0</strong>版本开始，<strong>Type</strong>已经被废弃，建议将Type改为在Index中使用Fields来分类。因此，新的索引可以直接包含多个Fields，而不需要再定义Type。</p>
+<h3 id="es-写数据过程"><a href="#es-写数据过程" class="headerlink" title="es 写数据过程"></a>es 写数据过程</h3><ul>
+<li>客户端选择一个 node（节点） 发送请求过去，这个 node 就是 <code>coordinating node</code> （协调节点）。</li>
+<li><code>coordinating node</code> 对 document 进行<strong>路由</strong>，将请求转发给对应的 node（有 primary shard）。</li>
+<li>实际的 node 上的 <code>primary shard</code> 处理请求，然后将数据同步到 <code>replica node</code> 。</li>
+<li><code>coordinating node</code> 如果发现 <code>primary node</code> 和所有 <code>replica node</code> 都搞定之后，就返回响应结果给客户端。</li>
+</ul>
+<h3 id="Es集群的分片和副本："><a href="#Es集群的分片和副本：" class="headerlink" title="Es集群的分片和副本："></a>Es集群的分片和副本：</h3><p>一般是有3个集群节点，三个分片，数据分片存储，三个分片存储在三个节点上，每个分片的副本在其他的两个节点上都有，也就是在任意一个节点上都能查到es的所有数据</p>
+<p>在存储数据的时候，可以把请求发送到任意一个结点上，结点会把请求发送给主节点，主节点处理请求，然后写主分片，同步副本</p>
+<p>在查询数据的时候，可以发送到任意一个结点上，结点查询分片中的数据，聚合分片数据，进行排序、分页等</p>
+<p>集群中分片数量并不是越多越好，如果分片太多的话，查询性能会出现问题</p>
+<p><img src="/jishu/wps85.jpg" srcset="/img/loading.gif" lazyload alt="wps85"></p>
+<h3 id="倒排索引（正排索引）："><a href="#倒排索引（正排索引）：" class="headerlink" title="倒排索引（正排索引）："></a>倒排索引（正排索引）：</h3><p>其实就是词和文档建立了关系，形成了一个倒排表，当我们向索引库添加一个文档的时候，首先对文档进行分词，然后词和文档建立关系，我们搜索的时候是通过词直接定位到文档，不需要像正排索引那样逐篇文档扫描，这就是es快的原因。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><h3 id="多线程的实现方法"><a href="#多线程的实现方法" class="headerlink" title="多线程的实现方法"></a>多线程的实现方法</h3><p>\1. 继承<strong>Thread</strong>类</p>
+<p>\2. 实现<strong>Runnable</strong>接口</p>
+<p>\3. 实现<strong>Callable</strong>接口</p>
+<p>其实<strong>Thread</strong>类是实现了<strong>Runnable</strong>接口，提供接口主要是为了代码的可重用性</p>
+<p>Callable接口有返回值，返回值可以通过泛型指定。</p>
+<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><h4 id="什么是线程池？"><a href="#什么是线程池？" class="headerlink" title="什么是线程池？"></a>什么是线程池？</h4><p>线程池（ThreadPool）是一种基于池化思想管理和使用线程的机制。它是将多个线程预先存储在一个“池子”内，当有任务出现时可以避免重新创建和销毁线程所带来性能开销，只需要从“池子”内取出相应的线程执行对应的任务即可。</p>
+<p>池化思想在计算机的应用也比较广泛，比如以下这些：</p>
+<ul>
+<li>内存池(Memory Pooling)：预先申请内存，提升申请内存速度，减少内存碎片。</li>
+<li>连接池(Connection Pooling)：预先申请数据库连接，提升申请连接的速度，降低系统的开销。</li>
+<li>实例池(Object Pooling)：循环使用对象，减少资源在初始化和释放时的昂贵损耗。</li>
+</ul>
+<p>线程池的优势主要体现在以下 4 点：</p>
+<ol>
+<li><strong>降低资源消耗</strong>：通过池化技术重复利用已创建的线程，降低线程创建和销毁造成的损耗。</li>
+<li><strong>提高响应速度</strong>：任务到达时，无需等待线程创建即可立即执行。</li>
+<li><strong>提高线程的可管理性</strong>：线程是稀缺资源，如果无限制创建，不仅会消耗系统资源，还会因为线程的不合理分布导致资源调度失衡，降低系统的稳定性。使用线程池可以进行统一的分配、调优和监控。</li>
+<li><strong>提供更多更强大的功能</strong>：线程池具备可拓展性，允许开发人员向其中增加更多的功能。比如延时定时线程池ScheduledThreadPoolExecutor，就允许任务延期执行或定期执行。</li>
+</ol>
+<h4 id="线程池使用"><a href="#线程池使用" class="headerlink" title="线程池使用"></a>线程池使用</h4><p>线程池的创建方法总共有 7 种，但总体来说可分为 2 类：</p>
+<ul>
+<li>一类是通过 <code>ThreadPoolExecutor</code> 创建的线程池；</li>
+<li>另一个类是通过 <code>Executors</code> 创建的线程池。</li>
+</ul>
+<p><img src="/../jishu/image-20230511143007201.png" srcset="/img/loading.gif" lazyload alt="image-20230511143007201"></p>
+<p>线程池的创建方式总共包含以下 7 种（其中 6 种是通过 <code>Executors</code> 创建的，1 种是通过 <code>ThreadPoolExecutor</code> 创建的）：</p>
+<ol>
+<li>Executors.newFixedThreadPool：创建一个固定大小的线程池，可控制并发的线程数，超出的线程会在队列中等待；</li>
+<li>Executors.newCachedThreadPool：创建一个可缓存的线程池，若线程数超过处理所需，缓存一段时间后会回收，若线程数不够，则新建线程；</li>
+<li>Executors.newSingleThreadExecutor：创建单个线程数的线程池，它可以保证先进先出的执行顺序；</li>
+<li>Executors.newScheduledThreadPool：创建一个可以执行延迟任务的线程池；</li>
+<li>Executors.newSingleThreadScheduledExecutor：创建一个单线程的可以执行延迟任务的线程池；</li>
+<li>Executors.newWorkStealingPool：创建一个抢占式执行的线程池（任务执行顺序不确定）【JDK 1.8 添加】。</li>
+<li>ThreadPoolExecutor：最原始的创建线程池的方式，它包含了 7 个参数可供设置，</li>
+</ol>
+<p>​	7 个参数代表的含义如下：</p>
+<h5 id="参数-1：corePoolSize"><a href="#参数-1：corePoolSize" class="headerlink" title="参数 1：corePoolSize"></a>参数 1：corePoolSize</h5><p>核心线程数，线程池中始终存活的线程数。</p>
+<h5 id="参数-2：maximumPoolSize"><a href="#参数-2：maximumPoolSize" class="headerlink" title="参数 2：maximumPoolSize"></a>参数 2：maximumPoolSize</h5><p>最大线程数，线程池中允许的最大线程数，当线程池的任务队列满了之后可以创建的最大线程数。</p>
+<h5 id="参数-3：keepAliveTime"><a href="#参数-3：keepAliveTime" class="headerlink" title="参数 3：keepAliveTime"></a>参数 3：keepAliveTime</h5><p>最大线程数可以存活的时间，当线程中没有任务执行时，最大线程就会销毁一部分，最终保持核心线程数量的线程。</p>
+<h5 id="参数-4：unit"><a href="#参数-4：unit" class="headerlink" title="参数 4：unit:"></a>参数 4：unit:</h5><p>单位是和参数 3 存活时间配合使用的，合在一起用于设定线程的存活时间 ，参数 keepAliveTime 的时间单位有以下 7 种可选：</p>
+<ul>
+<li>TimeUnit.DAYS：天</li>
+<li>TimeUnit.HOURS：小时</li>
+<li>TimeUnit.MINUTES：分</li>
+<li>TimeUnit.SECONDS：秒</li>
+<li>TimeUnit.MILLISECONDS：毫秒</li>
+<li>TimeUnit.MICROSECONDS：微妙</li>
+<li>TimeUnit.NANOSECONDS：纳秒</li>
+</ul>
+<h5 id="参数-5：workQueue"><a href="#参数-5：workQueue" class="headerlink" title="参数 5：workQueue"></a>参数 5：workQueue</h5><p>一个阻塞队列，用来存储线程池等待执行的任务，均为线程安全，它包含以下 7 种类型：</p>
+<ul>
+<li>ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列。</li>
+<li>LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列。</li>
+<li>SynchronousQueue：一个不存储元素的阻塞队列，即直接提交给线程不保持它们。</li>
+<li>PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列。</li>
+<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列，只有在延迟期满时才能从中提取元素。</li>
+<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。与SynchronousQueue类似，还含有非阻塞方法。</li>
+<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
+</ul>
+<p>较常用的是 <code>LinkedBlockingQueue</code> 和 <code>Synchronous</code>，线程池的排队策略与 <code>BlockingQueue</code> 有关。</p>
+<h5 id="参数-6：threadFactory"><a href="#参数-6：threadFactory" class="headerlink" title="参数 6：threadFactory"></a>参数 6：threadFactory</h5><p>线程工厂，主要用来创建线程，默认为正常优先级、非守护线程。</p>
+<h5 id="参数-7：handler"><a href="#参数-7：handler" class="headerlink" title="参数 7：handler"></a>参数 7：handler</h5><p>拒绝策略，拒绝处理任务时的策略，系统提供了 4 种可选：</p>
+<ul>
+<li>AbortPolicy：拒绝并抛出异常。</li>
+<li>CallerRunsPolicy：使用当前调用的线程来执行此任务。</li>
+<li>DiscardOldestPolicy：抛弃队列头部（最旧）的一个任务，并执行当前任务。</li>
+<li>DiscardPolicy：忽略并抛弃当前任务。</li>
+</ul>
+<p>默认策略为 <code>AbortPolicy</code>。</p>
+<h4 id="1-FixedThreadPool"><a href="#1-FixedThreadPool" class="headerlink" title="1.FixedThreadPool"></a>1.FixedThreadPool</h4><p>创建一个固定大小的线程池，可控制并发的线程数，超出的线程会在队列中等待。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">fixedThreadPool</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建 2 个数据级的线程池</span><br>    <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> Executors.newFixedThreadPool(<span class="hljs-number">2</span>);<br><br>    <span class="hljs-comment">// 创建任务</span><br>    <span class="hljs-type">Runnable</span> <span class="hljs-variable">runnable</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Runnable</span>() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>            System.out.println(<span class="hljs-string">&quot;任务被执行,线程:&quot;</span> + Thread.currentThread().getName());<br>        &#125;<br>    &#125;;<br><br>    <span class="hljs-comment">// 线程池执行任务(一次添加 4 个任务)</span><br>    <span class="hljs-comment">// 执行任务的方法有两种:submit 和 execute</span><br>    threadPool.submit(runnable);  <span class="hljs-comment">// 执行方式 1:submit</span><br>    threadPool.execute(runnable); <span class="hljs-comment">// 执行方式 2:execute</span><br>    threadPool.execute(runnable);<br>    threadPool.execute(runnable);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-CachedThreadPool"><a href="#2-CachedThreadPool" class="headerlink" title="2.CachedThreadPool"></a>2.CachedThreadPool</h4><p>创建一个可缓存的线程池，若线程数超过处理所需，缓存一段时间后会回收，若线程数不够，则新建线程。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">cachedThreadPool</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建线程池</span><br>    <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> Executors.newCachedThreadPool();<br>    <span class="hljs-comment">// 执行任务</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>        threadPool.execute(() -&gt; &#123;<br>            System.out.println(<span class="hljs-string">&quot;任务被执行,线程:&quot;</span> + Thread.currentThread().getName());<br>            <span class="hljs-keyword">try</span> &#123;<br>                TimeUnit.SECONDS.sleep(<span class="hljs-number">1</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-SingleThreadExecutor"><a href="#3-SingleThreadExecutor" class="headerlink" title="3.SingleThreadExecutor"></a>3.SingleThreadExecutor</h4><p>创建单个线程数的线程池，它可以保证先进先出的执行顺序。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">singleThreadExecutor</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建线程池</span><br>    <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> Executors.newSingleThreadExecutor();<br>    <span class="hljs-comment">// 执行任务</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> i;<br>        threadPool.execute(() -&gt; &#123;<br>            System.out.println(index + <span class="hljs-string">&quot;:任务被执行&quot;</span>);<br>            <span class="hljs-keyword">try</span> &#123;<br>                TimeUnit.SECONDS.sleep(<span class="hljs-number">1</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-ScheduledThreadPool"><a href="#4-ScheduledThreadPool" class="headerlink" title="4.ScheduledThreadPool"></a>4.ScheduledThreadPool</h4><p>创建一个可以执行延迟任务的线程池。</p>
+<p>使用示例如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs 、java">public static void scheduledThreadPool() &#123;<br>    // 创建线程池<br>    ScheduledExecutorService threadPool = Executors.newScheduledThreadPool(5);<br>    // 添加定时执行任务(1s 后执行)<br>    System.out.println(&quot;添加任务,时间:&quot; + new Date());<br>    threadPool.schedule(() -&gt; &#123;<br>        System.out.println(&quot;任务被执行,时间:&quot; + new Date());<br>        try &#123;<br>            TimeUnit.SECONDS.sleep(1);<br>        &#125; catch (InterruptedException e) &#123;<br>        &#125;<br>    &#125;, 1, TimeUnit.SECONDS);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="5-SingleThreadScheduledExecutor"><a href="#5-SingleThreadScheduledExecutor" class="headerlink" title="5.SingleThreadScheduledExecutor"></a>5.SingleThreadScheduledExecutor</h4><p>创建一个单线程的可以执行延迟任务的线程池。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">SingleThreadScheduledExecutor</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建线程池</span><br>    <span class="hljs-type">ScheduledExecutorService</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> Executors.newSingleThreadScheduledExecutor();<br>    <span class="hljs-comment">// 添加定时执行任务(2s 后执行)</span><br>    System.out.println(<span class="hljs-string">&quot;添加任务,时间:&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>    threadPool.schedule(() -&gt; &#123;<br>        System.out.println(<span class="hljs-string">&quot;任务被执行,时间:&quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>        <span class="hljs-keyword">try</span> &#123;<br>            TimeUnit.SECONDS.sleep(<span class="hljs-number">1</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>        &#125;<br>    &#125;, <span class="hljs-number">2</span>, TimeUnit.SECONDS);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="6-newWorkStealingPool"><a href="#6-newWorkStealingPool" class="headerlink" title="6.newWorkStealingPool"></a>6.newWorkStealingPool</h4><p>创建一个抢占式执行的线程池（任务执行顺序不确定），注意此方法只有在 JDK 1.8+ 版本中才能使用。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">workStealingPool</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建线程池</span><br>    <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> Executors.newWorkStealingPool();<br>    <span class="hljs-comment">// 执行任务</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> i;<br>        threadPool.execute(() -&gt; &#123;<br>            System.out.println(index + <span class="hljs-string">&quot; 被执行,线程名:&quot;</span> + Thread.currentThread().getName());<br>        &#125;);<br>    &#125;<br>    <span class="hljs-comment">// 确保任务执行完成</span><br>    <span class="hljs-keyword">while</span> (!threadPool.isTerminated()) &#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="7-ThreadPoolExecutor"><a href="#7-ThreadPoolExecutor" class="headerlink" title="7.ThreadPoolExecutor"></a>7.ThreadPoolExecutor</h4><p>最原始的创建线程池的方式，它包含了 7 个参数可供设置。</p>
+<p>使用示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">myThreadPoolExecutor</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建线程池</span><br>    <span class="hljs-type">ThreadPoolExecutor</span> <span class="hljs-variable">threadPool</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolExecutor</span>(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">100</span>, TimeUnit.SECONDS, <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedBlockingQueue</span>&lt;&gt;(<span class="hljs-number">10</span>));<br>    <span class="hljs-comment">// 执行任务</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">index</span> <span class="hljs-operator">=</span> i;<br>        threadPool.execute(() -&gt; &#123;<br>            System.out.println(index + <span class="hljs-string">&quot; 被执行,线程名:&quot;</span> + Thread.currentThread().getName());<br>            <span class="hljs-keyword">try</span> &#123;<br>                Thread.sleep(<span class="hljs-number">1000</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="poi报表导出"><a href="#poi报表导出" class="headerlink" title="poi报表导出"></a>poi报表导出</h2><p>优化数据库的sql语句     通过设置 poi 的流内存的大小   可以实现10秒内导出数据</p>
+<p><strong>使用原因：</strong>比easyExcel更加灵活</p>
+<p>Apache POI是一个流行的Java库，用于读写Microsoft Office格式文件，包括Excel文件。通过POI库，可以在Java中创建、修改和读取Excel文件。首先需要在项目中导入POI相关的jar包，然后可以使用POI提供的API来创建和填充Excel文件， 使用POI，开发人员可以轻松地在Java程序中生成Excel文件，并对Excel文件中的数据进行读写和操作，这使得POI在数据处理、数据分析、数据导入导出等方面具有重要的应用价值。POI还具有良好的跨平台性和开源性，可以在不同的操作系统和开发环境中进行使用和调试。</p>
+<p><strong>通过优化代码：</strong></p>
+<ol>
+<li>避免频繁的IO操作：在处理大量数据时，IO操作可能会成为瓶颈。因此，您可以尝试将数据缓存在内存中，而不是每次访问时都从磁盘读取。在处理大量数据时，尽量避免频繁的读写操作。</li>
+<li>使用多线程：使用多个线程可以提高处理速度。您可以将数据分割成多个块，每个线程处理一个块。但是，请注意确保线程安全，并避免出现数据冲突。</li>
+<li>关闭不必要的计算：Excel具有很多计算功能，如公式、条件格式和排序等。如果您只需要导出数据而不需要这些计算，则可以将这些功能关闭。这将减少计算时间，从而提高导出速度。</li>
+<li>选择合适的输出格式：如果您只需要简单的文本输出，那么CSV格式可能比Excel格式更快。CSV文件是纯文本文件，不包含格式或图表等其他元素，因此处理速度更快。</li>
+<li>避免使用大量格式化：Excel具有丰富的格式化选项，如字体、颜色、对齐和边框等。但是，如果您使用大量格式化，可能会影响导出速度。尽量减少格式化，只保留必要的格式。</li>
+</ol>
+<p><strong>优化数据查询语句实现：</strong>  </p>
+<ol>
+<li>使用分页查询：通过分页查询，每次只查询部分数据，避免一次性查询大量数据，减轻数据库负载。可以使用数据库的分页功能或者自己实现分页逻辑。</li>
+<li>使用流式查询：将查询结果封装为流（stream）形式，在内存中逐条处理数据，避免一次性将所有数据读入内存，减少内存开销。</li>
+<li>避免重复查询：如果您需要多次查询相同的数据，可以考虑使用缓存技术，避免重复查询数据库，提高查询效率。</li>
+<li>优化Excel导出：使用POI的SXSSF API，它是一种基于流式处理的方式，可以避免将所有数据一次性加载到内存中，提高Excel导出效率。</li>
+<li>避免长时间占用数据库连接：如果您需要查询大量数据，建议使用连接池技术，控制每个连接的最大使用时间和最大连接数，避免长时间占用数据库连接，影响其他应用程序的访问。</li>
+<li>压缩Excel文件大小：如果导出的Excel文件过大，可以考虑使用POI的压缩功能，减少文件大小，提高导出效率。最后将生成的Excel文件输出到指定位置即可。</li>
+</ol>
+<p><img src="/jishu/Image.png" srcset="/img/loading.gif" lazyload alt="Image"></p>
+<p><img src="/jishu/QQ%E5%9B%BE%E7%89%8720230420075922.jpg" srcset="/img/loading.gif" lazyload alt="QQ图片20230420075922"></p>
+<h3 id="导入"><a href="#导入" class="headerlink" title="导入"></a><strong>导入</strong></h3><p><img src="/jishu/image-20230424091140104.png" srcset="/img/loading.gif" lazyload alt="image-20230424091140104"></p>
+<h3 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h3><p><img src="/jishu/image-20230424091300985.png" srcset="/img/loading.gif" lazyload alt="image-20230424091300985"></p>
+<h2 id="zookeeper-1"><a href="#zookeeper-1" class="headerlink" title="zookeeper"></a>zookeeper</h2><p><img src="/jishu/zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%8E%9F%E7%90%86.png" srcset="/img/loading.gif" lazyload alt="zookeeper实现分布式锁原理"></p>
+<h2 id="http和httpclient的区别"><a href="#http和httpclient的区别" class="headerlink" title="http和httpclient的区别"></a>http和httpclient的区别</h2><p>HTTP和HttpClient都是用于网络通信的技术，但是它们有一些重要的区别。</p>
+<p><strong>1.HTTP</strong></p>
+<p>HTTP是一种基于请求和响应模式的网络协议，用于客户端和服务器之间的通信。客户端发送请求，服务器接收请求并返回响应。HTTP协议通常使用TCP协议作为传输层协议，使用URI作为资源定位方式，使用MIME类型标识数据类型。HTTP协议的主要功能包括获取数据、上传数据、删除数据等。</p>
+<p><strong>2.HttpClient</strong></p>
+<p>HttpClient是Apache软件基金会开发的一个开源的HTTP客户端库，用于发送HTTP请求和处理HTTP响应。HttpClient提供了更丰富的API和更多的功能，比如支持连接池、请求拦截器、响应拦截器、重试机制等。HttpClient可以处理GET、POST、PUT、DELETE等请求方法，并支持HTTPS协议的加密传输。</p>
+<p><strong>3.区别</strong></p>
+<p>HTTP和HttpClient都是用于网络通信的技术，但是它们的主要区别如下：</p>
+<ul>
+<li>HTTP是一种协议，而HttpClient是一个库，用于发送HTTP请求和处理HTTP响应。</li>
+<li>HTTP协议是基于请求和响应模式的，而HttpClient是基于Java语言开发的，可以用于开发Java应用程序。</li>
+<li>HTTP协议只支持少量的请求方法，比如GET、POST、PUT、DELETE等，而HttpClient可以处理更多的请求方法，并提供了更多的功能。</li>
+<li>HTTP协议通常使用原生的Java网络库实现，而HttpClient是基于Java语言开发的，可以方便地与其他Java库和框架集成。</li>
+</ul>
+<p>总的来说，HTTP和HttpClient都是用于网络通信的技术，但是它们的功能和应用场景是不同的。HTTP协议主要用于客户端和服务器之间的通信，而HttpClient是一个库，用于发送HTTP请求和处理HTTP响应，提供了更丰富的API和更多的功能。</p>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p><strong>常用命令</strong>：</p>
+<p>我们项目中常用的命令一般是：git pull 每天上班拉最新的代码，git add 、git commit将代码提交到本地仓库，通过git push 将代码推送到远程仓库；还有的话就是合并分支 git merge，一般会从个人分支到开发分支或者主分支，还有的就是版本的回退git reset -hard 版本号，还有查看历史记录 git history；我开发过程中用的idea的git插件或者Sourcetree，命令也会用到，但是不多。</p>
+<p><img src="/jishu/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><h3 id="什么是Nginx？"><a href="#什么是Nginx？" class="headerlink" title="什么是Nginx？"></a>什么是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Nginx&spm=1001.2101.3001.7020">Nginx</a>？</h3><ul>
+<li>Nginx是一个 轻量级&#x2F;高性能的反向代理Web服务器，他实现非常高效的反向代理、负载平衡，他可以处理2-3万并发连接数，官方监测能支持5万并发，现在中国使用nginx网站用户有很多，例如：新浪、网易、 腾讯等。</li>
+</ul>
+<h3 id="为什么要用Nginx？"><a href="#为什么要用Nginx？" class="headerlink" title="为什么要用Nginx？"></a>为什么要用Nginx？</h3><ul>
+<li>跨平台、配置简单、方向代理、高并发连接：处理2-3万并发连接数，官方监测能支持5万并发，内存消耗小：开启10个nginx才占150M内存 ，nginx处理静态文件好，耗费内存少，</li>
+<li>而且Nginx内置的健康检查功能：如果有一个服务器宕机，会做一个健康检查，再发送的请求就不会发送到宕机的服务器了。重新将请求提交到其他的节点上。</li>
+<li>使用Nginx的话还能：<ol>
+<li>节省宽带：支持GZIP压缩，可以添加浏览器本地缓存</li>
+<li>稳定性高：宕机的概率非常小</li>
+<li>接收用户请求是异步的</li>
+</ol>
+</li>
+</ul>
+<h3 id="为什么Nginx性能这么高？"><a href="#为什么Nginx性能这么高？" class="headerlink" title="为什么Nginx性能这么高？"></a>为什么Nginx性能这么高？</h3><ul>
+<li>因为他的事件处理机制：异步非阻塞事件处理机制：运用了epoll模型，提供了一个队列，排队解决</li>
+</ul>
+<h3 id="Nginx怎么处理请求的？"><a href="#Nginx怎么处理请求的？" class="headerlink" title="Nginx怎么处理请求的？"></a>Nginx怎么处理请求的？</h3><ul>
+<li>nginx接收一个请求后，首先由listen和server_name指令匹配server模块，再匹配server模块里的location，location就是实际地址</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">    server &#123;            						# 第一个Server区块开始，表示一个独立的虚拟主机站点<br>        listen       <span class="hljs-number">80</span>；      					# 提供服务的端口，默认<span class="hljs-number">80</span><br>        server_name  localhost；       			# 提供服务的域名主机名<br>        location / &#123;            				# 第一个location区块开始<br>            root   html；       				# 站点的根目录，相当于Nginx的安装目录<br>            index  index.html index.htm；      	# 默认的首页文件，多个用空格分开<br>        &#125;          								# 第一个location区块结果<br><span class="hljs-number">1234567</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="什么是正向代理和反向代理？"><a href="#什么是正向代理和反向代理？" class="headerlink" title="什么是正向代理和反向代理？"></a>什么是正向代理和<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86&spm=1001.2101.3001.7020">反向代理</a>？</h3><ol>
+<li>正向代理就是一个人发送一个请求直接就到达了目标的服务器</li>
+<li>反方代理就是请求统一被Nginx接收，nginx反向代理服务器接收到之后，按照一定的规 则分发给了后端的业务处理服务器进行处理了</li>
+</ol>
+<h3 id="使用“反向代理服务器的优点是什么"><a href="#使用“反向代理服务器的优点是什么" class="headerlink" title="使用“反向代理服务器的优点是什么?"></a>使用“反向代理服务器的优点是什么?</h3><ul>
+<li>反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。</li>
+</ul>
+<h3 id="Nginx的优缺点？"><a href="#Nginx的优缺点？" class="headerlink" title="Nginx的优缺点？"></a>Nginx的优缺点？</h3><ul>
+<li>优点：<ol>
+<li>占内存小，可实现高并发连接，处理响应快</li>
+<li>可实现http服务器、虚拟主机、方向代理、负载均衡</li>
+<li>Nginx配置简单</li>
+<li>可以不暴露正式的服务器IP地址</li>
+</ol>
+</li>
+<li>缺点：<br>动态处理差：nginx处理静态文件好,耗费内存少，但是处理动态页面则很鸡肋，现在一般前端用nginx作为反向代理抗住压力，</li>
+</ul>
+<h3 id="Nginx应用场景？"><a href="#Nginx应用场景？" class="headerlink" title="Nginx应用场景？"></a>Nginx应用场景？</h3><ol>
+<li>http服务器。Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。</li>
+<li>虚拟主机。可以实现在一台服务器虚拟出多个网站，例如个人网站使用的虚拟机。</li>
+<li>反向代理，负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会应为某台服务器负载高宕机而某台服务器闲置的情况。</li>
+<li>nginz 中也可以配置安全管理、比如可以使用Nginx搭建API接口网关,对每个接口服务进行拦截。</li>
+</ol>
+<h3 id="Nginx配置文件nginx-conf有哪些属性模块"><a href="#Nginx配置文件nginx-conf有哪些属性模块" class="headerlink" title="Nginx配置文件nginx.conf有哪些属性模块?"></a>Nginx配置文件nginx.conf有哪些属性模块?</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java">worker_processes  <span class="hljs-number">1</span>；                					# worker进程的数量<br>events &#123;                              					# 事件区块开始<br>    worker_connections  <span class="hljs-number">1024</span>；            				# 每个worker进程支持的最大连接数<br>&#125;                                    					# 事件区块结束<br>http &#123;                               					# HTTP区块开始<br>    include       mime.types；            				# Nginx支持的媒体类型库文件<br>    default_type  application/octet-stream；     		# 默认的媒体类型<br>    sendfile        on；       							# 开启高效传输模式<br>    keepalive_timeout  <span class="hljs-number">65</span>；       						# 连接超时<br>    server &#123;            								# 第一个Server区块开始，表示一个独立的虚拟主机站点<br>        listen       <span class="hljs-number">80</span>；      							# 提供服务的端口，默认<span class="hljs-number">80</span><br>        server_name  localhost；       					# 提供服务的域名主机名<br>        location / &#123;            						# 第一个location区块开始<br>            root   html；       						# 站点的根目录，相当于Nginx的安装目录<br>            index  index.html index.htm；      			# 默认的首页文件，多个用空格分开<br>        &#125;          										# 第一个location区块结果<br>        error_page   <span class="hljs-number">500502503504</span>  /50x.html；     		# 出现对应的http状态码时，使用50x.html回应客户<br>        location = /50x.html &#123;          				# location区块开始，访问50x.html<br>            root   html；      							# 指定对应的站点目录为html<br>        &#125;<br>    &#125;  <br>    ......<br><span class="hljs-number">12345678910111213141516171819202122</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Nginx静态资源"><a href="#Nginx静态资源" class="headerlink" title="Nginx静态资源?"></a>Nginx静态资源?</h3><ul>
+<li>静态资源访问，就是存放在nginx的html页面，我们可以自己编写</li>
+</ul>
+<h3 id="如何用Nginx解决前端跨域问题？"><a href="#如何用Nginx解决前端跨域问题？" class="headerlink" title="如何用Nginx解决前端跨域问题？"></a>如何用Nginx解决前端跨域问题？</h3><ul>
+<li>使用Nginx转发请求。把跨域的接口写成调本域的接口，然后将这些接口转发到真正的请求地址。</li>
+</ul>
+<h3 id="Nginx虚拟主机怎么配置"><a href="#Nginx虚拟主机怎么配置" class="headerlink" title="Nginx虚拟主机怎么配置?"></a>Nginx虚拟主机怎么配置?</h3><ul>
+<li>1、基于域名的虚拟主机，通过域名来区分虚拟主机——应用：外部网站</li>
+<li>2、基于端口的虚拟主机，通过端口来区分虚拟主机——应用：公司内部网站，外部网站的管理后台</li>
+<li>3、基于ip的虚拟主机。</li>
+</ul>
+<h3 id="限流怎么做的？"><a href="#限流怎么做的？" class="headerlink" title="限流怎么做的？"></a>限流怎么做的？</h3><ul>
+<li>Nginx限流就是限制用户请求速度，防止服务器受不了</li>
+<li>限流有3种<ol>
+<li>正常限制访问频率（正常流量）</li>
+<li>突发限制访问频率（突发流量）</li>
+<li>限制并发连接数</li>
+</ol>
+</li>
+<li>Nginx的限流都是基于漏桶流算法，底下会说道什么是桶铜流</li>
+</ul>
+<p><strong>实现三种限流算法</strong></p>
+<h5 id="1、正常限制访问频率（正常流量）："><a href="#1、正常限制访问频率（正常流量）：" class="headerlink" title="1、正常限制访问频率（正常流量）："></a>1、正常限制访问频率（正常流量）：</h5><ul>
+<li>限制一个用户发送的请求，我Nginx多久接收一个请求。</li>
+<li>Nginx中使用ngx_http_limit_req_module模块来限制的访问频率，限制的原理实质是基于漏桶算法原理来实现的。在nginx.conf配置文件中可以使用limit_req_zone命令及limit_req命令限制单个IP的请求处理频率。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">	<span class="hljs-comment">#定义限流维度，一个用户一分钟一个请求进来，多余的全部漏掉</span><br>	limit_req_zone <span class="hljs-variable">$binary_remote_addr</span> zone=one:10m rate=1r/m;<br><br>	<span class="hljs-comment">#绑定限流维度</span><br>	server&#123;<br>		<br>		location/seckill.html&#123;<br>			limit_req zone=zone;	<br>			proxy_pass http://lj_seckill;<br>		&#125;<br><br>	&#125;<br>123456789101112<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>1r&#x2F;s代表1秒一个请求，1r&#x2F;m一分钟接收一个请求， 如果Nginx这时还有别人的请求没有处理完，Nginx就会拒绝处理该用户请求。</li>
+</ul>
+<h5 id="2、突发限制访问频率（突发流量）："><a href="#2、突发限制访问频率（突发流量）：" class="headerlink" title="2、突发限制访问频率（突发流量）："></a>2、突发限制访问频率（突发流量）：</h5><ul>
+<li>限制一个用户发送的请求，我Nginx多久接收一个。</li>
+<li>上面的配置一定程度可以限制访问频率，但是也存在着一个问题：如果突发流量超出请求被拒绝处理，无法处理活动时候的突发流量，这时候应该如何进一步处理呢？Nginx提供burst参数结合nodelay参数可以解决流量突发的问题，可以设置能处理的超过设置的请求数外能额外处理的请求数。我们可以将之前的例子添加burst参数以及nodelay参数：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">	#定义限流维度，一个用户一分钟一个请求进来，多余的全部漏掉<br>	limit_req_zone $binary_remote_addr zone=one:10m rate=1r/m;<br><br>	#绑定限流维度<br>	server&#123;<br>		<br>		location/seckill.html&#123;<br>			limit_req zone=zone burst=<span class="hljs-number">5</span> nodelay;<br>			proxy_pass http:<span class="hljs-comment">//lj_seckill;</span><br>		&#125;<br><br>	&#125;<br><span class="hljs-number">123456789101112</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>为什么就多了一个 burst&#x3D;5 nodelay; 呢，多了这个可以代表Nginx对于一个用户的请求会立即处理前五个，多余的就慢慢来落，没有其他用户的请求我就处理你的，有其他的请求的话我Nginx就漏掉不接受你的请求</li>
+</ul>
+<h5 id="3、-限制并发连接数"><a href="#3、-限制并发连接数" class="headerlink" title="3、 限制并发连接数"></a>3、 限制并发连接数</h5><ul>
+<li>Nginx中的ngx_http_limit_conn_module模块提供了限制并发连接数的功能，可以使用limit_conn_zone指令以及limit_conn执行进行配置。接下来我们可以通过一个简单的例子来看下：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">	http &#123;<br>		limit_conn_zone $binary_remote_addr zone=myip:10m;<br>		limit_conn_zone $server_name zone=myServerName:10m;<br>	&#125;<br><br>    server &#123;<br>        location / &#123;<br>            limit_conn myip <span class="hljs-number">10</span>;<br>            limit_conn myServerName <span class="hljs-number">100</span>;<br>            rewrite / http:<span class="hljs-comment">//www.lijie.net permanent;</span><br>        &#125;<br>    &#125;<br><span class="hljs-number">123456789101112</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>上面配置了单个IP同时并发连接数最多只能10个连接，并且设置了整个虚拟服务器同时最大并发数最多只能100个链接。当然，只有当请求的header被服务器处理后，虚拟服务器的连接数才会计数。刚才有提到过Nginx是基于漏桶算法原理实现的，实际上限流一般都是基于漏桶算法和令牌桶算法实现的。接下来我们来看看两个算法的介绍：</li>
+</ul>
+<h3 id="漏桶流算法和令牌桶算法知道？"><a href="#漏桶流算法和令牌桶算法知道？" class="headerlink" title="漏桶流算法和令牌桶算法知道？"></a>漏桶流算法和令牌桶算法知道？</h3><h4 id="漏桶算法"><a href="#漏桶算法" class="headerlink" title="漏桶算法"></a>漏桶算法</h4><ul>
+<li>漏桶算法是网络世界中流量整形或速率限制时经常使用的一种算法，它的主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。漏桶算法提供了一种机制，通过它，突发流量可以被整形以便为网络提供一个稳定的流量。也就是我们刚才所讲的情况。漏桶算法提供的机制实际上就是刚才的案例：<strong>突发流量会进入到一个漏桶，漏桶会按照我们定义的速率依次处理请求，如果水流过大也就是突发流量过大就会直接溢出，则多余的请求会被拒绝。所以漏桶算法能控制数据的传输速率。</strong><br><img src="/../jishu/20200411193924521.jpg" srcset="/img/loading.gif" lazyload alt="漏桶算法"></li>
+</ul>
+<h4 id="令牌桶算法"><a href="#令牌桶算法" class="headerlink" title="令牌桶算法"></a>令牌桶算法</h4><ul>
+<li>令牌桶算法是网络流量整形和速率限制中最常使用的一种算法。典型情况下，令牌桶算法用来控制发送到网络上的数据的数目，并允许突发数据的发送。Google开源项目Guava中的RateLimiter使用的就是令牌桶控制算法。<strong>令牌桶算法的机制如下：存在一个大小固定的令牌桶，会以恒定的速率源源不断产生令牌。如果令牌消耗速率小于生产令牌的速度，令牌就会一直产生直至装满整个令牌桶。</strong></li>
+</ul>
+<p><img src="/../jishu/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzEyMjA5MA==,size_16,color_FFFFFF,t_70.png" srcset="/img/loading.gif" lazyload alt="令牌桶"></p>
+<h3 id="为什么要做动静分离？"><a href="#为什么要做动静分离？" class="headerlink" title="为什么要做动静分离？"></a>为什么要做动静分离？</h3><ul>
+<li>Nginx是当下最热的Web容器，网站优化的重要点在于静态化网站，网站静态化的关键点则是是动静分离，动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们则根据静态资源的特点将其做缓存操作。</li>
+<li>让静态的资源只走静态资源服务器，动态的走动态的服务器</li>
+<li>Nginx的静态处理能力很强，但是动态处理能力不足，因此，在企业中常用动静分离技术。</li>
+<li>对于静态资源比如图片，js，css等文件，我们则在反向代理服务器nginx中进行缓存。这样浏览器在请求一个静态资源时，代理服务器nginx就可以直接处理，无需将请求转发给后端服务器tomcat。<br>若用户请求的动态文件，比如servlet,jsp则转发给Tomcat服务器处理，从而实现动静分离。这也是反向代理服务器的一个重要的作用。</li>
+</ul>
+<h3 id="Nginx怎么做的动静分离？"><a href="#Nginx怎么做的动静分离？" class="headerlink" title="Nginx怎么做的动静分离？"></a>Nginx怎么做的动静分离？</h3><ul>
+<li>只需要指定路径对应的目录。location&#x2F;可以使用正则表达式匹配。并指定对应的硬盘中的目录。如下：（操作都是在Linux上）</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">		location <span class="hljs-regexp">/image/</span> &#123;<br>            root   <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/static/</span>;<br>            autoindex on;<br>        &#125;<br><span class="hljs-number">1234</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>创建目录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">mkdir /usr/local/<span class="hljs-keyword">static</span>/image<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>进入目录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">cd  /usr/local/<span class="hljs-keyword">static</span>/image<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>放一张照片上去#</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1.</span>jpg<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>重启 nginx</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">sudo nginx -s reload<br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>打开浏览器 输入 server_name&#x2F;image&#x2F;1.jpg 就可以访问该静态图片了</p>
+</li>
+</ol>
+<h3 id="Nginx负载均衡的算法怎么实现的-策略有哪些"><a href="#Nginx负载均衡的算法怎么实现的-策略有哪些" class="headerlink" title="Nginx负载均衡的算法怎么实现的?策略有哪些?"></a>Nginx负载均衡的算法怎么实现的?策略有哪些?</h3><ul>
+<li>为了避免服务器崩溃，大家会通过负载均衡的方式来分担服务器压力。将对台服务器组成一个集群，当用户访问时，先访问到一个转发服务器，再由转发服务器将访问分发到压力更小的服务器。</li>
+<li>Nginx负载均衡实现的策略有以下五种：</li>
+</ul>
+<h4 id="1-轮询-默认"><a href="#1-轮询-默认" class="headerlink" title="1 轮询(默认)"></a>1 轮询(默认)</h4><ul>
+<li>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某个服务器宕机，能自动剔除故障系统。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream backserver &#123; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.12</span>; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.13</span>; <br>&#125; <br><span class="hljs-number">1234</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-权重-weight"><a href="#2-权重-weight" class="headerlink" title="2 权重 weight"></a>2 权重 weight</h4><ul>
+<li>weight的值越大分配</li>
+<li>到的访问概率越高，主要用于后端每台服务器性能不均衡的情况下。其次是为在主从的情况下设置不同的权值，达到合理有效的地利用主机资源。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream backserver &#123; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.12</span> weight=<span class="hljs-number">2</span>; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.13</span> weight=<span class="hljs-number">8</span>; <br>&#125; <br><span class="hljs-number">1234</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>权重越高，在被访问的概率越大，如上例，分别是20%，80%。</li>
+</ul>
+<h4 id="3-ip-hash-IP绑定"><a href="#3-ip-hash-IP绑定" class="headerlink" title="3 ip_hash( IP绑定)"></a>3 ip_hash( IP绑定)</h4><ul>
+<li>每个请求按访问IP的哈希结果分配，使来自同一个IP的访客固定访问一台后端服务器，<code>并且可以有效解决动态网页存在的session共享问题</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream backserver &#123; <br> ip_hash; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.12</span>:<span class="hljs-number">88</span>; <br> server <span class="hljs-number">192.168</span><span class="hljs-number">.0</span><span class="hljs-number">.13</span>:<span class="hljs-number">80</span>; <br>&#125; <br><span class="hljs-number">12345</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="4-fair-第三方插件"><a href="#4-fair-第三方插件" class="headerlink" title="4 fair(第三方插件)"></a>4 fair(第三方插件)</h4><ul>
+<li>必须安装upstream_fair模块。</li>
+<li>对比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均衡，响应时间短的优先分配。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream backserver &#123; <br> server server1; <br> server server2; <br> fair; <br>&#125; <br><br><span class="hljs-number">123456</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>哪个服务器的响应速度快，就将请求分配到那个服务器上。</li>
+</ul>
+<h4 id="5、url-hash-第三方插件"><a href="#5、url-hash-第三方插件" class="headerlink" title="5、url_hash(第三方插件)"></a>5、url_hash(第三方插件)</h4><ul>
+<li>必须安装Nginx的hash软件包</li>
+<li>按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">upstream backserver &#123; <br> server squid1:<span class="hljs-number">3128</span>; <br> server squid2:<span class="hljs-number">3128</span>; <br> hash $request_uri; <br> hash_method crc32; <br>&#125; <br><br><span class="hljs-number">1234567</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Nginx配置高可用性怎么配置？"><a href="#Nginx配置高可用性怎么配置？" class="headerlink" title="Nginx配置高可用性怎么配置？"></a>Nginx配置高可用性怎么配置？</h3><ul>
+<li>当上游服务器(真实访问服务器)，一旦出现故障或者是没有及时相应的话，应该直接轮训到下一台服务器，保证服务器的高可用</li>
+<li>Nginx配置代码：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java">server &#123;<br>        listen       <span class="hljs-number">80</span>;<br>        server_name  www.lijie.com;<br>        location / &#123;<br>		    ### 指定上游服务器负载均衡服务器<br>		    proxy_pass http:<span class="hljs-comment">//backServer;</span><br>			###nginx与上游服务器(真实访问的服务器)超时时间 后端服务器连接的超时时间_发起握手等候响应超时时间<br>			proxy_connect_timeout 1s;<br>			###nginx发送给上游服务器(真实访问的服务器)超时时间<br>            proxy_send_timeout 1s;<br>			### nginx接受上游服务器(真实访问的服务器)超时时间<br>            proxy_read_timeout 1s;<br>            index  index.html index.htm;<br>        &#125;<br>    &#125;<br><br><br><span class="hljs-number">1234567891011121314151617</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Nginx怎么判断别IP不可访问？"><a href="#Nginx怎么判断别IP不可访问？" class="headerlink" title="Nginx怎么判断别IP不可访问？"></a>Nginx怎么判断别IP不可访问？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"> 	 # 如果访问的ip地址为<span class="hljs-number">192.168</span><span class="hljs-number">.9</span><span class="hljs-number">.115</span>,则返回<span class="hljs-number">403</span><br>     <span class="hljs-keyword">if</span>  ($remote_addr = <span class="hljs-number">192.168</span><span class="hljs-number">.9</span><span class="hljs-number">.115</span>) &#123;  <br>         <span class="hljs-keyword">return</span> <span class="hljs-number">403</span>;  <br>     &#125;  <br><br><br><span class="hljs-number">123456</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="怎么限制浏览器访问？"><a href="#怎么限制浏览器访问？" class="headerlink" title="怎么限制浏览器访问？"></a>怎么限制浏览器访问？</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">## 不允许谷歌浏览器访问 如果是谷歌浏览器返回<span class="hljs-number">500</span><br>	<span class="hljs-keyword">if</span> ($http_user_agent ~ Chrome) &#123;   <br>       <span class="hljs-keyword">return</span> <span class="hljs-number">500</span>;  <br>   &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="加密算法有哪些以及他们的原理"><a href="#加密算法有哪些以及他们的原理" class="headerlink" title="加密算法有哪些以及他们的原理"></a>加密算法有哪些以及他们的原理</h2><p>加密算法是一种用于保护信息安全的技术，可以将明文转化为密文，使得未经授权的人无法读取信息。下面列出了几种常见的加密算法及其原理：</p>
+<ol>
+<li>对称加密算法 对称加密算法使用相同的密钥进行加密和解密，加密过程可以通过对明文和密钥进行某种操作来生成密文，而解密则通过对密文和密钥进行逆操作。常见的对称加密算法包括DES、AES等。</li>
+<li>非对称加密算法 非对称加密算法使用一对密钥，公钥和私钥，公钥可以公开，私钥只有持有者知道。加密过程使用公钥加密，只能使用私钥解密，反之亦然。常见的非对称加密算法包括RSA、ECC等。</li>
+<li>散列函数 散列函数是一种将任意长度的数据转换为固定长度的数据的算法。它通常用于验证数据的完整性或确定数据的唯一性。散列函数具有不可逆性和唯一性。常见的散列函数包括MD5、SHA-1、SHA-256等。</li>
+<li>数字签名 数字签名是一种用于验证数据完整性和真实性的技术，它通常使用非对称加密算法。数字签名包括私钥加密、公钥解密和公钥加密、私钥解密两种方式。</li>
+</ol>
+<p>这些加密算法都有其特点和优缺点，应根据具体情况进行选择和使用。</p>
+<h2 id="java中的设计模式"><a href="#java中的设计模式" class="headerlink" title="java中的设计模式"></a>java中的设计模式</h2><p>Java中的设计模式是经典的、可重用的软件设计解决方案，用于解决常见的面向对象编程中的问题。这些设计模式分为三类：创建型模式、结构型模式和行为型模式。以下是Java中常用的设计模式：</p>
+<p><strong>1、创建型模式</strong></p>
+<ul>
+<li>工厂方法模式（Factory Method Pattern）：定义一个用于创建对象的接口，让子类决定实例化哪一个类。</li>
+<li>抽象工厂模式（Abstract Factory Pattern）：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。</li>
+<li>单例模式（Singleton Pattern）：确保一个类只有一个实例，并提供一个全局访问点。</li>
+</ul>
+<p>​		<strong>应用场景：</strong></p>
+<p>​		1、当需要频繁创建对象时，因为对象创建的代价比较大，而同一个对象的实例只需要创建一次，所以使用单例模式可以节省系统的				资源开销。</p>
+<p>​		2、当需要访问共享资源时，比如数据库连接池、线程池等，使用单例模式可以避免多个线程对共享资源的竞争，从而提高系统的并		发性能。</p>
+<p>​		3、当系统只需要一个实例对象时，比如系统的配置文件、日志文件等，使用单例模式可以确保系统中只有一个对象实例，避免多个		实例对象之间的冲突。</p>
+<ul>
+<li>建造者模式（Builder Pattern）：将一个复杂对象的构建与其表示分离，使得同样的构建过程可以创建不同的表示。</li>
+<li>原型模式（Prototype Pattern）：用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。</li>
+</ul>
+<p><strong>2、结构型模式</strong></p>
+<ul>
+<li>适配器模式（Adapter Pattern）：将一个类的接口转换成客户希望的另一个接口，使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</li>
+<li>桥接模式（Bridge Pattern）：将抽象部分与它的实现部分分离，使它们可以独立变化。</li>
+<li>组合模式（Composite Pattern）：将对象组合成树形结构以表示“部分-整体”的层次结构，使得客户端对单个对象和组合对象的使用具有一致性。</li>
+<li>装饰器模式（Decorator Pattern）：动态地给一个对象添加一些额外的职责，就增加功能来说，装饰器模式比生成子类更为灵活。</li>
+<li>外观模式（Facade Pattern）：为子系统中的一组接口提供一个一致的界面，外观模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</li>
+</ul>
+<p><strong>3、行为型模式</strong></p>
+<ul>
+<li><p>策略模式（Strategy Pattern）：定义一系列算法，将每个算法封装起来，并使它们可以相互替换。</p>
+</li>
+<li><p>模板方法模式（Template Method Pattern）：定义一个操作中的算法骨架，将一些步骤延迟到子类中，使得子类可以不改变该算法的结构即可重定义该算法的某些特定步骤。</p>
+</li>
+<li><p>观察者模式（Observer Pattern）：定义了对象间的一种一对多的依赖关系，使得每当一个对象改变状态时，所有依赖于它的对象都会得到通知并自动</p>
+</li>
+<li><p>更新自己的状态。</p>
+<ul>
+<li>迭代器模式（Iterator Pattern）：提供一种方法顺序访问一个聚合对象中各个元素，而又不暴露该对象的内部表示。</li>
+<li>责任链模式（Chain of Responsibility Pattern）：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之间的耦合关系。</li>
+<li>命令模式（Command Pattern）：将一个请求封装为一个对象，从而使您可以用不同的请求对客户进行参数化。</li>
+<li>备忘录模式（Memento Pattern）：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。</li>
+<li>状态模式（State Pattern）：允许对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。</li>
+</ul>
+<p>还有其他许多设计模式，但以上列出的是Java中常用的设计模式。设计模式是面向对象编程中的基础知识，掌握常用的设计模式可以帮助我们更好地设计、开发和维护软件系统。</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>技术</div>
+      <div>http://example.com/2023/05/10/jishu/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>An-qiao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>2023-05-We</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/10/xm/" title="项目">
+                        <span class="hidden-mobile">项目</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        Views: 
+        <span id="busuanzi_value_site_pv"></span>
+        
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        Visitors: 
+        <span id="busuanzi_value_site_uv"></span>
+        
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
