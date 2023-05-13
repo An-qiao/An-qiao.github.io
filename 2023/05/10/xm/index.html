@@ -757,10 +757,10 @@
     Fluid.utils.loadComments('#valine', function() {
       Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
         var options = Object.assign(
-          {"enable":true,"appId":"sY559Z1yXZXJq3W7dv61pwQx-gzGzoHsz","appKey":"trFchyq32HKcrEtBcZ6Bx51y","placeholder":"期待与您的交流","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {"enable":true,"appId":"sY559Z1yXZXJq3W7dv61pwQx-gzGzoHsz","appKey":"trFchyq32HKcrEtBcZ6Bx51y","path":"window.location.pathname","placeholder":"期待与您的交流","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
           {
             el: "#valine",
-            path: 
+            path: window.location.pathname
           }
         )
         new Valine(options);
