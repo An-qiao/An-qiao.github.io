@@ -25,6 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/jishu/java%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="http://example.com/jishu/java%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/jishu/java%E9%9B%86%E5%90%88.png">
 <meta property="og:image" content="http://example.com/jishu/cb0161a7-96ca-443d-aac1-498ce2403988.png">
 <meta property="og:image" content="http://example.com/jishu/image-20230424134841973.png">
 <meta property="og:image" content="http://example.com/jishu/database-split-horizon.png">
@@ -55,7 +56,7 @@
 <meta property="og:image" content="http://example.com/jishu/20200411193924521.jpg">
 <meta property="og:image" content="http://example.com/jishu/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzEyMjA5MA==,size_16,color_FFFFFF,t_70.png">
 <meta property="article:published_time" content="2023-05-10T01:57:21.000Z">
-<meta property="article:modified_time" content="2023-05-13T00:28:26.731Z">
+<meta property="article:modified_time" content="2023-05-13T08:26:01.442Z">
 <meta property="article:author" content="An-qiao">
 <meta property="article:tag" content="面试">
 <meta name="twitter:card" content="summary_large_image">
@@ -349,7 +350,7 @@
               <p class="note note-info">
                 
                   
-                    Last updated on 8 hours ago
+                    Last updated on a few seconds ago
                   
                 
               </p>
@@ -506,7 +507,8 @@
 <p>2)如果目标对象没有实现了接口，必须采用CGLIB库，spring会自动在JDK动态代理和CGLIB之间转换</p>
 <h4 id="3、强制使用CGLIB实现AOP的方法"><a href="#3、强制使用CGLIB实现AOP的方法" class="headerlink" title="3、强制使用CGLIB实现AOP的方法"></a>3、强制使用CGLIB实现AOP的方法</h4><p>1）添加CGLIB库(aspectjrt-xxx.jar、aspectjweaver-xxx.jar、cglib-nodep-xxx.jar)</p>
 <p>2）在Spring配置文件中加入&lt;aop:aspectj-autoproxy proxy-target-class&#x3D;“true”&#x2F;&gt;</p>
-<h2 id="Java集合-jdk1-8"><a href="#Java集合-jdk1-8" class="headerlink" title="Java集合 jdk1.8"></a>Java集合 jdk1.8</h2><h3 id="ArrayList的扩容机制"><a href="#ArrayList的扩容机制" class="headerlink" title="ArrayList的扩容机制"></a>ArrayList的扩容机制</h3><p>（1）ArrayList的底层结构是一个数组。默认长度是10。<br>（2）当数组被存储占满时触发扩容，新数组长度为原长度的1.5倍。<br>（3）当数组扩容时，会创建一个原数组长度1.5倍的新数组，然后再把数据从原数组中拷贝到新数组中。</p>
+<h2 id="Java集合-jdk1-8"><a href="#Java集合-jdk1-8" class="headerlink" title="Java集合 jdk1.8"></a>Java集合 jdk1.8</h2><p><img src="/../jishu/java%E9%9B%86%E5%90%88.png" srcset="/img/loading.gif" lazyload alt="java集合"></p>
+<h3 id="ArrayList的扩容机制"><a href="#ArrayList的扩容机制" class="headerlink" title="ArrayList的扩容机制"></a>ArrayList的扩容机制</h3><p>（1）ArrayList的底层结构是一个数组。默认长度是10。<br>（2）当数组被存储占满时触发扩容，新数组长度为原长度的1.5倍。<br>（3）当数组扩容时，会创建一个原数组长度1.5倍的新数组，然后再把数据从原数组中拷贝到新数组中。</p>
 <p>10-&gt;15-&gt;22</p>
 <h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><h4 id="HashMap的工作原理"><a href="#HashMap的工作原理" class="headerlink" title="HashMap的工作原理"></a>HashMap的工作原理</h4><p>HashMap底层是hash数组和单向链表实现，数组中的每个元素都是链表，由Node内部类(实现Map.Entry&lt;K,V&gt;接口)实现，HashMap:通过put&amp;get方法存储和获取<br>数组是hashmap的主体，链表主要是为了解决哈希冲突而存在的，hashmap是通过key的hashcode来计算得到的hash值，然后通过位运算判断当前元素存放的位置，如果位置存放元素，就判断元素与要存入的hash值和key是否相同，如果相同的话，直接覆盖，不同就通过拉链法解决冲突。map总数超过数组的0.75,角触发扩容，为了减少链表长度，元素分配更均匀<br>(JDK1.7之前使用头插法、JDK1.8使用尾插法)</p>
 <h4 id="为什么会哈希冲突？"><a href="#为什么会哈希冲突？" class="headerlink" title="为什么会哈希冲突？"></a>为什么会哈希冲突？</h4><p>hashmap主要是通过key的hashcode来计算的，只要hashcode相同，计算出来的hash值就一样。如果存储对象多了，就有可能不同的对象算出来的hash值是相同的，这就是hash冲突。</p>
@@ -1806,7 +1808,6 @@
 <li>数字签名 数字签名是一种用于验证数据完整性和真实性的技术，它通常使用非对称加密算法。数字签名包括私钥加密、公钥解密和公钥加密、私钥解密两种方式。</li>
 </ol>
 <p>这些加密算法都有其特点和优缺点，应根据具体情况进行选择和使用。</p>
-<h2 id="java中的设计模式"><a href="#java中的设计模式" class="headerlink" title="java中的设计模式"></a>java中的设计模式</h2><p>- </p>
 <h2 id="Dubbo-相关"><a href="#Dubbo-相关" class="headerlink" title="Dubbo****相关"></a><strong>Dubbo****相关</strong></h2><p><strong>为什么要用dubbo</strong></p>
 <p>随着服务化的进一步发展，服务越来越多，服务之间的调用和依赖关系也越来越复杂，诞生了面向服务的架构体系(SOA)，也因此衍生出了一系列相应的技术，如对服务提供、服务调用连接处理、通信协议、序列化方式、服务发现、服务路由、日志输出等行为进行封装的服务框架。就这样为分布式系统的服务治理框架就出现了，Dubbo 也就这样产生了</p>
 <h6 id="Dubbo的整体架构设计有哪些分层"><a href="#Dubbo的整体架构设计有哪些分层" class="headerlink" title="Dubbo的整体架构设计有哪些分层?"></a>Dubbo的整体架构设计有哪些分层?</h6><p>接口服务层（Service）：该层与业务逻辑相关，根据provider和consumer的业务设计对应的接口和实现</p>
